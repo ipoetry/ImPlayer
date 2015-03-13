@@ -1,0 +1,102 @@
+﻿<UserControl
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:Converter="clr-namespace:ImPlayer.FM.Converters"
+             x:Class="ImPlayer.FM.Views.ChannelList"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300" Loaded="UserControl_Loaded">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/ImPalyer.FM;component/Styles/Storyboard.xaml"/>
+                <ResourceDictionary Source="/ImPalyer.FM;component/Styles/Style.xaml"/>
+                
+            </ResourceDictionary.MergedDictionaries>
+            <Converter:TextBoxHintConverter x:Key="TextBoxHintConverter"/>
+            <Converter:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid Background="#4E000000">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <RadioButton x:Name="ButtonPublic" Grid.Column="0" Margin="5" Content="公共兆赫" Style="{DynamicResource ChannelCategoryStyle}">
+                <RadioButton.Triggers>
+                    <EventTrigger RoutedEvent="RadioButton.Checked">
+                        <BeginStoryboard Storyboard="{DynamicResource PublicClickStoryboard}"/>
+                    </EventTrigger>
+                </RadioButton.Triggers>
+            </RadioButton>
+            <RadioButton x:Name="ButtonDj" Grid.Column="1" Margin="5" Content="DJ兆赫" Style="{DynamicResource ChannelCategoryStyle}">
+                <RadioButton.Triggers>
+                    <EventTrigger RoutedEvent="RadioButton.Checked">
+                        <BeginStoryboard Storyboard="{DynamicResource DjClickStoryboard}"/>
+                    </EventTrigger>
+                </RadioButton.Triggers>
+            </RadioButton>
+        </Grid>
+        <Grid x:Name="ChannelsContentGrid" Grid.Row="1">
+            <ListBox x:Name="PublicChannels"  Opacity="1"  Style="{DynamicResource ChannelsStyle}">
+             
+                <ListBox.Template>
+                    <ControlTemplate TargetType="{x:Type ListBox}">
+                        <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                            <WrapPanel Orientation="Horizontal" IsItemsHost="True" ScrollViewer.CanContentScroll="True"/>
+                        </ScrollViewer>
+                    </ControlTemplate>
+                </ListBox.Template>
+                <ListBox.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </ListBox.RenderTransform>
+                
+            </ListBox>
+            <Grid Margin="5" Height="30" VerticalAlignment="Top" Opacity="{Binding Opacity, ElementName=DjChannels}" Panel.ZIndex="{Binding (Panel.ZIndex), ElementName=DjChannels}" RenderTransform="{Binding RenderTransform, ElementName=DjChannels}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBox x:Name="TbSearchDj" Height="20"/>
+                <TextBlock x:Name="TbSearchDjHint" Margin="{Binding Margin, ElementName=TbSearchDj}" Padding="{Binding Padding, ElementName=TbSearchDj}" Foreground="Black" IsHitTestVisible="False" Opacity="0.5" Text="点击搜索列出所有频道" VerticalAlignment="Center">
+                    <TextBlock.Visibility>
+                        <MultiBinding Converter="{StaticResource TextBoxHintConverter}">
+                            <Binding Path="IsFocused" ElementName="TbSearchDj"/>
+                            <Binding Path="Text" ElementName="TbSearchDj"/>
+                        </MultiBinding>
+                    </TextBlock.Visibility>
+                </TextBlock>
+                <Button Grid.Column="1" Margin="10,0,0,0" IsDefault="True" Command="{Binding SearchCommand}" CommandParameter="{Binding Text,ElementName=TbSearchDj}" /><!--Style="{DynamicResource SearchStyle}"-->
+            </Grid>
+            <ListBox x:Name="DjChannels" SelectedItem="{Binding CurrentChannel}" ItemsSource="{Binding DJChannelList,IsAsync=True}" Style="{DynamicResource ChannelsStyle}" Opacity="0" Margin="0,40,0,0">
+                <ListBox.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </ListBox.RenderTransform>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Name}" FontSize="20" TextWrapping="Wrap" Padding="10"/>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>            
+        </Grid>
+        <!--<Button Grid.Row="1" Content="重新加载频道"  VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{Binding HasErrors, Converter={StaticResource BooleanToVisibilityConverter}}" Command="{Binding ReloadCommand}"/>-->
+    </Grid>
+</UserControl>

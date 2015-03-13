@@ -1,0 +1,75 @@
+﻿<UserControl x:Class="Player.Controls.LrcControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             xmlns:c="clr-namespace:Lyrics;assembly=Lyrics"
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid Name="g1">
+        <ListBox Name="showBox" Background="Transparent"  ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollBarVisibility="Hidden" SizeChanged="showBox_SizeChanged" >
+            <ListBox.Resources>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="Foreground" Value="#666666"/>
+                    <Setter Property="FontSize" Value="14"/>
+                    <Setter Property="OverridesDefaultStyle" Value="True"/>
+                    <Setter Property="Height" Value="28"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ListBoxItem">
+                                <ContentPresenter x:Name="content" Height="28" Margin="5" VerticalAlignment="Stretch"/>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Trigger.EnterActions>
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <DoubleAnimation To="40" BeginTime="0:0:0.3" Duration="0:0:0.3" Storyboard.TargetProperty="(ListBoxItem.Height)" />
+                                                    <DoubleAnimation To="18" BeginTime="0:0:0.3" Duration="0:0:0.3" Storyboard.TargetProperty="(ListBoxItem.FontSize)" />
+                                                    <ColorAnimation To="#952B00" Duration="0:0:0.5" Storyboard.TargetProperty="(ListBoxItem.Foreground).(SolidColorBrush.Color)" />
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </Trigger.EnterActions>
+                                        <Trigger.ExitActions>
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <DoubleAnimation  BeginTime="0:0:0.3" Duration="0:0:0.3" Storyboard.TargetProperty="(ListBoxItem.Height)" />
+                                                    <DoubleAnimation  BeginTime="0:0:0.3" Duration="0:0:0.3" Storyboard.TargetProperty="(ListBoxItem.FontSize)" />
+                                                    <ColorAnimation Duration="0:0:0.5" Storyboard.TargetProperty="(ListBoxItem.Foreground).(SolidColorBrush.Color)" />
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </Trigger.ExitActions>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ListBox.Resources>
+            <ListBox.ItemTemplate>
+                <DataTemplate DataType="{x:Type  c:OneLineLrc}">
+                    <StackPanel>
+                        <StackPanel.ToolTip>
+                            <TextBlock Text="{Binding StartTimeStr}"/>
+                        </StackPanel.ToolTip>
+                        <TextBlock   x:Name="lrcText"  HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding LrcText}" FontFamily="Microsoft YaHei" Tag="{Binding StartTime}"  FontWeight="Bold" MouseDown="lrcText_MouseDown" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <TextBlock Name="showText" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="14" Foreground="#DDDDDD" />
+        <Rectangle Visibility="Hidden">
+            <Rectangle.Fill>
+                <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                    <GradientBrush.GradientStops>
+                        <GradientStopCollection>
+                            <GradientStop Color="#FF000000" Offset="0"/>
+                            <GradientStop Color="#00000000" Offset="0.2"/>
+                            <GradientStop Color="#00000000" Offset="0.8"/>
+                            <GradientStop Color="#FF000000" Offset="1"/>
+                        </GradientStopCollection>
+                    </GradientBrush.GradientStops>
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+    </Grid>
+</UserControl>

@@ -1,0 +1,155 @@
+﻿<Window x:Class="Player.EqualizerSet"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Height="210" Width="340" ResizeMode="NoResize" ShowInTaskbar="False" 
+        Topmost="True" WindowStyle="None" MouseLeftButtonDown="Window_MouseLeftButtonDown" WindowStartupLocation="CenterOwner">
+    <Window.Resources>
+        <Style x:Key="HorizontalSliderThumbStyle" TargetType="{x:Type Thumb}">
+            <Setter Property="Focusable" Value="false"/>
+            <Setter Property="OverridesDefaultStyle" Value="true"/>
+            <Setter Property="Height" Value="13"/>
+            <Setter Property="Width" Value="13"/>
+            <Setter Property="Foreground" Value="Gray"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Thumb}">
+                        <Ellipse  Stroke="#666666" StrokeThickness="0.8" >
+                            <Ellipse.Fill>
+                                <LinearGradientBrush EndPoint="1,1" StartPoint="0,0">
+                                    <GradientStop Color="#f6f5ec" Offset="0"/>
+                                    <GradientStop Color="#f2eada" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Ellipse.Fill>
+                        </Ellipse>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <Style x:Key="EqualizerSlider" TargetType="{x:Type Slider}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Slider}">
+                        <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="true">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto" MinWidth="{TemplateBinding MinHeight}"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TickBar x:Name="TopTick" Fill="{TemplateBinding Foreground}" Width="4" Placement="Top" Grid.Column="0" Visibility="Collapsed"/>
+                                <TickBar x:Name="BottomTick" Fill="{TemplateBinding Foreground}" Width="4" Placement="Bottom" Grid.Column="2" Visibility="Collapsed"/>
+                                <Border x:Name="TrackBackground"  CornerRadius="1" Width="4.0" Margin="0,5" Grid.Column="1" HorizontalAlignment="center">
+                                    <Grid>
+                                        <Border Background="#FF00CCFF" CornerRadius="1" Opacity="0.215"/>
+                                        <!--F7F4F4   132E50-->
+                                        <Border Background="#FF00CCFF" CornerRadius="1" Margin="0,0,0.3,0.3" Opacity="0.715"/>
+                                    </Grid>
+                                </Border>
+                                <Track x:Name="PART_Track" Grid.Column="1"  >
+                                    <Track.Thumb>
+                                        <Thumb x:Name="Thumb" Style="{StaticResource HorizontalSliderThumbStyle}"/>
+                                    </Track.Thumb>
+                                </Track>
+                            </Grid>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="lbBtn" TargetType="{x:Type Label}" >
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="True" >
+                    <Setter  Property="Foreground"  Value="Black"></Setter>
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter  Property="Foreground" Value="White"></Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="150"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Background="LightBlue">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+                <Label Content="✖" Grid.Column="2" Width="70" FontSize="18" Margin="20,-2,0,0"  HorizontalContentAlignment="Right" Style="{StaticResource lbBtn}" MouseLeftButtonDown="Label_MouseLeftButtonDown"></Label>
+                <Image Grid.Column="0" Source="equalizer.png" Margin="10,5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="18" Height="18" ></Image>
+                <Label Content="均衡器" Grid.Column="1" Margin="-25,-2,0,0" FontSize="18" Foreground="white"></Label>
+            </Grid>
+        </StackPanel>
+        <StackPanel Grid.Row="1" Margin="0" Background="#78C0D9D9">
+            <Grid Margin="0" Height="150" Name="EqArea">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Slider Name="silder0" Orientation="Vertical" Margin="10,5,0,25" Style="{StaticResource EqualizerSlider}"  Grid.Column="0"></Slider>
+                <Slider Name="silder1" Orientation="Vertical" Margin="10,5,0,25" Style="{StaticResource EqualizerSlider}"  Grid.Column="1"></Slider>
+                <Slider Name="silder2" Orientation="Vertical" Margin="10,5,0,25" Style="{StaticResource EqualizerSlider}"  Grid.Column="2"></Slider>
+                <Slider Name="silder3" Orientation="Vertical" Margin="10,5,0,25" Style="{StaticResource EqualizerSlider}"  Grid.Column="3"></Slider>
+                <Slider Name="silder4" Orientation="Vertical" Margin="10,5,0,25" Style="{StaticResource EqualizerSlider}"  Grid.Column="4"></Slider>
+                <Slider Name="silder5" Orientation="Vertical" Margin="10,5,0,25" Style="{StaticResource EqualizerSlider}"  Grid.Column="5"></Slider>
+                <Slider Name="silder6" Orientation="Vertical" Margin="10,5,0,25" Style="{StaticResource EqualizerSlider}"  Grid.Column="6"></Slider>
+                <Slider Name="silder7" Orientation="Vertical" Margin="10,5,0,25" Style="{StaticResource EqualizerSlider}"  Grid.Column="7"></Slider>
+                <Slider Name="silder8" Orientation="Vertical" Margin="10,5,0,25" Style="{StaticResource EqualizerSlider}"  Grid.Column="8"></Slider>
+                <Slider Name="silder9" Orientation="Vertical" Margin="10,5,0,25" Style="{StaticResource EqualizerSlider}"  Grid.Column="9"></Slider>
+                <Label Content="31" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="5,0,2,0"/>
+                <Label Content="62" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="5,0,2,0"/>
+                <Label Content="125" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="2,0,1,0"/>
+                <Label Content="250" Grid.Column="3" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="2,0,1,0"/>
+                <Label Content="500" Grid.Column="4" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="2,0,1,0"/>
+                <Label Content="1k" Grid.Column="5" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="5,0,2,0"/>
+                <Label Content="2k" Grid.Column="6" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="5,0,2,0"/>
+                <Label Content="4k" Grid.Column="7" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="5,0,2,0"/>
+                <Label Content="8k" Grid.Column="8" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="5,0,2,0"/>
+                <Label Content="16k" Grid.Column="9" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="2,0,2,0"/>
+            </Grid>
+        </StackPanel>
+        <StackPanel Grid.Row="2" Background="LightBlue">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <CheckBox Name="Switch" IsThreeState="False"  Cursor="Hand" Content="开启均衡" Grid.Column="0" Width="100" HorizontalContentAlignment="Left" Margin="20,5" Checked="CheckBox_Checked" Unchecked="Switch_Unchecked">
+                </CheckBox>
+                <Label Name="lbSet" Cursor="Hand" Content="预设" Grid.Column="1" Width="70" HorizontalContentAlignment="Center" Style="{StaticResource lbBtn}" Height="26" Margin="22,0" VerticalAlignment="Top" Initialized="Label_Initialized" MouseLeftButtonDown="Label_MouseLeftButtonDown_1">
+                    <Label.ContextMenu>
+                        <ContextMenu Name="contextMenu">
+                            <MenuItem Name="m1" Header="推 荐" Click="MenuItem_Click_1"/>
+                            <MenuItem Name="m2" Header="流 行" Click="MenuItem_Click_1"/>
+                            <MenuItem Name="m3" Header="摇 滚" Click="MenuItem_Click_1"/>
+                            <MenuItem Name="m4" Header="舞 曲" Click="MenuItem_Click_1"/>
+                            <MenuItem Name="m5" Header="电 子" Click="MenuItem_Click_1"/>
+                            <MenuItem Name="m6" Header="乡 村" Click="MenuItem_Click_1"/>
+                            <MenuItem Name="m7" Header="爵 士" Click="MenuItem_Click_1"/>
+                            <MenuItem Name="m8" Header="古 典" Click="MenuItem_Click_1"/>
+                            <MenuItem  Header="从文件加载…" Click="MenuItem_Click"/>
+                        </ContextMenu>
+                    </Label.ContextMenu>
+                </Label>
+                <Label Content="重置" Cursor="Hand" Grid.Column="2" Width="70" HorizontalContentAlignment="Center" Style="{StaticResource lbBtn}" MouseLeftButtonDown="Label_MouseLeftButtonDown_2"></Label>
+            </Grid>
+        </StackPanel>
+    </Grid>
+</Window>

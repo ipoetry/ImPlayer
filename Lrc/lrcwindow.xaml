@@ -1,0 +1,11 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="动感歌词" Height="96" Width="272"
+        Topmost="True" AllowsTransparency="True" WindowStyle="None" 
+        Background="#00FFFFFF" ShowInTaskbar="False">
+    <Grid>
+        <Image Name="imgBG" HorizontalAlignment="Left" Stretch="None" VerticalAlignment="Stretch" />
+        <Image Name="imgMask" HorizontalAlignment="Left" Stretch="None" VerticalAlignment="Stretch" />
+    </Grid>
+</Window>

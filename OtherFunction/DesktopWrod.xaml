@@ -1,0 +1,27 @@
+﻿<Window x:Class="OtherFunction.DesktopWord"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="TipsWindow" Height="250" Width="1200" ShowInTaskbar="False" WindowStartupLocation="CenterScreen"
+        WindowStyle="None" AllowsTransparency="True" Background="Transparent" MouseLeftButtonDown="Window_MouseLeftButtonDown"
+         Topmost="True" ResizeMode="NoResize"
+        Loaded="Window_Loaded">
+    <!--MouseEnter="Window_MouseEnter" MouseLeave="Window_MouseLeave"-->
+    <Window.Resources>
+        <Storyboard x:Key="OnLoaded">
+            <DoubleAnimation Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="mainGrid"
+                             From="0" To="1" Duration="0:0:1">
+            </DoubleAnimation>
+        </Storyboard>
+    </Window.Resources>
+    <Border CornerRadius="15" Margin="10" Name="mainBorder" Opacity="1">
+        <Grid Name="mainGrid">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="100*"/>
+                <RowDefinition Height="100*"/>
+            </Grid.RowDefinitions>
+            <TextBlock Name="lineOne" Opacity="0"  FontWeight="SemiBold" TextAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0">
+            </TextBlock>
+            <TextBlock Name="lineTwo" Opacity="0"  Grid.Row="1" FontWeight="{Binding ElementName=lineOne,Path=FontWeight}" TextAlignment="Left" VerticalAlignment="Center" Margin="0,0,10,0"></TextBlock>
+        </Grid>
+    </Border>
+</Window>

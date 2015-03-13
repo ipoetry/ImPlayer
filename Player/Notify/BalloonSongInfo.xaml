@@ -1,0 +1,72 @@
+﻿<UserControl x:Name="userControl" x:Class="Player.NotifyBall.BalloonSongInfo"
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+			 xmlns:tb="http://www.hardcodet.net/taskbar"
+			 mc:Ignorable="d" 
+			 d:DesignHeight="300" d:DesignWidth="300"
+			 TextOptions.TextFormattingMode="Display"
+			 Foreground="White" MouseLeftButtonUp="userControl_MouseLeftButtonUp" FontFamily="{Binding MainWindow.FontFamily, Source={x:Static Application.Current}}"
+             xmlns:local="clr-namespace:Player.Common">
+	<UserControl.Resources>
+        <local:ISConvert2 x:Key="isConvert2"></local:ISConvert2>
+        <Storyboard x:Key="ShowCoverSmooth">
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="Cover">
+				<EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1" Value="1"/>
+			</DoubleAnimationUsingKeyFrames>
+		</Storyboard>
+		<Storyboard x:Key="FadeIn">
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="userControl">
+				<EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="1"/>
+			</DoubleAnimationUsingKeyFrames>
+		</Storyboard>
+		<Storyboard x:Key="FadeOut" Completed="FadeOut_Completed" >
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="userControl">
+				<EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0"/>
+			</DoubleAnimationUsingKeyFrames>
+		</Storyboard>
+	</UserControl.Resources>
+	<UserControl.Triggers>
+		<EventTrigger RoutedEvent="tb:TaskbarIcon.BalloonShowing">
+			<BeginStoryboard Storyboard="{StaticResource FadeIn}"/>
+		</EventTrigger>
+		<EventTrigger RoutedEvent="tb:TaskbarIcon.BalloonClosing">
+			<BeginStoryboard Storyboard="{StaticResource FadeOut}"/>
+		</EventTrigger>
+	</UserControl.Triggers>
+	<Grid>
+		<Border x:Name="ShadowBorder" Margin="10" Background="#666666" Opacity="0.6">
+			<Border.Effect>
+				<DropShadowEffect ShadowDepth="0" BlurRadius="10"/>
+			</Border.Effect>
+		</Border>
+		<Grid Margin="{Binding Margin, ElementName=ShadowBorder}" MinWidth="300" MaxWidth="500" Height="104">
+			<Grid x:Name="LayoutRoot" Margin="10">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="Auto"/>
+					<ColumnDefinition/>
+				</Grid.ColumnDefinitions>
+				<Grid Width="{Binding ActualHeight, ElementName=LayoutRoot}" Height="{Binding Width}" Margin="0,0,10,0">
+                    <Image Source="/Player;component/Images/NoCover.png" Stretch="UniformToFill"/>
+                    <Image x:Name="Cover" Source="{Binding CurrentSong.PicUrl, Source={StaticResource Player},Converter={StaticResource isConvert2}}" Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality"/>
+				</Grid>
+				<Grid x:Name="SongInfo" Grid.Column="1">
+					<Grid.RowDefinitions>
+						<RowDefinition Height="Auto"/>
+						<RowDefinition/>
+						<RowDefinition Height="Auto"/>
+						<RowDefinition Height="Auto"/>
+					</Grid.RowDefinitions>
+
+                    <TextBlock x:Name="TbTitle" Grid.Row="0" FontSize="20" Text="{Binding CurrentSong.Title, Source={StaticResource Player}}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center"/>
+                    <TextBlock x:Name="TbArtist" Grid.Row="1" FontSize="14" Text="{Binding CurrentSong.Artist, Source={StaticResource Player}}" TextTrimming="CharacterEllipsis"/>
+                    <TextBlock x:Name="TbAlbum" Grid.Row="2" FontSize="14" Text="{Binding CurrentSong.Album, Source={StaticResource Player}}" TextTrimming="CharacterEllipsis"/>
+                    <TextBlock x:Name="TbChannel" Grid.Row="3" Text="{Binding CurrentSong.Size, Source={StaticResource Player}, TargetNullValue=ImPlayer}" TextTrimming="CharacterEllipsis"/>
+				</Grid>
+			</Grid>
+		</Grid>
+	</Grid>
+</UserControl>

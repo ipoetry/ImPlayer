@@ -1,0 +1,11 @@
+﻿<Window x:Class="Lyrics.LrcWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+         Height="96" Width="272"
+        Topmost="True" AllowsTransparency="True" WindowStyle="None" 
+        Background="#00FFFFFF" ShowInTaskbar="False" MouseEnter="Window_MouseEnter" MouseLeave="Window_MouseLeave" Cursor="Hand">
+    <Grid>
+        <Image Name="imgBG" HorizontalAlignment="Left" Stretch="None" VerticalAlignment="Stretch" MouseLeftButtonDown="imgBG_MouseLeftButtonDown"/>
+        <Image Name="imgMask" HorizontalAlignment="Left" Stretch="None" VerticalAlignment="Stretch" />
+    </Grid>
+</Window>

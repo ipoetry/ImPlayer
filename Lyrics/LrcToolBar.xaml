@@ -1,0 +1,72 @@
+﻿<Window x:Class="Lyrics.LrcToolBar"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="LrcToolBar" Height="28" Width="340" 
+    AllowsTransparency="True" WindowStyle="None" Background="#00FFFFFF" ShowInTaskbar="False"
+    Topmost="True" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition ColumnDefinition.Width="30" />
+            <ColumnDefinition ColumnDefinition.Width="30" />
+            <ColumnDefinition ColumnDefinition.Width="30" />
+            <ColumnDefinition ColumnDefinition.Width="30" />
+            <ColumnDefinition ColumnDefinition.Width="30" />
+            <ColumnDefinition ColumnDefinition.Width="30" />
+            <ColumnDefinition ColumnDefinition.Width="30" />
+            <ColumnDefinition ColumnDefinition.Width="100" />
+            <ColumnDefinition ColumnDefinition.Width="30" />
+        </Grid.ColumnDefinitions>
+        <Border Name="BackFrame"  Grid.ColumnSpan="15" BorderThickness="1,1,1,1" Visibility="Visible" BorderBrush="#FFDDDDDD">
+            <Border.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#90000000" Offset="0" />
+                    <GradientStop Color="#90000000" Offset="1" />
+                </LinearGradientBrush>
+            </Border.Background>
+        </Border>
+        <Image  Width="20" Grid.Column="0"  Source="/Lyrics;component/Images/logo.ico" />
+        <TextBlock Grid.Column="1" Text="9" FontSize="16" Padding="0,4,0,0"  ToolTip="上一曲" FontWeight="Bold"  Style="{StaticResource TextBlockStateStyle}" Foreground="#FFCCCCCC" TextAlignment="Center"  Width="24"  Height="24" />
+        <TextBlock Name="btnPlay" Grid.Column="2" Text="4" FontSize="16"  ToolTip="播放" Padding="0,4,0,0" FontWeight="Bold"  Style="{StaticResource TextBlockStateStyle}" Foreground="#FFCCCCCC" TextAlignment="Center"  Width="24"  Height="24" MouseDown="btnPlay_MouseDown" />
+        <TextBlock Grid.Column="3" Text=":" FontSize="16" Padding="0,4,0,0"  ToolTip="下一曲" FontWeight="Bold"  Style="{StaticResource TextBlockStateStyle}" Foreground="#FFCCCCCC" TextAlignment="Center"  Width="24"  Height="24" />
+        <TextBlock Grid.Column="4" Text="A﹢" FontSize="16" Padding="0,2,0,0"  ToolTip="字体放大"  FontFamily="微软雅黑"  Style="{StaticResource TextBlockStateStyle}" Foreground="#FFCCCCCC" TextAlignment="Center"  Width="24"  Height="24" MouseDown="TextBlock_MouseDown"/>
+        <TextBlock Grid.Column="5" Text="A﹣" FontSize="16" Padding="0,2,0,0"  ToolTip="字体缩小"  FontFamily="微软雅黑"  Style="{StaticResource TextBlockStateStyle}" Foreground="#FFCCCCCC" TextAlignment="Center"  Width="24"  Height="24" MouseDown="TextBlock_MouseDown_1"/>
+        <!--<TextBlock Grid.Column="7" Text="&lt;" FontSize="16"  ToolTip="时间后退0.5秒" Padding="0,4,0,0" FontFamily="Arial" FontWeight="Bold"  Style="{StaticResource TextBlockStateStyle}" Foreground="#FFCCCCCC" TextAlignment="Center"  Width="24"  Height="24" />
+        <TextBlock Grid.Column="8" Text="&gt;" FontSize="16"  ToolTip="时间向前0.5秒" Padding="0,4,0,0" FontFamily="Arial" FontWeight="Bold"  Style="{StaticResource TextBlockStateStyle}" Foreground="#FFCCCCCC" TextAlignment="Center"  Width="24"  Height="24" />-->
+        <TextBlock Grid.Column="6" Text="5" FontSize="16"  ToolTip="打开歌词" Padding="0,4,0,0" FontWeight="Bold"  Style="{StaticResource TextBlockStateStyle}" Foreground="#FFCCCCCC" TextAlignment="Center"  Width="24"  Height="24" />
+        <ComboBox  Name="skin" Grid.Column="7"  Height="24"  Margin="3"  ToolTip="设置歌词颜色" Selector.SelectedIndex="0" Control.FontFamily="微软雅黑" SelectionChanged="skin_SelectionChanged">
+            <StackPanel StackPanel.Orientation="Horizontal"  Margin="1"  Tag="0">
+                <Ellipse Shape.Stroke="#FFAAAAAA"  Width="15"  Height="15">
+                    <Shape.Fill>
+                        <LinearGradientBrush LinearGradientBrush.EndPoint="0.5,1" LinearGradientBrush.StartPoint="0.5,0">
+                            <GradientStop GradientStop.Color="LightGray" GradientStop.Offset="0" />
+                            <GradientStop GradientStop.Color="DarkGray" GradientStop.Offset="1" />
+                        </LinearGradientBrush>
+                    </Shape.Fill>
+                </Ellipse>
+                <TextBlock TextBlock.Text=" 高雅灰"  Height="16" />
+            </StackPanel>
+            <StackPanel StackPanel.Orientation="Horizontal"  Margin="1"  Tag="1">
+                <Ellipse Shape.Stroke="#FFAAAAAA"  Width="15"  Height="15">
+                    <Shape.Fill>
+                        <LinearGradientBrush LinearGradientBrush.EndPoint="0.5,1" LinearGradientBrush.StartPoint="0.5,0">
+                            <GradientStop GradientStop.Color="LightBlue" GradientStop.Offset="0" />
+                            <GradientStop GradientStop.Color="DarkBlue" GradientStop.Offset="1" />
+                        </LinearGradientBrush>
+                    </Shape.Fill>
+                </Ellipse>
+                <TextBlock Text=" 深邃蓝"  Height="16" />
+            </StackPanel>
+            <StackPanel StackPanel.Orientation="Horizontal"  Margin="1"  Tag="4">
+                <Ellipse Shape.Stroke="#FFAAAAAA"  Width="15"  Height="15">
+                    <Shape.Fill>
+                        <LinearGradientBrush LinearGradientBrush.EndPoint="0.5,1" LinearGradientBrush.StartPoint="0.5,0">
+                            <GradientStop GradientStop.Color="LightGreen" GradientStop.Offset="0" />
+                            <GradientStop GradientStop.Color="DarkGreen" GradientStop.Offset="1" />
+                        </LinearGradientBrush>
+                    </Shape.Fill>
+                </Ellipse>
+                <TextBlock Text=" 清新绿"  Height="16" />
+            </StackPanel>
+        </ComboBox>
+        <TextBlock Grid.Column="8" Text="r" FontSize="16"  ToolTip="关闭" Padding="0,4,0,0" FontWeight="Bold"  Style="{StaticResource RedTextBlockStateStyle}" TextAlignment="Center" Width="24" Height="24" MouseDown="TextBlock_MouseDown_2" />
+    </Grid>
+</Window>

@@ -1,0 +1,48 @@
+﻿<UserControl x:Class="Player.Controls.PlayOper"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="50" d:DesignWidth="550">
+    <Grid Tag="1" MouseEnter="Border_MouseEnter" MouseLeave="Border_MouseLeave" Background="Transparent">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10*"/>
+            <RowDefinition Height="30*"/>
+        </Grid.RowDefinitions>
+        <!--<StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center">
+            <TextBlock Name="nowPlayingSong" Text="正在播放:无" TextAlignment="Center" VerticalAlignment="Center" FontSize="20" Margin="0,15,0,0" Foreground="White"/>
+        </StackPanel>-->
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="20*"/>
+                <RowDefinition Height="14*"/>
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0" Orientation="Horizontal">
+                <Image x:Name="playmodeBt" Source="pictures/顺序播放.png" Opacity="0" Style="{StaticResource imageStyle}" Width="35" Height="35" Margin="38,-14,18,-11" Stretch="Fill" Cursor="Hand"  MouseLeftButtonDown="musicPlayerButton_ClickDown">
+                    <Image.ToolTip>
+                        <ToolTip Name="playmodeTT"></ToolTip>
+                    </Image.ToolTip>
+                </Image>
+                <ProgressBar x:Name="channelStatusPrb" Style="{x:Null}" Cursor="Hand" MouseWheel="Prb_MouseWheel" MouseLeftButtonDown="channelStatusPrb_MouseLeftButtonDown" MouseEnter="Prb_MouseEnter" MouseMove="channelStatusPrb_MouseMove"  Height="5" BorderThickness="0.8" Width="333" Margin="0,0,0,0" Foreground="White" Background="Transparent" BorderBrush="#FFD1BCBC">
+                    <ProgressBar.ToolTip>
+                        <ToolTip Name="channelSatusValueTT"></ToolTip>
+                    </ProgressBar.ToolTip>
+                </ProgressBar>
+                <Image x:Name="volumeBt" Source="pictures/音量标志/v1.png" Style="{StaticResource imageStyle}" Stretch="Fill" Width="20" Height="20" Margin="9,-1.5,0,0" Cursor="Hand" Opacity="0" MouseLeftButtonDown="musicPlayerButton_ClickDown"/>
+                <ProgressBar x:Name="volumeValuePrb" Style="{x:Null}" Value="45" Foreground="{Binding Foreground, ElementName=channelStatusPrb}" Opacity="{Binding Opacity, ElementName=volumeBt}"
+                                    		Background="{Binding Background, ElementName=channelStatusPrb}" Width="50" Height="5" BorderThickness="0.8" SmallChange="5" Cursor="Hand"
+                                                     MouseLeftButtonDown="channelStatusPrb_MouseLeftButtonDown" MouseWheel="Prb_MouseWheel" ValueChanged="volumeValuePrb_ValueChanged" MouseEnter="Prb_MouseEnter" Margin="2,0,0,0">
+                    <ProgressBar.ToolTip>
+                        <ToolTip Name="volumeValueTT">
+                        </ToolTip>
+                    </ProgressBar.ToolTip>
+                </ProgressBar>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Grid.Row="1">
+                <TextBlock Name="channelPositonTB" Text="00:00" TextAlignment="Left" FontSize="12" Foreground="White" Margin="96,0,0,0" ></TextBlock>
+                <TextBlock Name="channelLengthTB" Text="00:00" FontSize="12" TextAlignment="Right" Foreground="White" Margin="272,0,0,0"></TextBlock>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>
