@@ -67,6 +67,6 @@
                 <TextBlock Text=" 清新绿"  Height="16" />
             </StackPanel>
         </ComboBox>
-        <TextBlock Grid.Column="8" Text="r" FontSize="16"  ToolTip="关闭" Padding="0,4,0,0" FontWeight="Bold"  Style="{StaticResource RedTextBlockStateStyle}" TextAlignment="Center" Width="24" Height="24" MouseDown="TextBlock_MouseDown_2" />
+        <TextBlock Grid.Column="8" Text="X" ToolTip="关闭" Padding="0,4,0,0" FontWeight="Bold"  Style="{StaticResource RedTextBlockStateStyle}" TextAlignment="Center" Width="24" Height="24" MouseDown="TextBlock_MouseDown_2" />
     </Grid>
 </Window>

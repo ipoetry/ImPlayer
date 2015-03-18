@@ -115,7 +115,7 @@ namespace Player
                 daPrePPTImage.Completed += daWindowImage_Completed;
                 DoubleAnimation daNowPPTImage = new DoubleAnimation(0, 1, TimeSpan.FromMilliseconds(6000));
                 daNowPPTImage.Completed += daBorderImage_Completed;
-                if ((imageIndex + 1) != imageList.Count)
+                if (imageIndex < imageList.Count)
                 {
                     prePPTImage.Source = nowPPTImage.Source;
                     nowPPTImage.Source = GetBitmapImage(imageList[imageIndex]);

@@ -277,10 +277,9 @@ namespace Lyrics
             bool isExist = false;
             lyric._Clear();
             string fileName = Common.getTitleFromPath(song.FileUrl);
-            
             try
             {
-                lrcWindow.Init(fileName);
+                if (lrcWindow != null&&lrcWindow.IsLoaded) { lrcWindow.Init(fileName);}
                 foreach (string str in LrcTypes)
                 {
                     FileInfo[] files = new DirectoryInfo(song.FileUrl).Parent.GetFiles(str, SearchOption.TopDirectoryOnly);
@@ -308,7 +307,7 @@ namespace Lyrics
         }
         private static void DownLrcCompleted(bool isSuccess,string lrcPath)
         {
-            if (isSuccess) { lyric = new Lrc(lrcPath); }
+            if (isSuccess && lrcWindow != null && lrcWindow.IsLoaded) { lyric = new Lrc(lrcPath); }
         }
 
         public static void SetButtonChanged(object sender, int index)

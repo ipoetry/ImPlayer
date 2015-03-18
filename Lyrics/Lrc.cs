@@ -437,7 +437,7 @@ namespace Lyrics
                     }
                     catch (Exception exception)
                     {
-                     //   MessageBox.Show("打开歌词出错:" + exception.Message, "错误提示:");
+                        Console.WriteLine("打开歌词出错:" + exception.Message);
                         reader.Close();
                         stream.Close();
                         throw exception;

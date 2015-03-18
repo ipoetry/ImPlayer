@@ -5,6 +5,10 @@
         <GradientStop Offset="0" Color="#59ccfc"/>
         <GradientStop Offset="0.5" Color="#00b3fe"/>
         <GradientStop Offset="1" Color="#59ccfc"/>
+
+        <!--<GradientStop Color="#00CCFF"  Offset="0"/>
+        <GradientStop Color="#00FFFF" Offset="1"/>-->
+
     </LinearGradientBrush>
 
     <LinearGradientBrush x:Key="SliderText"  StartPoint="0,0" EndPoint="0,1">

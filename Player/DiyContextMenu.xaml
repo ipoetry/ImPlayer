@@ -247,20 +247,7 @@
                 </Grid.ColumnDefinitions>
                 <Button  Grid.Column="0" Width="20" Name="btnMute" Click="btnMute_Click" Cursor="Hand">
                 </Button>
-                <Canvas Grid.Column="1" Name="volume" Cursor="Hand" Width="100" Height="15"  HorizontalAlignment="Left" Margin="0,1,0,0" >
-                    <Rectangle Width="100" Name="volumeBG" Height="6"  Canvas.Left="0" Stroke="#CCCCCC"  Canvas.Top="5" MouseDown="volumeBG_MouseDown" >
-                    </Rectangle>
-
-                    <Rectangle Width="0" Cursor="Hand" Name="volumeMask" Height="5" Canvas.Left="0"  Canvas.Top="5" MouseDown="volumeMask_MouseDown" >
-                        <Rectangle.Fill>
-                            <LinearGradientBrush EndPoint="1,1" StartPoint="0,0">
-                                <GradientStop Color="#00CCFF"  Offset="0"/>
-                                <GradientStop Color="#00FFFF" Offset="1"/>
-                            </LinearGradientBrush>
-                        </Rectangle.Fill>
-                    </Rectangle>
-                    <Thumb Name="thumb" Cursor="Hand"  Canvas.Top="2" Canvas.Left="0"  DragDelta="Thumb_DragDelta"  Style="{StaticResource HorizontalSliderThumbStyle}" ></Thumb>
-                </Canvas>
+                <Slider Name="soundSlider"  Style="{StaticResource Slider_CustomStyle}" Maximum="1" Minimum="0" Grid.ColumnSpan="2" Grid.Column="1"  Cursor="Hand" Width="90" Height="6"  HorizontalAlignment="Left" Margin="0,1,0,0"/>
             </Grid>
         </StackPanel>
         <StackPanel Grid.Row="2">
@@ -272,7 +259,7 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
                 <Button Cursor="Hand" Content="桌面歌词" Margin="8" Grid.Row="0" Style="{StaticResource TextOnlyButton}" Click="Button_Click"></Button>
-                <Button Cursor="Hand" Content="设置" Margin="8" Grid.Row="1"  Style="{StaticResource TextOnlyButton}"></Button>
+                <Button Cursor="Hand" Content="设置" Margin="8" Grid.Row="1"  Style="{StaticResource TextOnlyButton}" Click="Button_Click_1"></Button>
                 <Button Cursor="Hand" Content="退出" Name="btnExit" Click="btnExit_Click" Margin="8" Grid.Row="2" Style="{StaticResource TextOnlyButton}"></Button>
             </Grid>
         </StackPanel>

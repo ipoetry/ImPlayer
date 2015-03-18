@@ -8,6 +8,7 @@ using System.Runtime.InteropServices;
 using Lyrics;
 using System.Windows;
 using Hardcodet.Wpf.TaskbarNotification;
+using Player.HotKey;
 
 namespace Player
 {
@@ -21,6 +22,11 @@ namespace Player
         public static string lrcInitText = "Love Life，Love Music！";
         public static bool IsShowWindow = true;
         public static bool isLrcShow = false;
+
+        /// <summary>
+        /// 热键
+        /// </summary>
+        public static HotKeys HotKeys;
 
         [DllImport("kernel32.dll")]
         public static extern bool SetProcessWorkingSetSize(IntPtr proc, int min, int max);
@@ -43,8 +49,23 @@ namespace Player
             notifyIcon.Icon = Properties.Resources._2628;
             notifyIcon.MouseClick += notifyIcon_MouseClick;
             notifyIcon.MouseDoubleClick+=notifyIcon_MouseDoubleClick;
-        }
 
+        }
+        public static void LoadHotKey()
+        {
+            //加载热键设置
+            HotKeys = HotKeys.Load();
+            HotKeys.RegisterError += new EventHandler<HotKeys.RegisterErrorEventArgs>((oo, ee) =>
+            {
+                System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                foreach (var exception in ee.Exceptions)
+                {
+                    sb.AppendLine(exception.Message);
+                }
+            });
+             mainWindow.AddLogicToHotKeys(HotKeys);
+             HotKeys.Register(mainWindow);
+        }
         /// <summary>
         /// 更改托盘图标
         /// </summary>

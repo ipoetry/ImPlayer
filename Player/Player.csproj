@@ -36,6 +36,9 @@
   <PropertyGroup>
     <ApplicationIcon>2628.ico</ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>Player.Program</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Bass.Net, Version=2.4.10.3, Culture=neutral, PublicKeyToken=b7566c273e6ef480, processorArchitecture=MSIL">
       <HintPath>C:\Users\MicroSense\Desktop\Bass.Net.dll</HintPath>
@@ -46,6 +49,7 @@
     </Reference>
     <Reference Include="PresentationFramework.Classic" />
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
@@ -57,6 +61,8 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="UIAutomationProvider" />
+    <Reference Include="UIAutomationTypes" />
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -70,6 +76,16 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="FileTypeAssocion\FileTypeHelper.cs" />
+    <Compile Include="FileTypeAssocion\TypeRegister.cs" />
+    <Compile Include="Program.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Setting\CheckBoxProperty.cs" />
+    <Compile Include="Setting\DataItem.cs" />
+    <Compile Include="Setting\SettingPage.xaml.cs">
+      <DependentUpon>SettingPage.xaml</DependentUpon>
+    </Compile>
     <Page Include="Controls\LrcControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -115,13 +131,29 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Setting\SettingPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ViewStyle\DiyCMStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="ViewStyle\Hometab.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ViewStyle\NoResize_Window.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="ViewStyle\SoundSlider.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ViewStyle\TabItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Resource Include="ViewStyle\CtlStyles.xaml">
       <SubType>Designer</SubType>
@@ -136,6 +168,12 @@
     <Compile Include="EQ\EqualizerSet.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="HotKey\HookEventArgs.cs" />
+    <Compile Include="HotKey\HotKey.cs" />
+    <Compile Include="HotKey\HotKeys.cs.cs" />
+    <Compile Include="HotKey\HotKeySettingControl.cs" />
+    <Compile Include="HotKey\KeyboardHook.cs" />
+    <Compile Include="HotKey\Win32.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -189,6 +227,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Symbian_Anna v1.1.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Resource Include="Setting\dn.png" />
     <Resource Include="EQ\equalizer.png" />
     <Resource Include="Images\search.png" />
     <Resource Include="Images\delete_on.png" />

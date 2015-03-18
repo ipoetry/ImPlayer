@@ -26,6 +26,7 @@ namespace Player
         {
             InitializeComponent();
             EnumSliderControl();
+            if (PlayController.EQState) { Switch.IsChecked = true; }
         }
 
         private int[] _fxEQ = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
@@ -95,14 +96,16 @@ namespace Player
         private void CheckBox_Checked(object sender, RoutedEventArgs e)
         {
             //开启
-            MessageBox.Show(Switch.IsChecked==true?"已经开启":"已经关闭");
+           // MessageBox.Show(Switch.IsChecked==true?"已经开启":"已经关闭");
+            PlayController.EQState = true;
         }
 
         private void Switch_Unchecked(object sender, RoutedEventArgs e)
         {
             //关闭均衡
-           //调用 Bass.BASS_ChannelRemoveFX
-            MessageBox.Show(Switch.IsChecked == true ? "已经开启" : "已经关闭");
+            //调用 Bass.BASS_ChannelRemoveFX
+            // MessageBox.Show(Switch.IsChecked == true ? "已经开启" : "已经关闭");
+            PlayController.EQState = false;
         }
 
         private void Label_Initialized(object sender, EventArgs e)
@@ -205,7 +208,6 @@ namespace Player
             SetValues(fre);
             mi.IsChecked = true;
             OldSelect = mi;
-            MessageBox.Show(mi.Name);
         }
     }
 }

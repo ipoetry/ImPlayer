@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:tb="http://www.hardcodet.net/taskbar"
         xmlns:notify="clr-namespace:Player.NotifyBall"
-        Title="ImPlayer" Height="380" Width="550"
+        Title="ImPlayerMainWindow" Height="380" Width="550"
         WindowStartupLocation="CenterScreen" WindowStyle="None" AllowsTransparency="True"
         MouseLeftButtonDown="Window_MouseLeftButtonDown"  Loaded="Window_Loaded" 
         xmlns:sound="clr-namespace:WPFSoundVisualizationLib;assembly=WPFSoundVisualizationLib" ResizeMode="NoResize" Background="Transparent"

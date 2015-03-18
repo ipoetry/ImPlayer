@@ -38,7 +38,6 @@ namespace Player
                     btnPlayMode.ToolTip = "循环播放";
                     btnPlayMode.Style = (Style)this.FindResource("circle");
                     PlayController.PlayMode = 1;
-                    PlayController.bassEng.Volume = 100;
                     break;
                 case 2:
                     btnPlayMode.Tag = 2;
@@ -60,7 +59,7 @@ namespace Player
             btnPlay.Style =  (Style)this.FindResource(btnPlay.Tag.ToString());
         }
 
-        private void btnPre_Click(object sender, RoutedEventArgs e)
+        public void btnPre_Click(object sender, RoutedEventArgs e)
         {
             PlayController.PlayPrevent();
         }
@@ -73,11 +72,14 @@ namespace Player
             }
             else
             {
+                if(PlayController.bassEng.CanPlay)
+                PlayController.Play();
+                else
                 PlayController.PlayMusic();
             }
         }
 
-        private void btnNext_Click(object sender, RoutedEventArgs e)
+        public void btnNext_Click(object sender, RoutedEventArgs e)
         {
             PlayController.PlayNext();
         }
@@ -91,31 +93,6 @@ namespace Player
         {
 
         }
-        private void volumeBG_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            Point p = e.GetPosition((Rectangle)sender);
-            volumeMask.Width = p.X;
-            PlayController.bassEng.Volume = p.X;
-            Canvas.SetLeft(thumb, p.X);
-        }
-        private void volumeMask_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            Point p = e.GetPosition((Rectangle)sender);
-            volumeMask.Width = p.X;
-            PlayController.bassEng.Volume = p.X;
-            Canvas.SetLeft(thumb, p.X);
-        }
-        private void Thumb_DragDelta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
-        {
-            if (Canvas.GetLeft(thumb) + e.HorizontalChange >= 0 && Canvas.GetLeft(thumb) + e.HorizontalChange <= 100)
-            {
-                volumeMask.Width = Canvas.GetLeft(thumb) + e.HorizontalChange;
-                PlayController.bassEng.Volume = volumeMask.Width;
-                Canvas.SetLeft(thumb, Canvas.GetLeft(thumb) + e.HorizontalChange);
-            }
-        }
-
-
 
         private void ChanelLength_MouseDown(object sender, MouseButtonEventArgs e)
         {
@@ -152,14 +129,14 @@ namespace Player
                 AppPropertys.mainWindow.PlayPPT(PlayController.Songs[PlayController.PlayIndex]);
             }
         }
-        private void btnMute_Click(object sender, RoutedEventArgs e)
+        public void btnMute_Click(object sender, RoutedEventArgs e)
         {
             PlayController.setMute();
         }
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            Canvas.SetLeft(thumb, PlayController.bassEng.Volume);
+           // Canvas.SetLeft(thumb, PlayController.bassEng.Volume);
             thumb2.DataContext = Player.PlayController.bassEng;
             
             BindingOperations.SetBinding(CurLen, Rectangle.WidthProperty,
@@ -168,12 +145,13 @@ namespace Player
                     Source = thumb2,
                     Path = new PropertyPath(Canvas.LeftProperty)
                 });
-            BindingOperations.SetBinding(volumeMask, Rectangle.WidthProperty,
-                new Binding
-                {
-                    Source = thumb,
-                    Path = new PropertyPath(Canvas.LeftProperty)
-                });
+            BindingOperations.SetBinding(soundSlider, Slider.ValueProperty,
+               new Binding
+               {
+                   Source = PlayController.bassEng,
+                   Path = new PropertyPath("Volume"),
+                   Mode=BindingMode.TwoWay
+               });
         }
         private void btnLrcShow_MouseDown(object sender, MouseEventArgs e)
         {

@@ -34,7 +34,7 @@ namespace Lyrics
         static bool isConnected{get{int I = 0;return InternetGetConnectedState(out I, 0);}}
 
         #endregion  
-        static string LrcText = "";
+        public static string LrcContent { get; set; }
         public delegate void DownCompleteNotice(bool isSuccess,string lrcPath);
         public static event DownCompleteNotice CompletedNoticeEventHandler; 
    
@@ -90,23 +90,18 @@ namespace Lyrics
             if (dlUrl == null || !isConnected) { CompletedNoticeEventHandler(false, null); return; };
             try
             {
+                Console.WriteLine("已找到资源 正在下载……");
                 song.Company = dlUrl.ToString();
                 wc.DownloadDataCompleted += new DownloadDataCompletedEventHandler(DownCompletePush);
-               // wc.DownloadFileCompleted +=  wc_DownloadFileCompleted;
                 wc.Credentials = CredentialCache.DefaultCredentials;
                 wc.DownloadDataAsync(dlUrl, song);
-              //  string lrcSavePath = song.FileUrl.Remove(song.FileUrl.LastIndexOf(".")) + ".lrc";
-               // wc.DownloadFileAsync(dlUrl, lrcSavePath, lrcSavePath);
             }
             catch (Exception)
             {
                 CompletedNoticeEventHandler(false,null);
             }
         }
-        private static void wc_DownloadFileCompleted(object sender,System.ComponentModel.AsyncCompletedEventArgs e)
-        {
-            CompletedNoticeEventHandler(true, e.UserState.ToString());
-        }
+ 
         private static void DownCompletePush(object sender,DownloadDataCompletedEventArgs e)
         {
             try
@@ -124,13 +119,13 @@ namespace Lyrics
                 }
                 LrcContent = enc.GetString(pageData);
 
-                if (LrcText.Contains("errmsg") && LrcText.Contains("errcode"))
+                if (LrcContent.Contains("errmsg") && LrcContent.Contains("errcode"))
                 {
                     BeginDownloadLrc(song, 1); return;
                 }
                 string lrcSavePath=song.FileUrl.Remove(song.FileUrl.LastIndexOf(".")) + ".lrc";
                 StreamWriter sw = new StreamWriter(lrcSavePath, false, Encoding.UTF8);
-                sw.Write(LrcText);
+                sw.Write(LrcContent);
                 sw.Flush();
                 sw.Close();
                 CompletedNoticeEventHandler(true,lrcSavePath);
@@ -257,7 +252,5 @@ namespace Lyrics
             return sb.ToString();
         }
         #endregion
-
-        public static string LrcContent { get; set; }
     }
 }

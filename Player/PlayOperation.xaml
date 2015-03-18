@@ -205,11 +205,10 @@
             <RowDefinition Height="10*"/>
             <RowDefinition Height="30*"/>
         </Grid.RowDefinitions>
-        <StackPanel Grid.Row="0"  Orientation="Horizontal">
+        <StackPanel Grid.Row="0" Cursor="Hand" Orientation="Horizontal">
             <Canvas  Name="CL" Cursor="Hand" Width="510" Height="15"  HorizontalAlignment="Left" Margin="5,0" >
                 <Rectangle Width="510" Cursor="Hand" Name="ChanelLength" Height="6"  Canvas.Left="0" Stroke="#CCCCCC"  Canvas.Top="5" MouseDown="ChanelLength_MouseDown" >
                 </Rectangle>
-
                 <Rectangle Width="{Binding Path=ChannelPosition,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,Converter={StaticResource timeSpanToSeconds}}" Cursor="Hand" Name="CurLen" Height="6" Canvas.Left="0"  Canvas.Top="5" MouseDown="CurLen_MouseDown" >
                     <Rectangle.Fill>
                         <LinearGradientBrush EndPoint="1,1" StartPoint="0,0">
@@ -292,20 +291,7 @@
                 </Button>
                 <Button  Grid.Column="6" Width="24" Height="24" Name="btnMute" Click="btnMute_Click"  Cursor="Hand" ToolTip="静音">
                 </Button>
-                <Canvas Grid.Column="6" Name="volume" Cursor="Hand" Width="110" Height="15"  HorizontalAlignment="Left" Margin="53,16,0,16" Grid.ColumnSpan="2" >
-                    <Rectangle Width="110" Cursor="Hand" Name="volumeBG" Height="6"  Canvas.Left="-1" Stroke="#CCCCCC"  Canvas.Top="5" MouseDown="volumeBG_MouseDown" >
-                    </Rectangle>
-
-                    <Rectangle Width="0" Cursor="Hand" Name="volumeMask" Height="6" Canvas.Left="0"  Canvas.Top="5" MouseDown="volumeMask_MouseDown" >
-                        <Rectangle.Fill>
-                            <LinearGradientBrush EndPoint="1,1" StartPoint="0,0">
-                                <GradientStop Color="#00CCFF"  Offset="0"/>
-                                <GradientStop Color="#00CCFF" Offset="1"/>
-                            </LinearGradientBrush>
-                        </Rectangle.Fill>
-                    </Rectangle>
-                    <Thumb Name="thumb" Cursor="Hand"  Canvas.Top="3" Canvas.Left="0"  DragDelta="Thumb_DragDelta"  Style="{StaticResource HorizontalSliderThumbStyle}" ></Thumb>
-                </Canvas>
+                <Slider Name="soundSlider"  Style="{StaticResource Slider_CustomStyle}" Maximum="1" Minimum="0"  Grid.Column="6"  Cursor="Hand" Width="110" Height="8"  HorizontalAlignment="Left" Margin="53,16,0,16" Grid.ColumnSpan="2" />
                 <Image x:Name="btnPlayMode" Grid.Column="1" Style="{StaticResource single}" Width="30" Height="30" Tag="1"  Stretch="Fill" Cursor="Hand"  MouseLeftButtonDown="btnPlayMode_MouseLeftButtonDown" ToolTip="循环播放">
                     <!--<Image.ToolTip>
                         <ToolTip Name="playmodeTT"></ToolTip>

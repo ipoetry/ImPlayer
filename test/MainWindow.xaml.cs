@@ -22,8 +22,6 @@ namespace test
         public MainWindow()
         {
             InitializeComponent();
-          
-            
 
             //Baidu1 baidu1 = new Baidu1("xxxxxx@qq.com", "xxxxxx");
 

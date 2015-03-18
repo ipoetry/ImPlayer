@@ -1,7 +1,8 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:c="clr-namespace:Lyrics;assembly=Lyrics"
-                    xmlns:local="clr-namespace:Player.Common;assembly=Player">
+                    xmlns:local="clr-namespace:Player.Common;assembly=Player"
+                    xmlns:cj="clr-namespace:Player.HotKey;assembly=Player">
     <local:DataConverter x:Key="dataConvert"></local:DataConverter>
     <local:ISConvert x:Key="isConvert"></local:ISConvert>
         <LinearGradientBrush x:Key="brushMainWindow" >
@@ -55,15 +56,15 @@
     </Style>
     
     <Style x:Key="RedTextBlockStateStyle" TargetType="{x:Type TextBlock}">
-        <Setter Property="FontFamily" Value="Webdings"/>
-        <Setter Property="FontWeight" Value="Bold"/>
+        <!--<Setter Property="FontFamily" Value="Webdings"/>-->
+        <!--<Setter Property="FontWeight" Value="Bold"/>-->
         <Setter Property="FontSize" Value="12"/>
-        <Setter Property="Foreground" Value="#FFAAAAAA" />
+        <Setter Property="Foreground" Value="White" />
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Foreground" Value="#FFFFFFFF" />
-                <Setter Property ="Background" >
-                    <Setter.Value>
+                <!--<Setter Property="Foreground" Value="White" />-->
+                <Setter Property ="Background" Value="Red" >
+                    <!--<Setter.Value>
                         <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
                             <GradientBrush.GradientStops>
                                 <GradientStopCollection>
@@ -72,7 +73,7 @@
                                 </GradientStopCollection>
                             </GradientBrush.GradientStops>
                         </LinearGradientBrush>
-                    </Setter.Value>
+                    </Setter.Value>-->
                 </Setter>
             </Trigger>
         </Style.Triggers>
@@ -534,4 +535,8 @@
             </Setter.Value>
         </Setter>
     </Style>
+    
+    
+
+
 </ResourceDictionary>

@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Lyrics;
+using Player.Setting;
 
 namespace Player
 {
@@ -28,30 +29,6 @@ namespace Player
 
         }
 
-        private void volumeBG_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            Point p = e.GetPosition((Rectangle)sender);
-           // volumeMask.Width = p.X;
-            Canvas.SetLeft(thumb, p.X);
-        }
-        private void volumeMask_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            Point p = e.GetPosition((Rectangle)sender);
-           // volumeMask.Width = p.X;
-            Canvas.SetLeft(thumb, p.X);
-        }
-        private void Thumb_DragDelta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
-        {
-            if (Canvas.GetLeft(thumb) + e.HorizontalChange >= 0 && Canvas.GetLeft(thumb) + e.HorizontalChange <= 100)
-            { 
-               // volumeMask.Width = Canvas.GetLeft(thumb) + e.HorizontalChange;
-                double pos = (Canvas.GetLeft(thumb) + e.HorizontalChange) / volumeBG.Width * 110;
-                PlayController.bassEng.Volume = pos;
-                Canvas.SetLeft(thumb, pos);
-
-            }
-        }
-
         private void btnPre_Click(object sender, RoutedEventArgs e)
         {
             PlayController.PlayPrevent();
@@ -66,8 +43,11 @@ namespace Player
             }
             else
             {
-                PlayController.PlayMusic();
-                btnPlay.Style = (Style)this.FindResource("pause");
+                if (PlayController.bassEng.CanPlay)
+                    PlayController.Play();
+                else
+                    PlayController.PlayMusic();
+                    btnPlay.Style = (Style)this.FindResource("pause");
             }
         }
 
@@ -93,6 +73,7 @@ namespace Player
             }
             else
             {
+                LrcController.lrcWindow.Close();
                 LrcController.lrcWindow.Hide();
                 AppPropertys.isLrcShow = false;
             }
@@ -106,13 +87,20 @@ namespace Player
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            Canvas.SetLeft(thumb, PlayController.bassEng.Volume);
-            BindingOperations.SetBinding(volumeMask, Rectangle.WidthProperty,
-               new Binding
-               {
-                   Source = thumb,
-                   Path = new PropertyPath(Canvas.LeftProperty)
-               });
+            BindingOperations.SetBinding(soundSlider, Slider.ValueProperty,
+                         new Binding
+                         {
+                             Source = PlayController.bassEng,
+                             Path = new PropertyPath("Volume"),
+                             Mode = BindingMode.TwoWay
+                         });
+        }
+        SettingPage setingPage = null;
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            if (setingPage == null || !setingPage.IsLoaded)
+                setingPage = new SettingPage(AppPropertys.HotKeys);
+            setingPage.Show();
         }
     }
 }

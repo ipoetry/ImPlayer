@@ -24,6 +24,7 @@ using Un4seen.Bass.AddOn.Tags;
 using WPFSoundVisualizationLib;
 using ImPlayer.FM.Models;
 using ImPalyer.FM.Views;
+using Player.HotKey;
 
 namespace Player
 {
@@ -60,7 +61,7 @@ namespace Player
         private System.Timers.Timer timerClock = new System.Timers.Timer(1000);
         private int tick = 2;
 
-        public MainPage()
+        public MainPage(string arge)
         {
             InitializeComponent();
             AppPropertys.mainWindow = this;
@@ -68,7 +69,7 @@ namespace Player
             PlayController.Initialize();
             LrcController.Initialize();
             LoadSongList("");
-            
+            if (arge != "") { AddFileAndPlay(arge); }
         }
 
         /// <summary>
@@ -96,6 +97,7 @@ namespace Player
             {
                 SpectrumAnalyzer.RegisterSoundPlayer(PlayController.bassEng);
             }
+            Win32InfoRegister();
         }
 
         private void playListBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -786,5 +788,94 @@ namespace Player
         {
             PlayController.ShowSetEQ();
         }
+
+        /// <summary>
+        /// 给热键绑定操作
+        /// </summary>
+        public void AddLogicToHotKeys(HotKeys hotKeys)
+        {
+            foreach (var keyValue in hotKeys)
+            {
+                HotKey.HotKey hotKey = keyValue.Value;
+                switch (keyValue.Key)
+                {
+                    case Player.PlayController.Commands.None:
+                        break;
+
+                    case Player.PlayController.Commands.PlayPause:
+                        hotKey.OnHotKey += delegate { playControl1.btnPlay_Click(null,null); };
+                        break;
+
+                    case Player.PlayController.Commands.PreSong:
+                        hotKey.OnHotKey += delegate { playControl1.btnPre_Click(null,null);};
+                        break;
+
+                    case Player.PlayController.Commands.NextSong:
+                        hotKey.OnHotKey += delegate { playControl1.btnNext_Click(null, null); };
+                        break;
+
+                    case Player.PlayController.Commands.MuteSwitch:
+                        hotKey.OnHotKey += delegate { playControl1.btnMute_Click(null,null); };
+                        break;
+
+                    case Player.PlayController.Commands.VolumeUp:
+                        hotKey.OnHotKey += delegate {  };
+                        break;
+
+                    case Player.PlayController.Commands.VolumeDown:
+                        hotKey.OnHotKey += delegate { };
+                        break;
+
+                    case Player.PlayController.Commands.SetEQ:
+                        hotKey.OnHotKey += delegate { test(null,null); };
+                        break;
+
+                    case Player.PlayController.Commands.Exit:
+                        hotKey.OnHotKey += delegate { btnClose_MouseDown(null,null); };
+                        break;
+                }
+            }
+        }
+
+
+        public void Win32InfoRegister()
+        {
+            (PresentationSource.FromVisual(this) as System.Windows.Interop.HwndSource)
+                .AddHook(new System.Windows.Interop.HwndSourceHook(WndProc));
+        }
+
+        IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
+        {
+            if (msg == 0x004A)
+            {
+                COPYDATASTRUCT copydata = (COPYDATASTRUCT)Marshal.PtrToStructure(lParam, typeof(COPYDATASTRUCT));
+                string dicom_file = copydata.lpData;               
+                if (dicom_file != null)
+                {
+                    AddFileAndPlay(dicom_file);
+                }
+                handled = true;
+            }
+            return hwnd;
+        }
+
+        public void AddFileAndPlay(string path)
+        {
+            XmlDocument xmlDoc = InitXml();
+            XmlNode root = xmlDoc.SelectSingleNode("SongList");
+            Song s = new Song(path, Common.Common.getTitleFromPath(path));
+            ReadInfoFromFile(s);
+            root.AppendChild(CreateElement(xmlDoc, s));
+            PlayController.Songs.Add(s);
+            xmlDoc.Save(XmlListPath);
+            PlayController.PlayMusic(0);
+        } 
+    }
+    public struct COPYDATASTRUCT
+    {
+        public IntPtr dwData;
+        public int cbData;
+        [MarshalAs(UnmanagedType.LPStr)]
+        public string lpData;
     }
 }

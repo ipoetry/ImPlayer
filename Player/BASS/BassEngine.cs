@@ -95,7 +95,7 @@ namespace BassCore
 		/// <summary>
 		/// 音量
 		/// </summary>
-		private double volume=30;
+		private double volume=0.3;
 		/// <summary>
 		/// 是否静音
 		/// </summary>
@@ -311,10 +311,8 @@ namespace BassCore
 		public void OpenFile(string filename)
 		{
 			openningFile = filename;
-			//Debug.WriteLine("已调用BassEngine.OpenFile()");
 			Stop();
 			pendingOperation = PendingOperation.None;
-
             int handle = CreateLocalFileStream(filename);
             handle = SetEQ(handle);
 			if (handle != 0)
@@ -972,7 +970,7 @@ namespace BassCore
 			get { return volume; }
 			set
 			{
-				value = Math.Max(0, Math.Min(20, value));
+				value = Math.Max(0, Math.Min(1, value));
 				if (volume != value)
 				{
 					volume = value;

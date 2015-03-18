@@ -13,6 +13,7 @@ using System.Collections.ObjectModel;
 using Player.NotifyBall;
 using ArtistPic;
 using System.IO;
+using Player.HotKey;
 namespace Player
 {
   public partial class PlayController:DependencyObject
@@ -26,6 +27,7 @@ namespace Player
       public class OC_Songs:ObservableCollection<Song>{};
       public static int PlayMode = 1;
       public static bool isFM = false;
+      public static bool EQState = false;
 
       //public static readonly DependencyProperty CurrentSongProperty = DependencyProperty.Register("CurrentSong", typeof(Song), typeof(PlayController), new PropertyMetadata(new PropertyChangedCallback((d, e) =>
       //{
@@ -47,6 +49,7 @@ namespace Player
           DT.Tick += new EventHandler(DT_Tick);
           LrcController.ButtonChanged+=new LrcController.ButtonChangedHandle(LrcController_ButtonChanged);
           bassEng.OpenSucceeded += new EventHandler(StartPlay);
+
       }
 
       private static void LrcController_ButtonChanged(object sender, LrcController.ButtonChangeEventArgs e)
@@ -63,7 +66,10 @@ namespace Player
                  Pause();
                   break;
               case 3:
-                   PlayMusic();
+                  if (bassEng.CanPlay) 
+                      Play(); 
+                  else
+                      PlayMusic();
                   break;
               case 4:
                   PlayNext();
@@ -198,6 +204,13 @@ namespace Player
           }
       }
 
+      /// <summary>
+      /// 命令
+      /// </summary>
+      public enum Commands { None, PlayPause, PreSong, NextSong, VolumeUp, VolumeDown, MuteSwitch,SetEQ,ShowLyrics, HideLyrics,Exit }
+
+
+
       public static void ReSet()
       {
           DT.Stop();
@@ -210,7 +223,7 @@ namespace Player
           AppPropertys.FlushMemory();
          
       }
-
+      public static double currentVolume = 0;
       public static void setMute()
       {
        //   bassEng.IsMuted = !bassEng.IsMuted;
@@ -219,20 +232,21 @@ namespace Player
               playControl.btnMute.Style = (Style)playControl.FindResource("notMute");
               playControl.btnMute.ToolTip = "打开声音";
               bassEng.IsMuted = false;
-              bassEng.Volume = 35;
+              bassEng.Volume = currentVolume;
           }
           else
           {
-
               playControl.btnMute.Style = (Style)playControl.FindResource("Mute");
               playControl.btnMute.ToolTip = "静音";
               bassEng.IsMuted = true;
-              bassEng.Volume = 35;
+              currentVolume = bassEng.Volume;
+              bassEng.Volume = 0;
           }
       }
 
-      public static void PlayMusic()
-      {
+      public static void PlayMusic(int index = -1)
+      { 
+          if (index != -1) { playIndex = songs.Count - 1; }
           if (songs.Count > playIndex && playIndex > -1)
           {
               ReSet();
@@ -245,8 +259,7 @@ namespace Player
               {
                   if (!RemoveNotExitsFile(CurrentSong)) { return; }
                   bassEng.OpenFile(CurrentSong.FileUrl);
-              }
-             
+              }          
           }
 
       }
@@ -271,14 +284,13 @@ namespace Player
           bassEng.Play();
           DT.Start();
           playControl.btnPlay.Style = (Style)playControl.FindResource("pause");
-          BalloonSongInfo bsi = new BalloonSongInfo();
-          bsi.ShowCoverSmooth();
+         // if (index != -1) { playIndex = AppPropertys.mainWindow.playListBox.Items.Count - 1; }  
           AppPropertys.mainWindow.playListBox.SelectedIndex = playIndex;
           AppPropertys.mainWindow.playListBox.ScrollIntoView(AppPropertys.mainWindow.playListBox.Items[playIndex]);
-          string notifyIconText = "正在播放：" + CurrentSong.Artist + " - " + CurrentSong.Title;
+          string notifyIconText = "正在播放：" + CurrentSong.ArtSong;
           if (notifyIconText.Length >= 64) { notifyIconText.Substring(0,63); }
           AppPropertys.notifyIcon.Text = notifyIconText;
-          playControl.btnPlay.ToolTip = "停止";
+          playControl.btnPlay.ToolTip = "暂停";
           LrcController.setPause();
           if (AppPropertys.mainWindow.isPPTPlaying)
           {
@@ -345,8 +357,5 @@ namespace Player
           string t = (m > 9 ? m.ToString() : "0" + m.ToString()) + ":" + (s > 9 ? s.ToString() : "0" + s.ToString());
           return t;
       }
-
-
-
     }
 }
