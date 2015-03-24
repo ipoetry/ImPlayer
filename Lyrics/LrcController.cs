@@ -29,6 +29,104 @@ namespace Lyrics
         private static int penWidth = 2;
         public static int SkinIndex = 0;
 
+        #region
+        public static System.Drawing.Color BgDownColor
+        {
+            get
+            {
+                return bgDownColor;
+            }
+            set
+            {
+                bgDownColor = value;
+            }
+        }
+
+        public static System.Drawing.Color BgUPColor
+        {
+            get
+            {
+                return bgUPColor;
+            }
+            set
+            {
+                bgUPColor = value;
+            }
+        }
+
+        public static Font DefaultFont
+        {
+            get
+            {
+                return defaultFont;
+            }
+            set
+            {
+                defaultFont = value;
+            }
+        }
+
+        public static Lrc Lyric
+        {
+            get
+            {
+                return lyric;
+            }
+            set
+            {
+                lyric = value;
+            }
+        }
+
+        public static System.Drawing.Color MaskDownColor
+        {
+            get
+            {
+                return maskDownColor;
+            }
+            set
+            {
+                maskDownColor = value;
+            }
+        }
+
+        public static System.Drawing.Color MaskUPColor
+        {
+            get
+            {
+                return maskUPColor;
+            }
+            set
+            {
+                maskUPColor = value;
+            }
+        }
+
+        public static System.Drawing.Color PenColor
+        {
+            get
+            {
+                return penColor;
+            }
+            set
+            {
+                penColor = value;
+            }
+        }
+
+        public static int PenWidth
+        {
+            get
+            {
+                return penWidth;
+            }
+            set
+            {
+                penWidth = value;
+            }
+        }
+        #endregion
+
         public static event ButtonChangedHandle ButtonChanged;
 
         public static void ChangeColor(int index)
@@ -239,13 +337,15 @@ namespace Lyrics
             return list;
         }
 
-        public static void Initialize()
+        public static void Initialize(Font lrcFont,int skinIndex)
         {
+            DefaultFont = lrcFont;
+            SkinIndex = skinIndex;
             ChangeColor(SkinIndex);
             lrcToolBar = new LrcToolBar();
             lrcWindow = new LrcWindow();
-           // lrcWindow.Init(defaultText);
         }
+
         public static void ShowLrc()
         {
             if (lrcWindow != null)
@@ -260,10 +360,10 @@ namespace Lyrics
                 lrcToolBar = new LrcToolBar();
                 lrcWindow = new LrcWindow(); 
                 lrcWindow.Init(defaultText);
-                lrcWindow.Show();
-               
+                lrcWindow.Show(); 
             }
         }
+
         public static void CloseLrc()
         {
             if (lrcWindow != null || lrcWindow.IsLoaded)
@@ -272,10 +372,11 @@ namespace Lyrics
                 lrcWindow = null;
             }
         }
-        public static void searchLrc(Song song)
+
+        public static void SearchLrc(Song song)
         {
             bool isExist = false;
-            lyric._Clear();
+            lyric.Clear();
             string fileName = Common.getTitleFromPath(song.FileUrl);
             try
             {
@@ -305,6 +406,7 @@ namespace Lyrics
             }
             catch(Exception ex) { Debug.Write(ex.Message); }
         }
+
         private static void DownLrcCompleted(bool isSuccess,string lrcPath)
         {
             if (isSuccess && lrcWindow != null && lrcWindow.IsLoaded) { lyric = new Lrc(lrcPath); }
@@ -315,17 +417,19 @@ namespace Lyrics
             ButtonChanged(sender, new ButtonChangeEventArgs(index));
         }
 
-        public static void setPause()
+        public static void SetPause()
         {
             lrcToolBar.btnPlay.Text = ";";
             lrcToolBar.btnPlay.ToolTip = "暂停";
         }
 
-        public static void setPlay()
+        public static void SetPlay()
         {
-            lrcToolBar.btnPlay.Dispatcher.Invoke(new Action(()=>lrcToolBar.btnPlay.Text = "4"));
-            lrcToolBar.btnPlay.Dispatcher.Invoke(new Action(()=>lrcToolBar.btnPlay.ToolTip = "播放"));
-            
+            lrcToolBar.btnPlay.Dispatcher.Invoke(new Action(()=>
+                {
+                    lrcToolBar.btnPlay.Text = "4";
+                    lrcToolBar.btnPlay.ToolTip = "播放";
+                }));          
         }
 
         public static void UpdateSize(float size)
@@ -347,102 +451,6 @@ namespace Lyrics
         public static void UpdateSkin()
         {
             lrcWindow.Update();
-        }
-
-        public static System.Drawing.Color BgDownColor
-        {
-            get
-            {
-                return bgDownColor;
-            }
-            set
-            {
-                bgDownColor = value;
-            }
-        }
-
-        public static System.Drawing.Color BgUPColor
-        {
-            get
-            {
-                return bgUPColor;
-            }
-            set
-            {
-                bgUPColor = value;
-            }
-        }
-
-        public static Font DefaultFont
-        {
-            get
-            {
-                return defaultFont;
-            }
-            set
-            {
-                defaultFont = value;
-            }
-        }
-
-        public static Lrc Lyric
-        {
-            get
-            {
-                return lyric;
-            }
-            set
-            {
-                lyric = value;
-            }
-        }
-
-        public static System.Drawing.Color MaskDownColor
-        {
-            get
-            {
-                return maskDownColor;
-            }
-            set
-            {
-                maskDownColor = value;
-            }
-        }
-
-        public static System.Drawing.Color MaskUPColor
-        {
-            get
-            {
-                return maskUPColor;
-            }
-            set
-            {
-                maskUPColor = value;
-            }
-        }
-
-        public static System.Drawing.Color PenColor
-        {
-            get
-            {
-                return penColor;
-            }
-            set
-            {
-                penColor = value;
-            }
-        }
-
-        public static int PenWidth
-        {
-            get
-            {
-                return penWidth;
-            }
-            set
-            {
-                penWidth = value;
-            }
         }
 
         public delegate void ButtonChangedHandle(object sender, LrcController.ButtonChangeEventArgs e);

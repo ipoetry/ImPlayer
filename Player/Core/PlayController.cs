@@ -49,7 +49,7 @@ namespace Player
           DT.Tick += new EventHandler(DT_Tick);
           LrcController.ButtonChanged+=new LrcController.ButtonChangedHandle(LrcController_ButtonChanged);
           bassEng.OpenSucceeded += new EventHandler(StartPlay);
-
+          bassEng.Volume = AppPropertys.appSetting.Volume;
       }
 
       private static void LrcController_ButtonChanged(object sender, LrcController.ButtonChangeEventArgs e)
@@ -266,7 +266,7 @@ namespace Player
       private static void StartPlay(object sender,EventArgs e)
       { 
             Play();
-            LrcController.searchLrc(CurrentSong);
+            LrcController.SearchLrc(CurrentSong);
             AppPropertys.ChangeNotifyIcon(2);
       }
       private static bool RemoveNotExitsFile(Song rSong)
@@ -291,7 +291,7 @@ namespace Player
           if (notifyIconText.Length >= 64) { notifyIconText.Substring(0,63); }
           AppPropertys.notifyIcon.Text = notifyIconText;
           playControl.btnPlay.ToolTip = "暂停";
-          LrcController.setPause();
+          LrcController.SetPause();
           if (AppPropertys.mainWindow.isPPTPlaying)
           {
               AppPropertys.mainWindow.PlayPPT(CurrentSong);
@@ -308,7 +308,7 @@ namespace Player
       public static void Stop()
       {
           bassEng.Stop();
-          LrcController.setPlay();
+          LrcController.SetPlay();
           playControl.btnPlay.ToolTip = "播放";
           AppPropertys.notifyIcon.Text = AppPropertys.logoText;
       }
@@ -318,7 +318,7 @@ namespace Player
           bassEng.Pause();
           playControl.btnPlay.Dispatcher.Invoke(new Action(()=>playControl.btnPlay.Style = (Style)playControl.FindResource("play")));
           playControl.btnPlay.Dispatcher.Invoke(new Action(()=>playControl.btnPlay.ToolTip = "播放"));
-          LrcController.setPlay();
+          LrcController.SetPlay();
           AppPropertys.ChangeNotifyIcon(1);
       }
 

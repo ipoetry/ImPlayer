@@ -48,7 +48,7 @@ namespace Player.NotifyBall
 
 		private void userControl_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
 		{
-			((MainPage)App.Current.MainWindow).ShowFront();
+            this.ShowCoverSmooth();
 		}
 
 		/// <summary>

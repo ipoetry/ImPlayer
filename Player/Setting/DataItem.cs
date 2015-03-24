@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Player.Setting
 {
+    [Serializable]
     public class DataItem
     {
         private string name;

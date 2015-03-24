@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Lyrics;
 using Player.Setting;
+using ImPlayer.DownloadMoudle;
 
 namespace Player
 {
@@ -59,24 +60,28 @@ namespace Player
         private void btnExit_Click(object sender, RoutedEventArgs e)
         {
             AppPropertys.setFreeNotifyIcon();
-            Environment.Exit(0);
+            //Environment.Exit(0);
+            Application.Current.Shutdown(-1);
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Button btn = (Button)sender;
+            //Button btn = (Button)sender;
             
-            if (!AppPropertys.isLrcShow)
-            {
-                LrcController.lrcWindow.Show();
-                AppPropertys.isLrcShow=true;
-            }
-            else
-            {
-                LrcController.lrcWindow.Close();
-                LrcController.lrcWindow.Hide();
-                AppPropertys.isLrcShow = false;
-            }
+            //if (!AppPropertys.isLrcShow)
+            //{
+            //    LrcController.lrcWindow.Show();
+            //    AppPropertys.isLrcShow=true;
+            //}
+            //else
+            //{
+            //    LrcController.lrcWindow.Close();
+            //    LrcController.lrcWindow.Hide();
+            //    AppPropertys.isLrcShow = false;
+            //}
+            MainWindow SearchWindow = new MainWindow(AppPropertys.appSetting.DownloadFolder);
+            SearchWindow.Show();
+
         }
 
         private void btnMute_Click(object sender, RoutedEventArgs e)
@@ -100,7 +105,10 @@ namespace Player
         {
             if (setingPage == null || !setingPage.IsLoaded)
                 setingPage = new SettingPage(AppPropertys.HotKeys);
+            setingPage.SettingReloadHandler += new SettingReloadDelegate(AppPropertys.mainWindow.SaveConfig);
             setingPage.Show();
         }
+
+        
     }
 }

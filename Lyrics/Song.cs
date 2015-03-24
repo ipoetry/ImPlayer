@@ -81,36 +81,15 @@ namespace Lyrics
 
         }
 
-        //internal Song(DoubanFM.Core.Json.Song song)
-        //{
-        //    FileUrl = song.url;
-        //    Title = song.title;
-        //    Artist = song.artist;
-        //    Album = song.albumtitle;
-        //    Company = song.company;
-        //    PicUrl = song.picture;
-        //    Length = new TimeSpan(song.length * 10000000L);
-        //    PublicTime = song.public_time;
-        //    Rate = song.rating_avg;
-        //    isLike = song.like;
-        //}
         public Song(string path,string name)
         {
             this.FileUrl = path;
             this.FileName = name;
         }
+
 		public object Clone()
 		{
 			return this.MemberwiseClone();
-		}
-
-		public override string ToString()
-		{
-			StringBuilder sb = new StringBuilder();
-			sb.Append(Artist);
-			sb.Append(" - ");
-			sb.Append(Title);
-			return sb.ToString();
 		}
 
 		public bool Equals(Song other)
@@ -132,25 +111,6 @@ namespace Lyrics
 			if (FileUrl == null) return 0;
 			return FileUrl.GetHashCode();
 		}
-
-		public static bool operator ==(Song lhs, Song rhs)
-		{
-			if (Object.ReferenceEquals(lhs, null))
-				if (Object.ReferenceEquals(rhs, null))
-					return true;
-				else return false;
-			return lhs.Equals(rhs);
-		}
-		public static bool operator !=(Song lhs, Song rhs)
-		{
-			return !(lhs == rhs);
-		}
-
-        private void getmusicInfo(string url)
-       {
-           if (string.IsNullOrEmpty(url))
-               return;
-       }
 
         public event PropertyChangedEventHandler PropertyChanged;
     }

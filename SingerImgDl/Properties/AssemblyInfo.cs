@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // 有关程序集的常规信息通过以下
 // 特性集控制。更改这些特性值可修改
 // 与程序集关联的信息。
-[assembly: AssemblyTitle("SingerImgDl")]
+[assembly: AssemblyTitle("ArtistPic")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("workgroup")]
-[assembly: AssemblyProduct("SingerImgDl")]
-[assembly: AssemblyCopyright("Copyright © workgroup 2014")]
+[assembly: AssemblyCompany("Wrox1226@live.com")]
+[assembly: AssemblyProduct("ArtistPic")]
+[assembly: AssemblyCopyright("Copyright © Wrox 2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

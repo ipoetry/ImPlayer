@@ -20,6 +20,88 @@ namespace Lyrics
         private string _title;
         private string LrcTextString;
 
+        #region
+        private string album
+        {
+            get
+            {
+                return this._album;
+            }
+        }
+
+        public string ar
+        {
+            get
+            {
+                return this.ar;
+            }
+        }
+
+        public string by
+        {
+            get
+            {
+                return this._by;
+            }
+        }
+
+        public string fileName
+        {
+            get
+            {
+                return this._fileName;
+            }
+            set
+            {
+                this._fileName = value;
+            }
+        }
+
+        public int GetMaxTime
+        {
+            get
+            {
+                if (this._lrcList.Count < 1)
+                {
+                    return 0;
+                }
+                return this._lrcList[this._lrcList.Count - 1].StartTime;
+            }
+        }
+
+        public bool isLoad
+        {
+            get
+            {
+                return this._isLoad;
+            }
+            set
+            {
+                this._isLoad = value;
+            }
+        }
+
+        public List<OneLineLrc> LrcList
+        {
+            get
+            {
+                return this._lrcList;
+            }
+            set
+            {
+                this._lrcList = value;
+            }
+        }
+
+        public string title
+        {
+            get
+            {
+                return this._title;
+            }
+        }
+        #endregion
+
         public Lrc()
         {
             this._title = "";
@@ -55,7 +137,7 @@ namespace Lyrics
             this._fileName = "";
             this._isLoad = false;
             this.LrcTextString = "";
-            this._Clear();
+            this.Clear();
             string str = ext;
             if (str != null)
             {
@@ -65,13 +147,9 @@ namespace Lyrics
                     {
                         this.ImportKSC(this.LrcTextString);
                     }
-                    else if (str == "HRC")
+                    else if (str == "QRC")
                     {
-                        this.ImportHRC(this.LrcTextString);
-                    }
-                    else if (str == "KRC")
-                    {
-                        this.ImportKRC(this.LrcTextString);
+                        this.ImportQRC(this.LrcTextString);
                     }
                 }
                 else
@@ -81,7 +159,7 @@ namespace Lyrics
             }
         }
 
-        public void _Clear()
+        public void Clear()
         {
             this._fileName = "";
             this._lrcList.Clear();
@@ -161,14 +239,6 @@ namespace Lyrics
             }
             reader.Close();
             return bigEndianUnicode;
-        }
-
-        private void ImportHRC(string text)
-        {
-        }
-
-        private void ImportKRC(string text)
-        {
         }
 
         public void ImportKSC(string text)
@@ -381,7 +451,7 @@ namespace Lyrics
 
         public void InitLrc(string file)
         {
-            this._Clear();
+            this.Clear();
             if (File.Exists(file))
             {
                 this._fileName = file;
@@ -493,84 +563,6 @@ namespace Lyrics
             return str2;
         }
 
-        private string album
-        {
-            get
-            {
-                return this._album;
-            }
-        }
 
-        public string ar
-        {
-            get
-            {
-                return this.ar;
-            }
-        }
-
-        public string by
-        {
-            get
-            {
-                return this._by;
-            }
-        }
-
-        public string fileName
-        {
-            get
-            {
-                return this._fileName;
-            }
-            set
-            {
-                this._fileName = value;
-            }
-        }
-
-        public int GetMaxTime
-        {
-            get
-            {
-                if (this._lrcList.Count < 1)
-                {
-                    return 0;
-                }
-                return this._lrcList[this._lrcList.Count - 1].StartTime;
-            }
-        }
-
-        public bool isLoad
-        {
-            get
-            {
-                return this._isLoad;
-            }
-            set
-            {
-                this._isLoad = value;
-            }
-        }
-
-        public List<OneLineLrc> LrcList
-        {
-            get
-            {
-                return this._lrcList;
-            }
-            set
-            {
-                this._lrcList = value;
-            }
-        }
-
-        public string title
-        {
-            get
-            {
-                return this._title;
-            }
-        }
     }
 }

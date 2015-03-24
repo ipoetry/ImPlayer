@@ -9,6 +9,8 @@ using Lyrics;
 using System.Windows;
 using Hardcodet.Wpf.TaskbarNotification;
 using Player.HotKey;
+using System.Windows.Shapes;
+using Player.Setting;
 
 namespace Player
 {
@@ -22,7 +24,8 @@ namespace Player
         public static string lrcInitText = "Love Life，Love Music！";
         public static bool IsShowWindow = true;
         public static bool isLrcShow = false;
-
+        public static string dataFolder = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"Wrox\Cup Player");
+        public static AppSetting appSetting = null;
         /// <summary>
         /// 热键
         /// </summary>
@@ -49,7 +52,8 @@ namespace Player
             notifyIcon.Icon = Properties.Resources._2628;
             notifyIcon.MouseClick += notifyIcon_MouseClick;
             notifyIcon.MouseDoubleClick+=notifyIcon_MouseDoubleClick;
-
+            LoadHotKey();
+            appSetting = AppSetting.Load();
         }
         public static void LoadHotKey()
         {
@@ -106,7 +110,8 @@ namespace Player
         public static void notifyExit_Click(object sender, EventArgs e)
         {
             setFreeNotifyIcon();
-            Environment.Exit(0);
+            //Environment.Exit(0);
+            System.Windows.Application.Current.Shutdown(-1);
         }
 
         /// <summary>
@@ -114,8 +119,11 @@ namespace Player
         /// </summary>
         public static void setFreeNotifyIcon()
         {
-            notifyIcon.Visible = false;
-            notifyIcon.Dispose();
+            if (notifyIcon != null)
+            {
+                notifyIcon.Visible = false;
+                notifyIcon.Dispose();
+            }
         }
         /// <summary>
         /// 打开或关闭 Desktop Lyrics

@@ -17,11 +17,7 @@ namespace Player.HotKey
     public class HotKeys : Dictionary<Player.PlayController.Commands, HotKey>
     {
         /// <summary>
-        /// 数据保存文件夹
-        /// </summary>
-        private static string _dataFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"K.F.Storm\豆瓣电台");
-        /// <summary>
-        /// 当发生注册错误时发生
+        /// 注册发生错误
         /// </summary>
         public static event EventHandler<RegisterErrorEventArgs> RegisterError;
         void RaiseRegisterErrorEvent(List<Exception> exceptions)
@@ -82,7 +78,7 @@ namespace Player.HotKey
             HotKeys hotKeys = null;
             try
             {
-                using (FileStream stream = File.OpenRead(Path.Combine(_dataFolder, "HotKeys.dat")))
+                using (FileStream stream = File.OpenRead(Path.Combine(AppPropertys.dataFolder, "HotKeys.dat")))
                 {
                     BinaryFormatter formatter = new BinaryFormatter();
                     hotKeys = (HotKeys)formatter.Deserialize(stream);
@@ -101,9 +97,9 @@ namespace Player.HotKey
         {
             try
             {
-                if (!Directory.Exists(_dataFolder))
-                    Directory.CreateDirectory(_dataFolder);
-                using (FileStream stream = File.OpenWrite(Path.Combine(_dataFolder, "HotKeys.dat")))
+                if (!Directory.Exists(AppPropertys.dataFolder))
+                    Directory.CreateDirectory(AppPropertys.dataFolder);
+                using (FileStream stream = File.OpenWrite(Path.Combine(AppPropertys.dataFolder, "HotKeys.dat")))
                 {
                     BinaryFormatter formatter = new BinaryFormatter();
                     formatter.Serialize(stream, this);

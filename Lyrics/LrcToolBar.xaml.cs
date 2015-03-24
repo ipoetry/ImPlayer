@@ -34,12 +34,12 @@ namespace Lyrics
             if (btnPlay.ToolTip.ToString() != "播放")
             {
                 LrcController.SetButtonChanged(sender, 2);
-                LrcController.setPlay();
+                LrcController.SetPlay();
             }
             else
             {
                 LrcController.SetButtonChanged(sender, 3);
-                LrcController.setPause();
+                LrcController.SetPause();
             }
         }
 
@@ -53,6 +53,7 @@ namespace Lyrics
         {
             LrcController.SetButtonChanged(sender, 0);
         }
+
         private void skin_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             LrcController.SkinIndex = this.skin.SelectedIndex;

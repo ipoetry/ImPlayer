@@ -1,0 +1,79 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Style x:Key="ClearButtonTextBox" TargetType="{x:Type TextBox}">
+        <Setter Property="TextAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TextBox}">
+                    <Border CornerRadius="0" BorderBrush="Silver" BorderThickness="1" Padding="0,0,3,0" 
+Background="{TemplateBinding Background}">
+                        <DockPanel LastChildFill="True">
+                            <Button Width="16" Height="16" x:Name="PART_ContentHostClearButton"
+ DockPanel.Dock="Right" HorizontalAlignment="Right" Background="#666666">
+                                <Button.Template>
+                                    <ControlTemplate TargetType="{x:Type Button}">
+                                        <Border x:Name="PART_Border" CornerRadius="0,3,0,3" 
+BorderBrush="Transparent" BorderThickness="0" Padding="2">
+                                            <Path x:Name="PART_Path" Data="M6,6 L6,6 10,10 M10,6 L10,6 6,10"
+ Fill="Gray" Stretch="Fill" Stroke="Gray" StrokeThickness="2" HorizontalAlignment="Center"
+ VerticalAlignment="Center" />
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                
+                                            <Setter Property="Stroke" TargetName="PART_Path" 
+Value="#FFBA3232" />
+                                            </Trigger>
+                                            <Trigger Property="IsPressed" Value="True">
+                                                <Setter Property="UIElement.Effect">
+                                                    <Setter.Value>
+                                                        <DropShadowEffect BlurRadius="10" 
+Color="Black" Direction="0" Opacity="0.6" RenderingBias="Performance" ShadowDepth="0" />
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Trigger>
+                                            <Trigger Property="IsFocused" Value="True" />
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+                            <ScrollViewer DockPanel.Dock="Left" x:Name="PART_ContentHost" 
+Background="{TemplateBinding Background}"/>
+                        </DockPanel>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <!--当点击清除按钮后，清空文本框中的内容-->
+                        <DataTrigger Binding="{Binding ElementName=PART_ContentHostClearButton,
+Path=IsPressed}" Value="True">
+                            <Setter Property="Text" Value="{x:Null}"/>
+                        </DataTrigger>
+                        <!--当文本框中有内容的时候显示清除按钮-->
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding RelativeSource={RelativeSource Mode=Self},
+Path=Text.Length}" Value="0"/>
+                                <Condition Binding="{Binding RelativeSource={RelativeSource Mode=Self},
+Path=IsFocused}" Value="False"/>
+                            </MultiDataTrigger.Conditions>
+                            <MultiDataTrigger.Setters>
+                                <Setter TargetName="PART_ContentHostClearButton" Property="Visibility"
+ Value="Collapsed" />
+                                <Setter TargetName="PART_ContentHost" Property="Background">
+                                    <Setter.Value>
+                                        <VisualBrush Opacity="0.4" Stretch="None">
+                                            <VisualBrush.Visual>
+                                                <TextBlock Text="请键入搜索内容" FontSize="12" 
+HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White"/>
+                                            </VisualBrush.Visual>
+                                        </VisualBrush>
+                                    </Setter.Value>
+                                </Setter>
+                            </MultiDataTrigger.Setters>
+                        </MultiDataTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

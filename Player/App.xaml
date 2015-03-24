@@ -13,6 +13,7 @@
                 <ResourceDictionary Source="./ViewStyle/NoResize_window.xaml"/>
                 <ResourceDictionary Source="./ViewStyle/Hometab.xaml"/>
                 <ResourceDictionary Source="./ViewStyle/TabItem.xaml"/>
+                <ResourceDictionary Source="./ViewStyle/SerachTextBox.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <Player_Core:PlayController x:Key="Player"/>
         </ResourceDictionary>

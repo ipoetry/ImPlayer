@@ -95,7 +95,7 @@ namespace BassCore
 		/// <summary>
 		/// 音量
 		/// </summary>
-		private double volume=0.3;
+		private double volume;
 		/// <summary>
 		/// 是否静音
 		/// </summary>
@@ -429,7 +429,6 @@ namespace BassCore
                     break;
                 case ".aac":
                     handle = Un4seen.Bass.AddOn.Aac.BassAac.BASS_AAC_StreamCreateFile(filename, 0, 0, Un4seen.Bass.BASSFlag.BASS_DEFAULT);
-
                     break;
                 case ".m4a":
                     handle = Un4seen.Bass.AddOn.Aac.BassAac.BASS_MP4_StreamCreateFile(filename, 0, 0, Un4seen.Bass.BASSFlag.BASS_DEFAULT);

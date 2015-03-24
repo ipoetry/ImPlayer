@@ -109,7 +109,7 @@ namespace Player
                 retMouse = UnhookWindowsHookEx(hMouseHook);
                 hMouseHook = 0;
             } 
-            if (!(retMouse)) throw new Exception("UnhookWindowsHookEx failed.");
+           // if (!(retMouse)) throw new Exception("UnhookWindowsHookEx failed.");
         }
 
         private int MouseHookProc(int nCode, Int32 wParam, IntPtr lParam)

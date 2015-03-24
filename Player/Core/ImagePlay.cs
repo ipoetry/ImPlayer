@@ -127,7 +127,6 @@ namespace Player
                 }
                 prePPTImage.BeginAnimation(OpacityProperty, daPrePPTImage);
                 nowPPTImage.BeginAnimation(OpacityProperty, daNowPPTImage);
-
             }
             else
             {

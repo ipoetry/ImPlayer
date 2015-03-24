@@ -3,7 +3,9 @@ using Player.HotKey;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -20,7 +22,7 @@ namespace Player.Setting
     /// <summary>
     /// SettingPage.xaml 的交互逻辑
     /// </summary>
-    public delegate void SettingReloadDelegate();
+    public delegate void SettingReloadDelegate(HotKeys HotKeys);
     public partial class SettingPage : Window
     {
         /// <summary>
@@ -38,26 +40,21 @@ namespace Player.Setting
         public SettingPage(HotKeys hotKeys)
         {
             #region FileType Init
-            Items.Add(new DataItem() { Name = "AAC 音频文件(.aac)" });
-            Items.Add(new DataItem() { Name = "MP4 音频文件(.m4a)" });
-            Items.Add(new DataItem() { Name = "MP3 音频文件(.mp3)" });
-            Items.Add(new DataItem() { Name = "Money's Audio 音频文件(.ape)" });
-            Items.Add(new DataItem() { Name = "FLAC音频文件(.flac)" });
-            Items.Add(new DataItem() { Name = "Windows Media 音频文件(.wma)" });
-            Items.Add(new DataItem() { Name = "Wave Audio 音频文件(.wav)" });
-            Items.Add(new DataItem() { Name = "Voribs/OGG 音频文件(.ogg)" });
+            FileRegisterLoad();
             #endregion
             InitializeComponent();
             #region 读取热键
             HotKeys = hotKeys;
-            if (hotKeys == null) { return; }
-            foreach (var child in this.yy.Children)
+            if (hotKeys != null)
             {
-                if (child is HotKeySettingControl)
+                foreach (var child in this.yy.Children)
                 {
-                    HotKeySettingControl setting = child as HotKeySettingControl;
-                    if (hotKeys.ContainsKey(setting.Command))
-                        setting.HotKey = hotKeys[setting.Command];
+                    if (child is HotKeySettingControl)
+                    {
+                        HotKeySettingControl setting = child as HotKeySettingControl;
+                        if (hotKeys.ContainsKey(setting.Command))
+                            setting.HotKey = hotKeys[setting.Command];
+                    }
                 }
             }
             #endregion
@@ -67,16 +64,16 @@ namespace Player.Setting
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
             #region 保存热键
-            //HotKeys.Clear();
-            //foreach (var child in this.yy.Children)
-            //{
-            //    if (child is HotKeySettingControl)
-            //    {
-            //        HotKeySettingControl setting = child as HotKeySettingControl;
-            //        if (setting.HotKey != null)
-            //            HotKeys.Add(setting.Command, setting.HotKey);
-            //    }
-            //}
+            HotKeys.Clear();
+            foreach (var child in this.yy.Children)
+            {
+                if (child is HotKeySettingControl)
+                {
+                    HotKeySettingControl setting = child as HotKeySettingControl;
+                    if (setting.HotKey != null)
+                        HotKeys.Add(setting.Command, setting.HotKey);
+                }
+            }
             #endregion
 
             #region 类型关联
@@ -89,12 +86,13 @@ namespace Player.Setting
             fileTypes.AddRange(Items.Where(item => item.IsEnabled).Select(ss => ss.Name.Substring(ss.Name.IndexOf('(')+1).Trim(')')));
             TypeRegsiter.Regsiter(dir + "\\Player.exe",dir + "\\Symbian_Anna.dll", fileTypes);
           //  TypeRegsiter.Regsiter(fileTypes);  //TODO
+            FileRegisterSave();
             #endregion
             this.Close();
 
             if (SettingReloadHandler != null)
             {
-                SettingReloadHandler();
+                SettingReloadHandler(HotKeys);
             }
         }
 
@@ -126,9 +124,67 @@ namespace Player.Setting
         {
 
         }
+
         public static string GetCurrentVersion()
         {
            return System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
         }
+
+        #region
+
+        /// <summary>
+        /// 加载文件类型关联设置
+        /// </summary>
+         void FileRegisterLoad()
+        {
+            try
+            {
+                using (FileStream stream = File.OpenRead(System.IO.Path.Combine(AppPropertys.dataFolder, "FileTypeRegister.dat")))
+                {
+                    BinaryFormatter formatter = new BinaryFormatter();
+                    Items = (ObservableCollection<DataItem>)formatter.Deserialize(stream);
+                }
+            }
+            catch
+            {
+                Items.Add(new DataItem() { Name = "AAC 音频文件(.aac)" });
+                Items.Add(new DataItem() { Name = "MP4 音频文件(.m4a)" });
+                Items.Add(new DataItem() { Name = "MP3 音频文件(.mp3)" });
+                Items.Add(new DataItem() { Name = "Money's Audio 音频文件(.ape)" });
+                Items.Add(new DataItem() { Name = "FLAC音频文件(.flac)" });
+                Items.Add(new DataItem() { Name = "Windows Media 音频文件(.wma)" });
+                Items.Add(new DataItem() { Name = "Wave Audio 音频文件(.wav)" });
+                Items.Add(new DataItem() { Name = "Voribs/OGG 音频文件(.ogg)" });
+            }
+        }
+        /// <summary>
+         /// 保存文件类型关联设置
+        /// </summary>
+         void FileRegisterSave()
+        {
+            try
+            {
+                if (!Directory.Exists(AppPropertys.dataFolder))
+                    Directory.CreateDirectory(AppPropertys.dataFolder);
+                using (FileStream stream = File.OpenWrite(System.IO.Path.Combine(AppPropertys.dataFolder, "FileTypeRegister.dat")))
+                {
+                    BinaryFormatter formatter = new BinaryFormatter();
+                    formatter.Serialize(stream, Items);
+                }
+            }
+            catch { }
+        }
+
+        #endregion
+
+         private void Button_Click(object sender, RoutedEventArgs e)
+         {
+             this.Close();
+         }
+
+         private void Label_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+         {
+             this.Close();
+         }
     }
 }

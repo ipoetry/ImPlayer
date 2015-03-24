@@ -126,7 +126,7 @@ namespace Player
             }
             else
             {
-                //Application app = new Application(); 通用
+
                 Player.App app = new App(); //本项目中APP
                 app.InitializeComponent();  //初始化资源
                 string[] cmds = Environment.GetCommandLineArgs();

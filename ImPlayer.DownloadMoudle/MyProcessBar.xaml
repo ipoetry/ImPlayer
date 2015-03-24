@@ -1,0 +1,22 @@
+﻿<UserControl x:Class="ImPlayer.DownloadMoudle.MyProcessBar"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" xmlns:local="clr-namespace:ImPlayer.DownloadMoudle.MyConvert"    
+             d:DesignHeight="52" d:DesignWidth="180" SizeChanged="UserControl_SizeChanged" Loaded="UserControl_Loaded">
+    <UserControl.Resources>
+        <local:DoubleToWidth x:Key="DoubleToWidth"/>
+        <local:DoubleToString x:Key="DoubleToString"/>
+    </UserControl.Resources>
+    <Grid ClipToBounds="True" Height="30" Width="180" Name="yy">
+        <Border Name="border" HorizontalAlignment="Stretch" Height="20"  BorderThickness="1" BorderBrush="#FF66FFCC">
+            <Grid Name="grid" HorizontalAlignment="Left"  Height="20" Margin="0,0,0,0" Width="{Binding Value,Converter={StaticResource DoubleToWidth}}">
+                <StackPanel Name="stackPanel" Margin="-5,0,0,0" ClipToBounds="True" Orientation="Horizontal">
+                </StackPanel>
+            </Grid>
+        </Border>
+        <Label Name="Process" FontSize="12" Content="{Binding Value,Converter={StaticResource DoubleToString}}" Foreground="#666666"  Margin="5,0" Width="55" HorizontalAlignment="Right" VerticalAlignment="Center"></Label>
+        <Label Content="已暂停" FontSize="12" Visibility="Collapsed" Name="State" Foreground="#666666"  Margin="10,0" Width="60" HorizontalAlignment="Left" VerticalAlignment="Center"></Label>
+    </Grid>
+</UserControl>

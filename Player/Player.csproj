@@ -52,6 +52,7 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -81,6 +82,7 @@
     <Compile Include="Program.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Setting\AppSetting.cs" />
     <Compile Include="Setting\CheckBoxProperty.cs" />
     <Compile Include="Setting\DataItem.cs" />
     <Compile Include="Setting\SettingPage.xaml.cs">
@@ -144,6 +146,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="ViewStyle\NoResize_Window.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ViewStyle\SerachTextBox.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -216,6 +222,10 @@
     <ProjectReference Include="..\ImPalyer.FM\ImPalyer.FM.csproj">
       <Project>{DBE68D29-0472-43ED-B516-988638ED9DE4}</Project>
       <Name>ImPalyer.FM</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ImPlayer.DownloadMoudle\ImPlayer.DownloadMoudle.csproj">
+      <Project>{52e8b043-d63a-4c51-8149-61ba72730cf4}</Project>
+      <Name>ImPlayer.DownloadMoudle</Name>
     </ProjectReference>
     <ProjectReference Include="..\Lyrics\Lyrics.csproj">
       <Project>{5a3fe620-1ef7-42cd-b6ba-e8c9375d4996}</Project>
