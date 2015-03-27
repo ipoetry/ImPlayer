@@ -25,6 +25,7 @@ namespace Player
         {
             InitializeComponent();
         }
+
         private void btnPlayMode_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             
@@ -100,6 +101,7 @@ namespace Player
             double pos = p.X / ChanelLength.Width * (PlayController.bassEng.ChannelLength.TotalSeconds <= 0 ? 300 : PlayController.bassEng.ChannelLength.TotalSeconds);
             Canvas.SetLeft(thumb2, p.X);
         }
+
         private void CurLen_MouseDown(object sender, MouseButtonEventArgs e)
         {
             Point p = e.GetPosition((Rectangle)sender);
@@ -119,7 +121,6 @@ namespace Player
 
         private void btnF_Click(object sender, RoutedEventArgs e)
         {
-
             if (AppPropertys.mainWindow.isPPTPlaying)
             { 
                 AppPropertys.mainWindow.StopPlayPPT();
@@ -129,6 +130,7 @@ namespace Player
                 AppPropertys.mainWindow.PlayPPT(PlayController.Songs[PlayController.PlayIndex]);
             }
         }
+
         public void btnMute_Click(object sender, RoutedEventArgs e)
         {
             PlayController.setMute();
@@ -136,9 +138,7 @@ namespace Player
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-           // Canvas.SetLeft(thumb, PlayController.bassEng.Volume);
             thumb2.DataContext = Player.PlayController.bassEng;
-            
             BindingOperations.SetBinding(CurLen, Rectangle.WidthProperty,
                 new Binding
                 {
@@ -153,17 +153,21 @@ namespace Player
                    Mode=BindingMode.TwoWay
                });
         }
+
         private void btnLrcShow_MouseDown(object sender, MouseEventArgs e)
         {
-            if (!AppPropertys.isLrcShow)
+           AppPropertys.SetLrcShow();
+        }
+
+        private void btnPicShow_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (AppPropertys.mainWindow.isPPTPlaying)
             {
-                LrcController.ShowLrc();
-                AppPropertys.isLrcShow = true;
+                AppPropertys.mainWindow.StopPlayPPT();
             }
             else
             {
-                LrcController.CloseLrc();
-                AppPropertys.isLrcShow = false;
+                AppPropertys.mainWindow.PlayPPT(PlayController.Songs[PlayController.PlayIndex]);
             }
         }
 

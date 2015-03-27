@@ -200,6 +200,7 @@
             </Style.Triggers>
         </Style>
     </UserControl.Resources>
+    
     <Grid MouseEnter="Border_MouseEnter" MouseLeave="Border_MouseLeave">
         <Grid.RowDefinitions>
             <RowDefinition Height="10*"/>
@@ -277,10 +278,6 @@
                                 <Image Name="img" Source="/Player;component/Imgs/nowplaynext_normal.png"/>
                             </Border>
                             <ControlTemplate.Triggers>
-                                <!--<Trigger Property="IsEnabled" Value="False">
-                                    <Setter TargetName="img" Property="Source" Value="/Player;component/Images/zoomOutGrey.png">
-                                    </Setter>
-                                </Trigger>-->
                                 <Trigger Property="IsMouseOver" Value="True">
                                     <Setter TargetName="img" Property="Source" Value="/Player;component/Imgs/nowplaynext_pressed.png">
                                     </Setter>
@@ -292,12 +289,9 @@
                 <Button  Grid.Column="6" Width="24" Height="24" Name="btnMute" Click="btnMute_Click"  Cursor="Hand" ToolTip="静音">
                 </Button>
                 <Slider Name="soundSlider"  Style="{StaticResource Slider_CustomStyle}" Maximum="1" Minimum="0"  Grid.Column="6"  Cursor="Hand" Width="110" Height="8"  HorizontalAlignment="Left" Margin="53,16,0,16" Grid.ColumnSpan="2" />
-                <Image x:Name="btnPlayMode" Grid.Column="1" Style="{StaticResource single}" Width="30" Height="30" Tag="1"  Stretch="Fill" Cursor="Hand"  MouseLeftButtonDown="btnPlayMode_MouseLeftButtonDown" ToolTip="循环播放">
-                    <!--<Image.ToolTip>
-                        <ToolTip Name="playmodeTT"></ToolTip>
-                    </Image.ToolTip>-->
-                </Image>
-                <Button  Grid.Column="2" Width="32" Height="32" Name="btnF" Click="btnF_Click" Cursor="Hand">
+                <Image x:Name="btnPlayMode" Grid.Column="2" Style="{StaticResource single}" Width="30" Height="30" Tag="1"  Stretch="Fill" Cursor="Hand"  MouseLeftButtonDown="btnPlayMode_MouseLeftButtonDown" ToolTip="循环播放"/>
+
+                <!--<Button  Grid.Column="2" Width="32" Height="32" Name="btnF" Click="btnF_Click" Cursor="Hand">
                     <Button.Template>
                         <ControlTemplate TargetType="{x:Type Button}">
                             <Border>
@@ -311,8 +305,10 @@
                             </ControlTemplate.Triggers>
                         </ControlTemplate>
                     </Button.Template>
-                </Button>
+                </Button>-->
+                
                 <Label Grid.Column="0" Cursor="Hand" Margin="15,5,0,0"  Content="词" FontSize="26" FontFamily="华文彩云" Style="{StaticResource lrcCon}" MouseDown="btnLrcShow_MouseDown" ToolTip="歌词"></Label>
+                <Label Grid.Column="1" Cursor="Hand" Margin="15,5,0,0"  Content="图" FontSize="26" FontFamily="华文彩云" Style="{StaticResource lrcCon}" MouseDown="btnPicShow_MouseDown" ToolTip="写真"></Label> 
             </Grid>
         </StackPanel>
     </Grid>

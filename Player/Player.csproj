@@ -32,6 +32,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>2628.ico</ApplicationIcon>
@@ -43,9 +44,8 @@
     <Reference Include="Bass.Net, Version=2.4.10.3, Culture=neutral, PublicKeyToken=b7566c273e6ef480, processorArchitecture=MSIL">
       <HintPath>C:\Users\MicroSense\Desktop\Bass.Net.dll</HintPath>
     </Reference>
-    <Reference Include="Hardcodet.Wpf.TaskbarNotification, Version=1.0.5.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Hardcodet.Wpf.TaskbarNotification.dll</HintPath>
+    <Reference Include="Hardcodet.Wpf.TaskbarNotification">
+      <HintPath>bin\Debug\Hardcodet.Wpf.TaskbarNotification.dll</HintPath>
     </Reference>
     <Reference Include="PresentationFramework.Classic" />
     <Reference Include="System" />
@@ -67,9 +67,8 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="WPFSoundVisualizationLib, Version=0.3.4442.43191, Culture=neutral, PublicKeyToken=eb44ed7102b4fcc1, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\WPFSVL\Samples\BASS.NET\WPFSoundVisualizationLib.dll</HintPath>
+    <Reference Include="WPFSoundVisualizationLib">
+      <HintPath>bin\Debug\WPFSoundVisualizationLib.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -234,6 +233,10 @@
     <ProjectReference Include="..\SingerImgDl\ArtistPic.csproj">
       <Project>{5a9c400e-ece7-4eec-abbd-084bc23d5f77}</Project>
       <Name>ArtistPic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Win8Toast\Win8Toast.csproj">
+      <Project>{85b3bdd3-18fb-4074-af05-ac5e988de6c7}</Project>
+      <Name>Win8Toast</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -1,4 +1,5 @@
-﻿using Player.FileTypeAssocion;
+﻿using Microsoft.Win32;
+using Player.FileTypeAssocion;
 using Player.HotKey;
 using System;
 using System.Collections.Generic;
@@ -185,6 +186,23 @@ namespace Player.Setting
          private void Label_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
          {
              this.Close();
+         }
+
+         private void isAutoStart_Checked(object sender, RoutedEventArgs e)
+         {
+             string path = System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName;
+             RegistryKey rKey = Registry.LocalMachine;
+             RegistryKey rKey2 = rKey.CreateSubKey(@"Software\Microsoft\Windows\CurrentVersion\Run");
+             if ((bool)isAutoStart.IsChecked)  
+             {
+                 rKey2.SetValue("Cup Player", path);
+             }
+             else   
+             {
+                 rKey2.DeleteValue("Cup Player", false);
+             }
+             rKey2.Close();
+             rKey.Close();
          }
     }
 }

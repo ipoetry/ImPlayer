@@ -203,6 +203,7 @@
                                         <RowDefinition Height="130*"/>
                                     </Grid.RowDefinitions>
                                     <TextBlock Grid.Row="0" Foreground="White" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center" Name="titleTB">歌曲列表</TextBlock>
+                                    
                                     <Border Margin="10,0" Grid.RowSpan="2" Grid.Row="0" BorderThickness="0" BorderBrush="White">
                                         <Grid>
                                             <Grid.RowDefinitions>
@@ -211,7 +212,7 @@
                                                 <RowDefinition Height="28*"/>
                                             </Grid.RowDefinitions>
                                             <TextBox Name="searchTB" Grid.Row="0" Width="150" Height="0" Margin="0,2" Opacity="1"></TextBox>
-                                            <ListBox Name="playListBox"  Grid.Row="1" Drop="playListBox_Drop" DragEnter="playListBox_DragEnter" AllowDrop="true" MouseDoubleClick="playListBox_MouseDoubleClick"  >
+                                            <ListBox Name="playListBox"  Grid.Row="1" Drop="playListBox_Drop" DragEnter="playListBox_DragEnter" AllowDrop="true" MouseDoubleClick="playListBox_MouseDoubleClick"  ScrollViewer.HorizontalScrollBarVisibility="Disabled" >
                                                 <ListBox.ContextMenu>
                                                     <ContextMenu>
                                                         <MenuItem Header="播放" Click="btn_Play">
@@ -253,12 +254,10 @@
                                                     </ContextMenu>
                                                 </ListBox.ContextMenu>
                                             </ListBox>
-                                            <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="100,0,189,0" VerticalAlignment="Center">
-                                                <!--<Image Name="btnAddSong" Style="{StaticResource imageStyle}" MouseLeftButtonDown="SongAdd_Click" Source="./Images/list_on.png" ToolTip="添加" Cursor="Hand" Margin="18,0,0,0" Width="28" Height="28" ></Image>
-                                                <Image Name="btnDelSong" Style="{StaticResource imageStyle}" MouseLeftButtonDown="SongRemove_Click" Source="./Images/delete_on.png" ToolTip="移除歌曲" Cursor="Hand" Margin="10,0,0,0" Width="28" Height="28"></Image>-->
-                                                <TextBox Width="150" Background="Transparent" FontWeight="Bold" Foreground="White" Opacity="0.8" Margin="0" HorizontalAlignment="Left" VerticalAlignment="Center" Style="{StaticResource ClearButtonTextBox}"></TextBox>
-                                                <Button Content="搜索" Foreground="White" Background="Transparent"></Button>
-                                                <Button Content="下载" Foreground="White" Background="Transparent"></Button>
+                                            <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="40,0,189,0" VerticalAlignment="Center">
+                                                <TextBox Width="150" Background="Transparent" FontWeight="Bold" Foreground="White" Opacity="0.8" Margin="0" HorizontalAlignment="Left" VerticalAlignment="Center" Style="{StaticResource ClearButtonTextBox}" Name="SearchTeacBox"></TextBox>
+                                                <Button Content="本地搜索" Foreground="White" Background="Transparent" Name="btnLocalSerach" Click="btnLocalSerach_Click"></Button>
+                                                <Button Content="网络搜索" Foreground="White" Background="Transparent" Name="btnInternetSearch" Click="btnInternetSearch_Click"></Button>
                                             </StackPanel>
                                         </Grid>
                                     </Border>
@@ -274,5 +273,6 @@
                 <notify:BalloonSongInfo/>
             </tb:TaskbarIcon.TrayToolTip>
         </tb:TaskbarIcon>
+        <ProgressBar Grid.Row="1" Minimum="0" Name="loadProcess"  Height="5" Background="Transparent" IsIndeterminate="False" Margin="0,-20,0,0" Width="500" HorizontalAlignment="Center" VerticalAlignment="Bottom" Visibility="Collapsed" />
     </Grid>
 </Window>

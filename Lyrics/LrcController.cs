@@ -351,8 +351,7 @@ namespace Lyrics
             if (lrcWindow != null)
             { 
                 lrcWindow.Init(defaultText);
-                lrcWindow.Show();
-               
+                lrcWindow.Show(); 
             }
             else
             {

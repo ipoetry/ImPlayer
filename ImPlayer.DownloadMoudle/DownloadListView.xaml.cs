@@ -66,7 +66,6 @@ namespace ImPlayer.DownloadMoudle
         [DllImport("user32.dll")]
         public static extern bool FlashWindow(IntPtr hWnd, bool bInvert);
 
-
         public DownloadListView()
         {
             InitializeComponent();
@@ -152,7 +151,7 @@ namespace ImPlayer.DownloadMoudle
 
         public void RemoveSelections()
         {
-            if (MessageBox.Show("Are you sure that you want to remove selected downloads?", "Tip", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            if (MessageBox.Show("确定移除?", "提示", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
             {
                 try
                 {
@@ -258,21 +257,10 @@ namespace ImPlayer.DownloadMoudle
 
             bool isSelected = dlIngList.SelectedItems.Count > 0;
 
-            //  removeToolStripMenuItem.Enabled = isSelected;
-            // startToolStripMenuItem.Enabled = isSelected;
-            // pauseToolStripMenuItem.Enabled = isSelected;
-
             isSelected = dlIngList.SelectedItems.Count == 1;
-            // copyURLToClipboardToolStripMenuItem.Enabled = isSelected;
-
-            //  showInExplorerToolStripMenuItem.Enabled = isSelected;
-            // openFileToolStripMenuItem.Enabled = isSelected && SelectedDownloaders[0].State == DownloaderState.Ended;
-        #endregion
 
             OnSelectionChange();
         }
-
-        #region
 
         public event EventHandler SelectionChange;
 
@@ -338,12 +326,6 @@ namespace ImPlayer.DownloadMoudle
                 DownLoadFileInfo item = mapDownloadToObj[e.Downloader] as DownLoadFileInfo;
                 if (item != null)
                 {
-                    //if (item.IsSelected)
-                    //{
-                    //    lastSelection = null;
-                    //    dlIngList.SelectedItems.Clear();
-                    //    DownloadingList.Remove(item as DownLoadFileInfo);
-                    //}
                     DownloadingList.Remove(item);
                     mapDownloadToObj[e.Downloader] = null;
                     mapObjToDownload[item] = null;
@@ -454,7 +436,6 @@ namespace ImPlayer.DownloadMoudle
         }
 
 
-
         private void newDownloadToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //  NewFileDownload(null, true);
@@ -482,10 +463,10 @@ namespace ImPlayer.DownloadMoudle
         }
         #endregion
 
-        private void bgBtn_Click(object sender, RoutedEventArgs e)
+        private async void bgBtn_Click(object sender, RoutedEventArgs e)
         {
             DownLoadFileInfo dl = dlIngList.SelectedItem as DownLoadFileInfo;
-            if (dl == null) { return; }
+            if (dl == null|| await Win8Toast.PopupTip.CheckNetWork()) { return; }
             System.Windows.Controls.Button btn = sender as System.Windows.Controls.Button;
             string content = btn.Content.ToString();
             if (content == "开始" || content == "继续")

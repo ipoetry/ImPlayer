@@ -25,6 +25,7 @@ using WPFSoundVisualizationLib;
 using ImPlayer.FM.Models;
 using ImPalyer.FM.Views;
 using Player.HotKey;
+using ImPlayer.DownloadMoudle;
 
 namespace Player
 {
@@ -121,6 +122,7 @@ namespace Player
             }
         }
 
+        #region 反转动画
         /// <summary>
         /// 用来触发面板翻转事件。
         /// </summary>
@@ -292,9 +294,9 @@ namespace Player
                 playlistGrid.Visibility = System.Windows.Visibility.Hidden;
             }
         }
+        #endregion
+
         #region 事件响应业务代码块
-
-
         /// <summary>
         /// 用来触发面板翻转事件。
         /// </summary>
@@ -362,16 +364,6 @@ namespace Player
 
         #endregion
 
-        private void SongAdd_Click(object sender, MouseButtonEventArgs e)
-        {
-
-        }
-
-        private void SongRemove_Click(object sender, MouseButtonEventArgs e)
-        {
-
-        }
-
         private void btnMini_MouseDown(object sender,System.Windows.Input.MouseEventArgs e)
         {
             this.WindowState = WindowState.Minimized;
@@ -383,14 +375,13 @@ namespace Player
             System.Windows.Application.Current.Shutdown(-1);
         }
 
-
         private void LoadSongList(string path)
         {
             if (path != "")
             {
                 XmlListPath = path;
             }
-            
+            if (!File.Exists(XmlListPath)) { return; }
             PlayController.sl.LoadXml(XmlListPath);
             PlayController.Songs = PlayController.sl.getICSongList();
             playListBox.Dispatcher.Invoke(new Action(() => playListBox.ItemsSource = PlayController.Songs));
@@ -408,18 +399,17 @@ namespace Player
                     FileInfo fi = new FileInfo(t);
                     if (Common.Common.SupportFormat.Contains(fi.Extension.ToLower()))
                     {
-
-                        if (PlayController.Songs.Contains(new Song(fi.FullName, Common.Common.getTitleFromPath(fi.FullName))))
+                        Song song=PlayController.Songs.FirstOrDefault(s=>s.FileUrl==fi.FullName);
+                        if (song==null)
                         {
-                            playListBox.SelectedItem = playListBox.Items[PlayController.Songs.IndexOf(new Song(fi.FullName, Common.Common.getTitleFromPath(fi.FullName)))];
+                            song = new Song(fi.FullName, Common.Common.getTitleFromPath(fi.FullName));
+                            ReadInfoFromFile(song);
+                            root.AppendChild(CreateElement(xmlDoc, song));
+                            PlayController.Songs.Add(song);
                         }
-                        else
-                        {
-                            Song s = new Song(fi.FullName, Common.Common.getTitleFromPath(fi.FullName));
-                            ReadInfoFromFile(s);
-                            root.AppendChild(CreateElement(xmlDoc, s));
-                            PlayController.Songs.Add(s);
-                        }
+                        playListBox.ScrollIntoView(song);
+                        playListBox.SelectedValue = song;
+                        
                     }
                     else
                     {
@@ -450,6 +440,10 @@ namespace Player
         private XmlDocument InitXml()
         {
             XmlDocument xmlDoc = new XmlDocument();
+            XmlElement xe = xmlDoc.CreateElement("SongList");
+            xe.SetAttribute("name", "2008");
+            xmlDoc.AppendChild(xe);
+            if (!File.Exists(XmlListPath)) {  xmlDoc.Save(XmlListPath); }
             xmlDoc.Load(XmlListPath);
             return xmlDoc;
         }
@@ -489,6 +483,7 @@ namespace Player
         private void folderAdd_Click(object sender, EventArgs e)
         {
             FolderBrowserDialog fbd = new FolderBrowserDialog();
+            fbd.Description = "选择文件夹";
             if (fbd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 Folder_Open(fbd.SelectedPath);
@@ -518,13 +513,7 @@ namespace Player
                     PlayController.Songs.Remove(song);
                 filenames.Add(song.FileName);
             }
-            //foreach (var lbi in list)
-            //{
-            //    Song song = lbi as Song;
-            //    if (song != null)
-            //        PlayController.Songs.Remove(song);
-            //    filenames.Add(song.FileName);
-            //}
+
             PlayController.sl.RemoveNode(filenames.ToArray());
         }
 
@@ -556,19 +545,46 @@ namespace Player
             return files;
         }
 
-        private void Folder_Open(string path)  //没实现多级遍历 
+        private void Folder_Open(string path) 
         {
-            DirectoryInfo dir = new DirectoryInfo(path);
+          //  DirectoryInfo dir = new DirectoryInfo(path);
             //FileInfo[] files = dir.GetFiles("*.mp3", SearchOption.AllDirectories);
-            FileInfo[] files = dir.GetFiles();
+            //FileInfo[] files = dir.GetFiles();
+            EnumAllFiles(path);
+            FileInfo[] files = AllFiles.ToArray();
             if (files != null)
             {
-                //   notifyForm.ShowDialog();
                 worker.RunWorkerAsync(files);
                 Debug.Write("Async Start……");
             }
         }
 
+        #region  多级遍历
+        private List<FileInfo> AllFiles = new List<FileInfo>();
+        private  void EnumAllFiles(string dirPath)
+        {
+            List<string> ChildDir = new List<string>();
+            DirectoryInfo Dir = new DirectoryInfo(dirPath);
+            try
+            {
+                foreach (DirectoryInfo d in Dir.GetDirectories())
+                {
+                    EnumAllFiles(Dir + "\\" + d.ToString());
+                    ChildDir.Add(Dir + "\\" + d.ToString());
+                }
+                foreach (FileInfo f in Dir.GetFiles())
+                {
+                    AllFiles.Add(f);
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+        #endregion
+
+        #region 读取和保存信息
         private void ReadInfoFromFile(Song sInfo)
         {
             TAG_INFO tagInfo = new TAG_INFO(sInfo.FileUrl);
@@ -604,27 +620,35 @@ namespace Player
             }
             Pic.Save(dir + Album + ".png", System.Drawing.Imaging.ImageFormat.Png);
         }
+        #endregion
 
         #region  异步加载
         void worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            // notifyForm.SetNotifyInfo(e.ProgressPercentage, e.UserState.ToString());  
+            loadProcess.Dispatcher.Invoke(new Action(() => {
+                loadProcess.Maximum = 100;
+                loadProcess.Visibility = Visibility.Visible;
+                loadProcess.Value = e.ProgressPercentage;
+                loadProcess.ToolTip = "已完成 "+e.ProgressPercentage.ToString()+"%";
+            }));
         }
 
         void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             if (e.Cancelled)
             {
-                //  GC.Collect();
-                //  this.Refresh();
-                //  Application.DoEvents()
                 System.Windows.MessageBox.Show("用户取消了操作");
             }
             else
             {
-                //notifyForm.Close();
-                System.Windows.MessageBox.Show("加载完成");
+                LoadSongList("");
+                loadProcess.Dispatcher.Invoke(new Action(() =>
+                {
+                    loadProcess.Value = 100;
+                    loadProcess.Visibility = Visibility.Collapsed;
+                }));
             }
+            
         }
 
         void worker_DoWork(object sender, DoWorkEventArgs e)
@@ -646,13 +670,13 @@ namespace Player
                     count++;
                 }
                 worker.ReportProgress(count * 100 / files.Count(), Common.Common.getTitleFromPath(file.FullName));
-                System.Threading.Thread.Sleep(0);
+                System.Threading.Thread.Sleep(10);
             }
             xmlDoc.Save(XmlListPath);
         }
 
-      //  private ManualResetEvent manualReset = new ManualResetEvent(true);
         #endregion
+
         void mouse_OnMouseActivity(object sender, System.Windows.Forms.MouseEventArgs e)
         {
             if (e.Button != MouseButtons.None)
@@ -674,19 +698,19 @@ namespace Player
 
         }
 
-        private void Change_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private async void Change_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             if (PlayController.isFM) { FMSongLb.ClearChannels(); LoadSongList(""); PlayController.isFM = false; return; }
-            PlayController.isFM =  FMSongLb.LoadChannels();
+            PlayController.isFM = await FMSongLb.LoadChannels();
             FMSongLb.StartPlayEventHandler += new ImPalyer.FM.Views.MyChannelList.StartPlayDel(FMLoad);
         }
 
         private void FMLoad()
         {
             List<FMSong> FMlist = MyChannelList.TempSongList;
+            if (FMlist == null) { return; }
             Song song=null;
             SongsClear();
-        //    PlayController.Songs.Clear();
             foreach(FMSong fs in FMlist)
             {
                song=new Song{Artist=fs.Artist,Album=fs.AlbumTitle, Title=fs.Title, FileUrl=fs.Url.ToString(),Duration=TimeSpan.FromSeconds(fs.Length),PicUrl=fs.Picture.ToString()};
@@ -840,14 +864,20 @@ namespace Player
 
         public void AddFileAndPlay(string path)
         {
-            XmlDocument xmlDoc = InitXml();
-            XmlNode root = xmlDoc.SelectSingleNode("SongList");
-            Song s = new Song(path, Common.Common.getTitleFromPath(path));
-            ReadInfoFromFile(s);
-            root.AppendChild(CreateElement(xmlDoc, s));
-            PlayController.Songs.Add(s);
-            xmlDoc.Save(XmlListPath);
-            PlayController.PlayMusic(0);
+            Song song = PlayController.Songs.FirstOrDefault(s => s.FileUrl.Replace(" ","") == path);
+            if (song == null)
+            {
+                XmlDocument xmlDoc = InitXml();
+                XmlNode root = xmlDoc.SelectSingleNode("SongList");
+                song = new Song(path, Common.Common.getTitleFromPath(path));
+                ReadInfoFromFile(song);
+                root.AppendChild(CreateElement(xmlDoc, song));
+                PlayController.Songs.Add(song);
+                xmlDoc.Save(XmlListPath);
+            }
+            playListBox.ScrollIntoView(song);
+            playListBox.SelectedValue = song;
+            PlayController.PlayMusic(playListBox.SelectedIndex); 
         }
         #endregion
 
@@ -865,9 +895,24 @@ namespace Player
         }
         #endregion
 
-
-
-
+        #region 搜索
+        private void btnLocalSerach_Click(object sender, RoutedEventArgs e)
+        {
+            string content = SearchTeacBox.Text;
+            if (string.IsNullOrEmpty(content)) { return; }
+            Song song = PlayController.Songs.FirstOrDefault(s =>s.FileName.Contains(content)||s.Artist.Contains(content));
+            if (song != null) {  playListBox.ScrollIntoView(song);playListBox.SelectedValue=song; }
+        }
+        MainWindow SearchWindow = null;
+        private void btnInternetSearch_Click(object sender, RoutedEventArgs e)
+        {
+            if (SearchWindow == null || !SearchWindow.IsLoaded)
+            {
+                SearchWindow = new MainWindow(AppPropertys.appSetting.DownloadFolder);
+            }
+            SearchWindow.ShowWindow(SearchTeacBox.Text);
+        }
+        #endregion
     }
         
 }

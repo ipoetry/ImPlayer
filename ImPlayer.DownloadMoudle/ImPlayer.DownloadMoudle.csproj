@@ -175,6 +175,10 @@
       <Project>{fea18b6c-491f-401a-a06b-ae47888ff288}</Project>
       <Name>MyDownloader.Extension</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Win8Toast\Win8Toast.csproj">
+      <Project>{85b3bdd3-18fb-4074-af05-ac5e988de6c7}</Project>
+      <Name>Win8Toast</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -14,8 +14,6 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using ImPlayer.FM.Models;
 using ImPlayer.FM;
-using Microsoft.Practices.Prism.Commands;
-using Microsoft.Practices.Prism.ViewModel;
 namespace ImPlayer.FM.Views
 {
     /// <summary>
@@ -140,42 +138,6 @@ namespace ImPlayer.FM.Views
             var channel = new Models.Channel() { Id = 0, Name = result.Title, Context = result.Context };
             this.CurrentChannel = channel;
         }
-
-
-
-        #region 命令
-        private DelegateCommand<string> _searchCommand;
-        /// <summary>
-        /// 搜索命令
-        /// </summary>
-        public DelegateCommand<string> SearchCommand
-        {
-            get
-            {
-                if (_searchCommand == null)
-                {
-                    _searchCommand = new DelegateCommand<string>(this.SearchChannel);
-                }
-                return _searchCommand;
-            }
-        }
-        private DelegateCommand _reloadCommand;
-        /// <summary>
-        /// 重新加载频道命令
-        /// </summary>
-        public DelegateCommand ReloadCommand
-        {
-            get
-            {
-                if (_reloadCommand == null)
-                {
-                    _reloadCommand = new DelegateCommand(this.LoadChannels);
-                }
-                return _reloadCommand;
-            }
-        }
-        #endregion
-
 
         #region 方法
         protected void InvokeOnUIDispatcher(Delegate callback, params object[] args)

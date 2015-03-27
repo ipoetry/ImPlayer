@@ -22,7 +22,6 @@ namespace Player
         public static string appPath = AppDomain.CurrentDomain.BaseDirectory;
         public static string logoText = "ImPlayer";
         public static string lrcInitText = "Love Life，Love Music！";
-        public static bool IsShowWindow = true;
         public static bool isLrcShow = false;
         public static string dataFolder = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"Wrox\Cup Player");
         public static AppSetting appSetting = null;
@@ -43,7 +42,6 @@ namespace Player
                 SetProcessWorkingSetSize(System.Diagnostics.Process.GetCurrentProcess().Handle, -1, -1);
             }
         }
-
 
         public static void Initialize()
         {
@@ -82,10 +80,10 @@ namespace Player
                     notifyIcon.Icon = Properties.Resources._2628;
                     break;
                 case 1:
-                    notifyIcon.Icon = Properties.Resources.pause;
+                   // notifyIcon.Icon = Properties.Resources.pause;
                     break;
                 case 2:
-                    notifyIcon.Icon = Properties.Resources.play;
+                  //  notifyIcon.Icon = Properties.Resources.play;
                     break;
             }
         }
@@ -99,7 +97,7 @@ namespace Player
         {
             mainWindow.Show();
             mainWindow.Activate();
-            IsShowWindow = true;
+          //  IsShowWindow = true;
         }
 
         /// <summary>
@@ -128,11 +126,11 @@ namespace Player
         /// <summary>
         /// 打开或关闭 Desktop Lyrics
         /// </summary>
-        static void SetLrcShow()
+        public static void SetLrcShow()
         {
-            if (isLrcShow)
+            if (!isLrcShow)
             {
-                LrcController.lrcWindow.Show();
+                LrcController.ShowLrc();
                 isLrcShow = true;
             }
             else
@@ -143,6 +141,26 @@ namespace Player
             
         }
 
+        private static void notifyIcon_MouseClick(object sender, System.Windows.Forms.MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                Player.MainPage.POINT pit = new Player.MainPage.POINT();
+                Player.MainPage.GetCursorPos(out pit);
+                if (DiyCM == null || DiyCM.IsLoaded)
+                {
+                    DiyCM = new DiyContextMenu();
+                    DiyCM.WindowStartupLocation = WindowStartupLocation.Manual;
+                    DiyCM.Left = pit.X - DiyCM.Width;
+                    DiyCM.Top = pit.Y - DiyCM.Height - 10;
+                    DiyCM.Show();
+                }
+                else
+                { DiyCM.Close(); DiyCM = null; }
+            }
+        }
+
+        #region other
         public static void nofityPlay_Click(object sender, EventArgs e)
         {
             if (PlayController.bassEng.IsPlaying)
@@ -170,24 +188,6 @@ namespace Player
             PlayController.PlayNext();
         }
 
-        private static void notifyIcon_MouseClick(object sender, System.Windows.Forms.MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Right)
-            {
-                Player.MainPage.POINT pit = new Player.MainPage.POINT();
-                Player.MainPage.GetCursorPos(out pit);
-                if (DiyCM == null || DiyCM.IsLoaded)
-                {
-                    DiyCM = new DiyContextMenu();
-                    DiyCM.WindowStartupLocation = WindowStartupLocation.Manual;
-                    DiyCM.Left = pit.X - DiyCM.Width;
-                    DiyCM.Top = pit.Y - DiyCM.Height - 10;
-                    DiyCM.Show();
-                }
-                else
-                { DiyCM.Close(); DiyCM = null; }
-            }
-        }
-        
+        #endregion
     }
 }

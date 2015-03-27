@@ -77,14 +77,14 @@ namespace ImPlayer.DownloadMoudle
             //Button btn = (Button)sender;
             //SearchSongResultById dsr = await BaiduMusicOp.GetMusicUrl(btn.Tag.ToString());
             //System.Diagnostics.Process.Start(AppDomain.CurrentDomain.BaseDirectory+"//Player.exe",dsr.Bitrate[0].file_link);
-            MessageBox.Show("暂时无法");
+            Win8Toast.PopupTip.ShowPopUp("暂时不提供……");
         }
 
         List<BdSong> Songs = null;
-        private void searchBtn_Click(object sender, RoutedEventArgs e)
+        private async void searchBtn_Click(object sender, RoutedEventArgs e)
         {
             searchStr = SearchText.Text;
-            if (searchStr == "") return;
+            if (searchStr == ""|| await Win8Toast.PopupTip.CheckNetWork()) return;
             Tip.Visibility = Visibility.Collapsed;
             this.dd.ItemsSource = null;
             searchBtn.IsEnabled = false;
@@ -231,6 +231,12 @@ namespace ImPlayer.DownloadMoudle
         private void Label_MouseLeftButtonDown_1(object sender, MouseButtonEventArgs e)
         {
             this.WindowState = this.WindowState != WindowState.Minimized ? WindowState.Minimized : WindowState.Normal;
+        }
+        public void ShowWindow(string key)
+        {
+            this.SearchText.Text = key;
+            this.Show();
+            this.searchBtn_Click(null,null);
         }
     }
 }

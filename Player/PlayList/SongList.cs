@@ -107,18 +107,7 @@ namespace Player
             XmlElement xe= GetXmlRootElement();
             return xe.ChildNodes.Count;
         }
-        /// <summary>
-        /// 获取指定元素的值
-        /// </summary>
-        /// <param name="xe"></param>
-        /// <param name="attribute">XmlElement对象</param>
-        /// <returns></returns>
 
-        /// <summary>
-        /// 获取指定歌曲的url
-        /// </summary>
-        /// <param name="xe">XmlElement对象</param>
-        /// <returns></returns>
         /// <summary>
         /// 获取指定音乐节点
         /// </summary>
@@ -200,37 +189,16 @@ namespace Player
             return songs;
         }
 
-        public void SavePicToXml(Image Pic,string fileName)
-        {
-            try
-            {
-                Byte[] FileByteArray = ImageToStream(Pic); 
-
-                //XmlElement xesub5 = xmlDoc.CreateElement("ImageData");
-                //xesub5.InnerText = Convert.ToBase64String(FileByteArray);
-
-            }
-            catch
-            {
-            }
-        }
-
-        public void ReadPicFromXml(string Title)
-        {
-         //   Convert.FromBase64String(strData)   //回转为byte数组
-
-        }
-
         private Byte[] ImageToStream(Image Pic)
         {
             using(System.IO.MemoryStream Ms = new MemoryStream())
             {
-            Pic.Save(Ms, System.Drawing.Imaging.ImageFormat.Png);
-            byte[] img = new byte[Ms.Length];
-            Ms.Position = 0;
-            Ms.Read(img, 0, Convert.ToInt32(Ms.Length));
-            Ms.Close();
-            return img;
+                Pic.Save(Ms, System.Drawing.Imaging.ImageFormat.Png);
+                byte[] img = new byte[Ms.Length];
+                Ms.Position = 0;
+                Ms.Read(img, 0, Convert.ToInt32(Ms.Length));
+                Ms.Close();
+                return img;
             }
         }
 

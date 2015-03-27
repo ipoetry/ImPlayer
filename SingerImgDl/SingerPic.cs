@@ -19,18 +19,6 @@ namespace ArtistPic
         static string BDAPI = "http://image.baidu.com/i?tn=baiduimagejson&ct=201326592&cl=2&lm=-1&st=-1&fm=result&fr=&sf=1&fmq=1349413075627_R&pv=&ic=0&nc=1&z=&se=1&showtab=0&fb=0&width=&height=&face=0&istype=2&word={0}&rn=20&pn=1";
         static string KuwoApi = "http://artistpicserver.kuwo.cn/pic.web?type=big_artist_pic&pictype=url&content=list&&id=0&name={0}&rid=312611&from=pc&json=1&version=1&width=1366&height=768";
 
-       #region 检查网络状态
-
-        //检测网络状态  
-        [DllImport("wininet.dll")]
-        extern static bool InternetGetConnectedState(out int connectionDescription, int reservedValue);
-        /// <summary>  
-        /// 检测网络状态  
-        /// </summary>  
-        static bool IsConnected { get { int I = 0; return InternetGetConnectedState(out I, 0); } }
-
-        #endregion   
-
         private async static Task<string> GetPicURL(string sName)
         {
             try
@@ -136,7 +124,7 @@ namespace ArtistPic
                 CompletedNoticeEventHandler(new MyEventAgr { SName = ArtistName, WC = null }); 
                 return; 
             }
-            if (!IsConnected) { Console.WriteLine("error:网络未连接，无法下载歌手图片"); return; }
+            if (! await Win8Toast.PopupTip.CheckNetWork()) { Console.WriteLine("error:网络未连接，无法下载歌手图片"); return; }
             List<string> urlList = await GetPicsURL(ArtistName);
             foreach (string picUrl in urlList)
             {

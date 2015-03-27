@@ -14,8 +14,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using ImPalyer.FM.Core;
 using ImPalyer.FM;
-using Microsoft.Practices.Prism.Commands;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 namespace ImPalyer.FM.Views
 {
     
@@ -126,24 +126,14 @@ namespace ImPalyer.FM.Views
         //    }
 
         //}
-        #region 检查网络状态
 
-        //检测网络状态  
-        [DllImport("wininet.dll")]
-        extern static bool InternetGetConnectedState(out int connectionDescription, int reservedValue);
-        /// <summary>  
-        /// 检测网络状态  
-        /// </summary>  
-        static bool IsConnected { get { int I = 0; return InternetGetConnectedState(out I, 0); } }
-
-        #endregion   
         /// <summary>
         /// 加载所有频道
         /// </summary>
-        public bool LoadChannels()
+        public async Task<bool> LoadChannels()
         {
             if (this.AllChannel != null) return false;
-            if (!IsConnected) { Console.WriteLine("网络未连接，无法读取FM"); return false; }
+            if (! await Win8Toast.PopupTip.CheckNetWork()) { Console.WriteLine("网络未连接，无法读取FM"); return false; }
             var action = new Func<ImPlayer.FM.Models.ChannelList>(this.ChannelBLL.GetChannelList);
             action.BeginInvoke(ar =>
             {
@@ -162,7 +152,7 @@ namespace ImPalyer.FM.Views
                     this.CurrentChannel = this.PublicChannelList.OrderBy(t => Guid.NewGuid()).FirstOrDefault();
                 }));
             }, null);
-            return true;
+            return true;   
         }
 
 
@@ -175,7 +165,7 @@ namespace ImPalyer.FM.Views
             if (this.PublicChannelList.Count > 0) { this.AllChannel = null; this.PublicChannelList.Clear(); }
         }
         /// <summary>
-        /// 搜索DJ电台
+        /// 搜索电台
         /// </summary>
         /// <param name="keywords"></param>
         public void SearchChannel(string keywords)
@@ -199,41 +189,6 @@ namespace ImPalyer.FM.Views
             var channel = new ImPlayer.FM.Models.Channel() { Id= 0, Name = result.Title, Context = result.Context };
             this.CurrentChannel = channel;
         }
-
-
-
-        #region 命令
-        private DelegateCommand<string> _searchCommand;
-        /// <summary>
-        /// 搜索命令
-        /// </summary>
-        public DelegateCommand<string> SearchCommand
-        {
-            get
-            {
-                if (_searchCommand == null)
-                {
-                    _searchCommand = new DelegateCommand<string>(this.SearchChannel);
-                }
-                return _searchCommand;
-            }
-        }
-        private DelegateCommand _reloadCommand;
-        /// <summary>
-        /// 重新加载频道命令
-        /// </summary>
-        //public DelegateCommand ReloadCommand
-        //{
-        //    get
-        //    {
-        //        if (_reloadCommand == null)
-        //        {
-        //            _reloadCommand = new DelegateCommand(this.LoadChannels);
-        //        }
-        //        return _reloadCommand;
-        //    }
-        //}
-        #endregion
 
 
         #region 方法

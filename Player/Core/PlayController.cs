@@ -27,7 +27,6 @@ namespace Player
       public class OC_Songs:ObservableCollection<Song>{};
       public static int PlayMode = 1;
       public static bool isFM = false;
-      public static bool EQState = false;
 
       //public static readonly DependencyProperty CurrentSongProperty = DependencyProperty.Register("CurrentSong", typeof(Song), typeof(PlayController), new PropertyMetadata(new PropertyChangedCallback((d, e) =>
       //{
@@ -80,6 +79,7 @@ namespace Player
                   break;
           }
       }
+      
       private static void DT_Tick(object sender, EventArgs e)
       {
             if(bassEng.IsPlaying)
@@ -94,6 +94,7 @@ namespace Player
       }
 
       static bool isEQShow = false;
+
       public static void ShowSetEQ()
       {
           EQS.ShowInTaskbar = false;
@@ -107,15 +108,12 @@ namespace Player
               EQS.Hide(); isEQShow = false;
           }
       }
-     static void  bassPlayer_TrackEnded(object sender, EventArgs e)
+
+      static void  bassPlayer_TrackEnded(object sender, EventArgs e)
       {
-          #region 复位控件
           ReSet();
-          #endregion
           PlayNext();
       }
-
-
 
       private static OC_Songs songs = new OC_Songs();
       /// <summary>
@@ -158,6 +156,9 @@ namespace Player
       }
 
       private static int playIndex = 0;
+      /// <summary>
+      /// 当前正在播放文件索引
+      /// </summary>
       public static int PlayIndex
       {
           get
@@ -187,7 +188,6 @@ namespace Player
                   Canvas.SetLeft(playControl.thumb2, f);
                   playControl.CurLen.Width = f;
               }
-            //  playControl.startTime.Text = formatTime(startPosition);
           }
       }
 
@@ -209,7 +209,7 @@ namespace Player
       /// </summary>
       public enum Commands { None, PlayPause, PreSong, NextSong, VolumeUp, VolumeDown, MuteSwitch,SetEQ,ShowLyrics, HideLyrics,Exit }
 
-
+      public static double currentVolume = 0;
 
       public static void ReSet()
       {
@@ -217,16 +217,13 @@ namespace Player
           startPosition = 0;
           duringTime = 0;
           playControl.thumb2.Dispatcher.Invoke(new Action(()=>Canvas.SetLeft(playControl.thumb2, 0)));
-         // playControl.startTime.Text = "00:00";
-        //  playControl.totalTime.Text = "00:00";
           LrcController.offsetTime = 0;
           AppPropertys.FlushMemory();
          
       }
-      public static double currentVolume = 0;
+
       public static void setMute()
       {
-       //   bassEng.IsMuted = !bassEng.IsMuted;
           if (bassEng.IsMuted)
           {
               playControl.btnMute.Style = (Style)playControl.FindResource("notMute");
@@ -245,12 +242,12 @@ namespace Player
       }
 
       public static void PlayMusic(int index = -1)
-      { 
-          if (index != -1) { playIndex = songs.Count - 1; }
-          if (songs.Count > playIndex && playIndex > -1)
+      {
+          if (index != -1) { PlayIndex = index; }
+          if (songs.Count > PlayIndex && PlayIndex > -1)
           {
               ReSet();
-              CurrentSong = songs[playIndex];
+              CurrentSong = songs[PlayIndex];
               if (CurrentSong.FileUrl.StartsWith("http:"))
               {
                   bassEng.OpenUrlAsync(CurrentSong.FileUrl);
@@ -263,12 +260,14 @@ namespace Player
           }
 
       }
+
       private static void StartPlay(object sender,EventArgs e)
       { 
             Play();
             LrcController.SearchLrc(CurrentSong);
             AppPropertys.ChangeNotifyIcon(2);
       }
+
       private static bool RemoveNotExitsFile(Song rSong)
       {
           if (!File.Exists(rSong.FileUrl))
@@ -279,14 +278,14 @@ namespace Player
           }
           return true;
       }
+
       public static void Play()
       {
           bassEng.Play();
           DT.Start();
           playControl.btnPlay.Style = (Style)playControl.FindResource("pause");
-         // if (index != -1) { playIndex = AppPropertys.mainWindow.playListBox.Items.Count - 1; }  
-          AppPropertys.mainWindow.playListBox.SelectedIndex = playIndex;
-          AppPropertys.mainWindow.playListBox.ScrollIntoView(AppPropertys.mainWindow.playListBox.Items[playIndex]);
+          AppPropertys.mainWindow.playListBox.ScrollIntoView(CurrentSong);
+          AppPropertys.mainWindow.playListBox.SelectedIndex = PlayIndex;
           string notifyIconText = "正在播放：" + CurrentSong.ArtSong;
           if (notifyIconText.Length >= 64) { notifyIconText.Substring(0,63); }
           AppPropertys.notifyIcon.Text = notifyIconText;
@@ -316,17 +315,19 @@ namespace Player
       public static void Pause()
       {
           bassEng.Pause();
-          playControl.btnPlay.Dispatcher.Invoke(new Action(()=>playControl.btnPlay.Style = (Style)playControl.FindResource("play")));
-          playControl.btnPlay.Dispatcher.Invoke(new Action(()=>playControl.btnPlay.ToolTip = "播放"));
+          playControl.btnPlay.Dispatcher.Invoke(new Action(() => {
+              playControl.btnPlay.Style = (Style)playControl.FindResource("play");
+              playControl.btnPlay.ToolTip = "播放";
+          }));
           LrcController.SetPlay();
           AppPropertys.ChangeNotifyIcon(1);
       }
 
       public static void PlayPrevent()
       {
-          playIndex--;
-          if (playIndex < 0)
-              playIndex = songs.Count - 1;
+          PlayIndex--;
+          if (PlayIndex < 0)
+              PlayIndex = songs.Count - 1;
           PlayMusic();
       }
 
@@ -335,17 +336,16 @@ namespace Player
           switch (PlayMode)
           {
               case 1:
-                  playIndex++;
-                  if (playIndex > songs.Count - 1)
-                      playIndex = 0;
+                  PlayIndex++;
+                  if (PlayIndex > songs.Count - 1)
+                      PlayIndex = 0;
                   break;
               case 2:
                   Random rand = new Random();
-                  playIndex = rand.Next(songs.Count);
+                  PlayIndex = rand.Next(songs.Count);
                   break;
               case 3:
                   break;
-
           } 
           PlayMusic();
       }

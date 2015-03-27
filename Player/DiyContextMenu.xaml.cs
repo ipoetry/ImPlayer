@@ -13,7 +13,6 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Lyrics;
 using Player.Setting;
-using ImPlayer.DownloadMoudle;
 
 namespace Player
 {
@@ -66,22 +65,7 @@ namespace Player
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            //Button btn = (Button)sender;
-            
-            //if (!AppPropertys.isLrcShow)
-            //{
-            //    LrcController.lrcWindow.Show();
-            //    AppPropertys.isLrcShow=true;
-            //}
-            //else
-            //{
-            //    LrcController.lrcWindow.Close();
-            //    LrcController.lrcWindow.Hide();
-            //    AppPropertys.isLrcShow = false;
-            //}
-            MainWindow SearchWindow = new MainWindow(AppPropertys.appSetting.DownloadFolder);
-            SearchWindow.Show();
-
+            AppPropertys.SetLrcShow();
         }
 
         private void btnMute_Click(object sender, RoutedEventArgs e)

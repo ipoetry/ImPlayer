@@ -181,7 +181,6 @@
             </Style.Triggers>
         </Style>
 
-
         <Style TargetType="{x:Type local:HotKeySettingControl}">
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="Template">
@@ -202,6 +201,48 @@
             <Setter Property="Padding" Value="2"/>
         </Style>
 
+        <Style TargetType="{x:Type CheckBox}">
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="SnapsToDevicePixels" Value="True"/>
+            <Setter Property="FontSize" Value="28"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type CheckBox}">
+                        <BulletDecorator FlowDirection="LeftToRight" VerticalAlignment="Center">
+                            <BulletDecorator.Bullet>
+                                <Border x:Name="bd"
+                                        BorderThickness="1"
+                                        BorderBrush="Black"
+                                        MinHeight="20"
+                                        MinWidth="20"
+                                        VerticalAlignment="Center">
+                                    <Border.Background>
+                                        <LinearGradientBrush StartPoint="0,0"
+                                                             EndPoint="1,1">
+                                            <GradientStop Color="LightGray" Offset="0.2"/>
+                                            <GradientStop Color="White" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </Border.Background>
+                                    <Path x:Name="cp" Width="15" Height="15"
+                                          Stroke="#FF25A2D0"
+                                          StrokeThickness="3"/>
+                                </Border>
+                            </BulletDecorator.Bullet>
+                            <ContentPresenter Margin="2,0"/>
+                        </BulletDecorator>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <!-- 画上一个勾 -->
+                                <Setter TargetName="cp" Property="Data"
+                                        Value="M 0,6 L 6,12 12,0"/>
+                                <Setter Property="Foreground" Value="#FF25A2D0"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
     </Window.Resources>
     <Grid>
         <Grid Margin="0">
@@ -265,7 +306,19 @@ FLAC、AIFF、等音频格式，支持10波段均衡器并且支持在线歌词�
                             <RowDefinition/>
                         </Grid.RowDefinitions>
                         <GroupBox Header="常规" Margin="5">
-                            
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <CheckBox HorizontalAlignment="Center" VerticalAlignment="Center" Content="开机自启动" Name="isAutoStart" Checked="isAutoStart_Checked"></CheckBox>
+                            </Grid>
                         </GroupBox>
                         <GroupBox Header="歌词" Grid.Row="1" Margin="5">
                             

@@ -26,7 +26,6 @@ namespace Player
         {
             InitializeComponent();
             EnumSliderControl();
-            if (PlayController.EQState) { Switch.IsChecked = true; }
         }
 
         private int[] _fxEQ = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
@@ -66,7 +65,7 @@ namespace Player
         {
             Slider sr = (Slider)sender;
             int xx = int.Parse(sr.Name.Remove(0, 6));
-            if ((bool)Switch.IsChecked)
+            if ((bool)UseEqSwitch.IsChecked)
             {
                 UpdateEQ(xx, (float)e.NewValue / 10f);
             }
@@ -79,33 +78,26 @@ namespace Player
 
         private void Label_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            //this.Close();
             this.Hide();
         }
 
         private void UpdateEQ(int band, float gain)
         {
-            BASS_DX8_PARAMEQ eq = new BASS_DX8_PARAMEQ();
-            if (Bass.BASS_FXGetParameters(Player.PlayController.bassEng._fxEQ[band], eq))
-            { 
-                eq.fGain = gain;
-                Bass.BASS_FXSetParameters(Player.PlayController.bassEng._fxEQ[band], eq);
+            try
+            {
+                BASS_DX8_PARAMEQ eq = new BASS_DX8_PARAMEQ();
+                if (Bass.BASS_FXGetParameters(Player.PlayController.bassEng._fxEQ[band], eq))
+                {
+                    eq.fGain = gain;
+                    Bass.BASS_FXSetParameters(Player.PlayController.bassEng._fxEQ[band], eq);
+                }
             }
+            catch { }
         }
 
         private void CheckBox_Checked(object sender, RoutedEventArgs e)
         {
-            //开启
-           // MessageBox.Show(Switch.IsChecked==true?"已经开启":"已经关闭");
-            PlayController.EQState = true;
-        }
-
-        private void Switch_Unchecked(object sender, RoutedEventArgs e)
-        {
-            //关闭均衡
-            //调用 Bass.BASS_ChannelRemoveFX
-            // MessageBox.Show(Switch.IsChecked == true ? "已经开启" : "已经关闭");
-            PlayController.EQState = false;
+            AppPropertys.appSetting.UseEq = (bool)UseEqSwitch.IsChecked;
         }
 
         private void Label_Initialized(object sender, EventArgs e)
@@ -122,6 +114,7 @@ namespace Player
         private void Label_MouseLeftButtonDown_2(object sender, MouseButtonEventArgs e)
         {
             SetValues(_fxEQ);
+            AppPropertys.appSetting.EqPreset = 0;
         }
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
@@ -145,6 +138,7 @@ namespace Player
             string[] input=rootn.GetAttribute("Custom").Remove(0,2).Split(new char[]{',','，'});
             int[] values = Array.ConvertAll(input, s => int.Parse(s));
             SetValues(values);
+            AppPropertys.appSetting.EqPreset = 10;
         }
 
         private void SetValues(int[] values)
@@ -182,6 +176,25 @@ namespace Player
                 }
             }
         }
+
+        public MenuItem FindVisualChild<T>(DependencyObject obj,string ControlName) where T : DependencyObject
+        {
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++)
+            {
+                DependencyObject child = VisualTreeHelper.GetChild(obj, i);
+                if (child != null && child is T)
+                {
+                    MenuItem mi= ((MenuItem)child);
+                    if(mi.Name == ControlName)
+                    return mi;
+                }
+                else
+                {
+                    FindVisualChild<T>(child);
+                }
+            }
+            return null;
+        }
         /// <summary>
         /// 保存当前选中的item
         /// </summary>
@@ -193,8 +206,29 @@ namespace Player
             if (OldSelect != null) { OldSelect.IsChecked = false; }
             MenuItem mi=(MenuItem)sender;
             int xx = int.Parse(mi.Name.Remove(0,1));
-            int[] fre=new int[]{};
-            switch(xx)
+            //int[] fre=new int[]{};
+            //switch(xx)
+            //{
+            //    case 1: fre = _recom; break;
+            //    case 2: fre = _pop; break;
+            //    case 3: fre = _rock; break;
+            //    case 4: fre = _dance; break;
+            //    case 5: fre = _elect; break;
+            //    case 6: fre = _country; break;
+            //    case 7: fre = _jazz; break;
+            //    case 8: fre = _classical; break;
+            //}
+            //SetValues(fre);
+            InitEqValues(xx);
+            mi.IsChecked = true;
+            OldSelect = mi;
+        }
+
+        public void InitEqValues(int index)
+        {
+            AppPropertys.appSetting.EqPreset = index;
+            int[] fre = new int[] { };
+            switch (index)
             {
                 case 1: fre = _recom; break;
                 case 2: fre = _pop; break;
@@ -206,8 +240,25 @@ namespace Player
                 case 8: fre = _classical; break;
             }
             SetValues(fre);
+        }
+
+        public void InitSelected(int index)
+        {
+            if(index<1||index>8){return;}
+            MenuItem mi =   FindVisualChild<MenuItem>(lbSet,"m"+index);
+            if (mi == null) { return; }
             mi.IsChecked = true;
-            OldSelect = mi;
+
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (AppPropertys.appSetting.UseEq)
+            {
+                UseEqSwitch.IsChecked = true;
+                InitEqValues(AppPropertys.appSetting.EqPreset);
+                InitSelected(AppPropertys.appSetting.EqPreset);
+            }
         }
     }
 }

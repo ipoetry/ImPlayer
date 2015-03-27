@@ -481,14 +481,6 @@ namespace Lyrics
                                 {
                                     goto Label_00F2;
                                 }
-                                if (str2 == "HRC")
-                                {
-                                    goto Label_0101;
-                                }
-                                if (str2 == "KRC")
-                                {
-                                    goto Label_0110;
-                                }
                             }
                             else
                             {
@@ -499,11 +491,6 @@ namespace Lyrics
                     Label_00F2:
                         this.ImportKSC(this.LrcTextString);
                         return;
-                    Label_0101:
-                        this.ImportHRC(this.LrcTextString);
-                        return;
-                    Label_0110:
-                        this.ImportKRC(this.LrcTextString);
                     }
                     catch (Exception exception)
                     {

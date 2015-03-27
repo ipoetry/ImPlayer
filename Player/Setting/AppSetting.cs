@@ -16,6 +16,8 @@ namespace Player.Setting
         public Font LrcFont { get; set; }
         public int SkinIndex { get; set; }
         public string DownloadFolder { get; set; }
+        public bool UseEq { get; set; }
+        public int EqPreset  { get; set; }
 
         public void Save()
         {
@@ -45,7 +47,7 @@ namespace Player.Setting
             }
             catch
             {
-                return new AppSetting { LrcFont=new Font("微软雅黑", 24f, FontStyle.Bold, GraphicsUnit.Pixel), Volume=0.2, DownloadFolder="D://", SkinIndex=0 };
+                return new AppSetting { LrcFont=new Font("微软雅黑", 24f, FontStyle.Bold, GraphicsUnit.Pixel), Volume=0.2, DownloadFolder="D://", SkinIndex=0, UseEq=false, EqPreset=0};
             }
         }
     }
