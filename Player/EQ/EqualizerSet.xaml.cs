@@ -184,13 +184,15 @@ namespace Player
                 DependencyObject child = VisualTreeHelper.GetChild(obj, i);
                 if (child != null && child is T)
                 {
+
                     MenuItem mi= ((MenuItem)child);
+                    Console.WriteLine(mi.Name);
                     if(mi.Name == ControlName)
                     return mi;
                 }
                 else
                 {
-                    FindVisualChild<T>(child);
+                    FindVisualChild<T>(child,ControlName);
                 }
             }
             return null;
@@ -206,21 +208,9 @@ namespace Player
             if (OldSelect != null) { OldSelect.IsChecked = false; }
             MenuItem mi=(MenuItem)sender;
             int xx = int.Parse(mi.Name.Remove(0,1));
-            //int[] fre=new int[]{};
-            //switch(xx)
-            //{
-            //    case 1: fre = _recom; break;
-            //    case 2: fre = _pop; break;
-            //    case 3: fre = _rock; break;
-            //    case 4: fre = _dance; break;
-            //    case 5: fre = _elect; break;
-            //    case 6: fre = _country; break;
-            //    case 7: fre = _jazz; break;
-            //    case 8: fre = _classical; break;
-            //}
-            //SetValues(fre);
             InitEqValues(xx);
             mi.IsChecked = true;
+            lbSet.Content = "预设（" + mi.Header + "）";
             OldSelect = mi;
         }
 
@@ -245,9 +235,9 @@ namespace Player
         public void InitSelected(int index)
         {
             if(index<1||index>8){return;}
-            MenuItem mi =   FindVisualChild<MenuItem>(lbSet,"m"+index);
-            if (mi == null) { return; }
+            MenuItem  mi= (MenuItem)this.FindName("m"+index);
             mi.IsChecked = true;
+            lbSet.Content = "预设（"+mi.Header+"）";
 
         }
 

@@ -140,7 +140,6 @@ namespace MyDownloader.Extension
             }
 
             return string.Empty;
-
         }
     }
 }

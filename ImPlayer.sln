@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Player", "Player\Player.csproj", "{BDFA1350-BE01-432B-9662-DD0698A395F9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lyrics", "Lyrics\Lyrics.csproj", "{5A3FE620-1EF7-42CD-B6BA-E8C9375D4996}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImPlayer.Lyrics", "Lyrics\ImPlayer.Lyrics.csproj", "{5A3FE620-1EF7-42CD-B6BA-E8C9375D4996}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArtistPic", "SingerImgDl\ArtistPic.csproj", "{5A9C400E-ECE7-4EEC-ABBD-084BC23D5F77}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImPlayer.ArtistPic", "SingerImgDl\ImPlayer.ArtistPic.csproj", "{5A9C400E-ECE7-4EEC-ABBD-084BC23D5F77}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Win8Toast", "Win8Toast\Win8Toast.csproj", "{85B3BDD3-18FB-4074-AF05-AC5E988DE6C7}"
 EndProject

@@ -226,13 +226,13 @@
       <Project>{52e8b043-d63a-4c51-8149-61ba72730cf4}</Project>
       <Name>ImPlayer.DownloadMoudle</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Lyrics\Lyrics.csproj">
+    <ProjectReference Include="..\Lyrics\ImPlayer.Lyrics.csproj">
       <Project>{5a3fe620-1ef7-42cd-b6ba-e8c9375d4996}</Project>
-      <Name>Lyrics</Name>
+      <Name>ImPlayer.Lyrics</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SingerImgDl\ArtistPic.csproj">
+    <ProjectReference Include="..\SingerImgDl\ImPlayer.ArtistPic.csproj">
       <Project>{5a9c400e-ece7-4eec-abbd-084bc23d5f77}</Project>
-      <Name>ArtistPic</Name>
+      <Name>ImPlayer.ArtistPic</Name>
     </ProjectReference>
     <ProjectReference Include="..\Win8Toast\Win8Toast.csproj">
       <Project>{85b3bdd3-18fb-4074-af05-ac5e988de6c7}</Project>

@@ -913,6 +913,12 @@ namespace Player
             SearchWindow.ShowWindow(SearchTeacBox.Text);
         }
         #endregion
+
+        private void btn_Play(object sender, RoutedEventArgs e)
+        {
+          //  PlayController.PlayMusic(playListBox.SelectedIndex);
+            playListBox_MouseDoubleClick(null,null);
+        }
     }
         
 }

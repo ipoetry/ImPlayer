@@ -75,19 +75,6 @@ namespace ImPlayer.FM.Views
             PublicChannels.ItemsSource = PublicChannelList;
         }
 
-        //public void LoadChannels()
-        //{
-           
-        //    Models.ChannelList channelList = null;
-        //    ImPalyer.FM.Core.Channel ChannelBLL = new ImPalyer.FM.Core.Channel();
-        //    channelList = ChannelBLL.GetChannelList();
-        //    foreach (var item in channelList.PublicChannelList)
-        //    {
-        //        PublicChannelList.Add(item);
-        //    }
-
-        //}
-
         /// <summary>
         /// 加载所有频道
         /// </summary>

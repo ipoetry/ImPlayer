@@ -133,7 +133,7 @@
                 </Grid.ColumnDefinitions>
                 <CheckBox Name="UseEqSwitch" IsThreeState="False"  Cursor="Hand" Content="开启均衡" Grid.Column="0" Width="100" HorizontalContentAlignment="Left" Margin="20,5" Checked="CheckBox_Checked">
                 </CheckBox>
-                <Label Name="lbSet" Cursor="Hand" Content="预设" Grid.Column="1" Width="70" HorizontalContentAlignment="Center" Style="{StaticResource lbBtn}" Height="26" Margin="22,0" VerticalAlignment="Top" Initialized="Label_Initialized" MouseLeftButtonDown="Label_MouseLeftButtonDown_1">
+                <Label Name="lbSet" Cursor="Hand" Content="预设" Grid.Column="1" Width="110" HorizontalContentAlignment="Center" Style="{StaticResource lbBtn}" Height="26" Margin="-12,0" VerticalAlignment="Top" Initialized="Label_Initialized" MouseLeftButtonDown="Label_MouseLeftButtonDown_1">
                     <Label.ContextMenu>
                         <ContextMenu Name="contextMenu">
                             <MenuItem Name="m1" Header="推 荐" Click="MenuItem_Click_1"/>

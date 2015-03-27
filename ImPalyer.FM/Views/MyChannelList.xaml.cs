@@ -16,6 +16,7 @@ using ImPalyer.FM.Core;
 using ImPalyer.FM;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+
 namespace ImPalyer.FM.Views
 {
     
@@ -113,19 +114,6 @@ namespace ImPalyer.FM.Views
             TempSongList = new List<ImPlayer.FM.Models.FMSong>();
             this.SongBLL = new Core.Song();
         }
-
-        //public void LoadChannels()
-        //{
-           
-        //    Models.ChannelList channelList = null;
-        //    ImPalyer.FM.Core.Channel ChannelBLL = new ImPalyer.FM.Core.Channel();
-        //    channelList = ChannelBLL.GetChannelList();
-        //    foreach (var item in channelList.PublicChannelList)
-        //    {
-        //        PublicChannelList.Add(item);
-        //    }
-
-        //}
 
         /// <summary>
         /// 加载所有频道
@@ -233,15 +221,6 @@ namespace ImPalyer.FM.Views
                 }
             }, null);
         }
-
-       
-        //public static void InitContainer(IUnityContainer unityContainer)
-        //{
-        //    if (StaticUnityContainer == null)
-        //    {
-        //        StaticUnityContainer = unityContainer;
-        //    }
-        //}
         #endregion
     }
 }
