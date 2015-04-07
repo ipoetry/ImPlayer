@@ -120,26 +120,22 @@ namespace ImPalyer.FM.Views
         /// </summary>
         public async Task<bool> LoadChannels()
         {
-            if (this.AllChannel != null) return false;
-            if (! await Win8Toast.PopupTip.CheckNetWork()) { Console.WriteLine("网络未连接，无法读取FM"); return false; }
-            var action = new Func<ImPlayer.FM.Models.ChannelList>(this.ChannelBLL.GetChannelList);
-            action.BeginInvoke(ar =>
+            if (this.AllChannel != null||! await Win8Toast.PopupTip.CheckNetWork()) 
+                return false;
+
+            var channelList = await this.ChannelBLL.GetChannelListAsync();
+            if (channelList == null) { Console.WriteLine("获取频道列表出错"); return false; }
+            this.AllChannel = channelList;
+            this.InvokeOnUIDispatcher(new Action(() =>
             {
-                var channelList = action.EndInvoke(ar);
-                this.AllChannel = channelList;
-                this.InvokeOnUIDispatcher(new Action(() =>
+
+                foreach (var item in channelList.PublicChannelList)
                 {
-
-                    foreach (var item in channelList.PublicChannelList)
-                    {
-                        this.PublicChannelList.Add(item);
-                       // PublicChannels.Items.Add(item);
-                    }
-
-                    //默认加载一个频道
-                    this.CurrentChannel = this.PublicChannelList.OrderBy(t => Guid.NewGuid()).FirstOrDefault();
-                }));
-            }, null);
+                    this.PublicChannelList.Add(item);
+                }
+                //默认加载一个频道
+                this.CurrentChannel = this.PublicChannelList.OrderBy(t => Guid.NewGuid()).FirstOrDefault();
+            }));
             return true;   
         }
 
@@ -193,33 +189,27 @@ namespace ImPalyer.FM.Views
 		{
 			if (PublicChannels.SelectedItem != null)
                 CurrentChannel = (ImPlayer.FM.Models.Channel)PublicChannels.SelectedItem;
-                LoadSong();
+                //LoadSong();
+              LoadSongAsync();
                
 		}
+
         /// <summary>
-        /// 加载歌曲
+        /// 异步加载歌曲
         /// </summary>
-        public void LoadSong()
+        public async void LoadSongAsync()
         {
-            string songId = null;
-            if (this.CurrentSong != null)
-            {
-                songId = this.CurrentSong.SongId;
-            }
+            string songId = this.CurrentSong != null?CurrentSong.SongId:null;
             var channelId = this.CurrentChannel.Id;
-            var action = new Func<int, string, ImPlayer.FM.Models.FMSongList>(this.SongBLL.GetSongList);
-            action.BeginInvoke(channelId, songId, ar =>
+            var songList = await this.SongBLL.GetSongListAsync(channelId, songId);
+            if (songList == null) { Console.WriteLine("加载频道歌曲列表出错"); return; }
+            TempSongList.Clear();
+            TempSongList.AddRange(songList.Songs);
+            this.CurrentSong = TempSongList.FirstOrDefault();
+            if (StartPlayEventHandler != null)
             {
-                var songList = action.EndInvoke(ar);
-                if (songList == null) return;
-                TempSongList.Clear();
-                TempSongList.AddRange(songList.Songs);
-                this.CurrentSong = TempSongList.FirstOrDefault();
-                if (StartPlayEventHandler != null)
-                {
-                    StartPlayEventHandler();
-                }
-            }, null);
+                StartPlayEventHandler();
+            }
         }
         #endregion
     }

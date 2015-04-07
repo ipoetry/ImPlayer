@@ -106,9 +106,10 @@ namespace Player.FileTypeAssocion
                 fti = new FileTypeRegInfo { ExePath = exePath, ExtendName = type, IcoPath = icoPath, Description = "Cup Player:" + ft.TypeDescription };
                 FileTypeRegister.RegisterFileType(fti);
             }
+            FileTypeRegister.RegisterFileType(new FileTypeRegInfo{ExePath = exePath, ExtendName = ".pldb", IcoPath = AppDomain.CurrentDomain.BaseDirectory+"/logo.ico", Description = "Cup Player:播放列表文件"});
             SHChangeNotify(HChangeNotifyEventID.SHCNE_ASSOCCHANGED, HChangeNotifyFlags.SHCNF_IDLIST, IntPtr.Zero, IntPtr.Zero);
         }
-        /// <summary>
+        /// <summary}
         /// 注册文件关联_正式使用
         /// </summary>
         /// <param name="fileTypes">欲关联的类型</param>
@@ -126,6 +127,7 @@ namespace Player.FileTypeAssocion
                 fti = new FileTypeRegInfo { ExePath = exePath, ExtendName = type, IcoPath = icoPath, Description = "Cup Player:" + ft.TypeDescription };
                 FileTypeRegister.RegisterFileType(fti);
             }
+            FileTypeRegister.RegisterFileType(new FileTypeRegInfo { ExePath = exePath, ExtendName = "pldb", IcoPath = AppDomain.CurrentDomain.BaseDirectory + "/logo.ico", Description = "Cup Player:播放列表文件" });
             SHChangeNotify(HChangeNotifyEventID.SHCNE_ASSOCCHANGED, HChangeNotifyFlags.SHCNF_IDLIST, IntPtr.Zero, IntPtr.Zero);
         }
         public static FileTip GetIcoReflect(string key)

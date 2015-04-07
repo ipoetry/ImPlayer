@@ -1024,11 +1024,11 @@ namespace ImPlayer
                 {
                     if (this._cIsLeapMonth == true)
                     {
-                        return "农历" + ChineseYearString + "闰" + ChineseMonthString + ChineseDayString;
+                        return "农历:" + ChineseYearString + "闰" + ChineseMonthString + ChineseDayString;
                     }
                     else
                     {
-                        return "农历" + ChineseYearString + ChineseMonthString + ChineseDayString;
+                        return "农历:" + ChineseYearString + ChineseMonthString + ChineseDayString;
                     }
                 }
             }

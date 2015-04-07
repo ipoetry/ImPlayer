@@ -62,27 +62,35 @@ namespace Player
 
         public void btnPre_Click(object sender, RoutedEventArgs e)
         {
-            PlayController.PlayPrevent();
+            this.Dispatcher.BeginInvoke(new Action(() =>
+                PlayController.PlayPrevent()
+               ));         
         }
 
         public void btnPlay_Click(object sender, RoutedEventArgs e)
-        {           
-            if (PlayController.bassEng.IsPlaying)
-            {
-                PlayController.Pause();
-            }
-            else
-            {
-                if(PlayController.bassEng.CanPlay)
-                PlayController.Play();
-                else
-                PlayController.PlayMusic();
-            }
+        {    
+            this.Dispatcher.BeginInvoke(new Action(()=>
+                {
+                    if (PlayController.bassEng.IsPlaying)
+                    {
+                        PlayController.Pause();
+                    }
+                    else
+                    {
+                        if(PlayController.bassEng.CanPlay)
+                        PlayController.Play();
+                        else
+                        PlayController.PlayMusic();
+                    }
+                }
+            ));
         }
 
         public void btnNext_Click(object sender, RoutedEventArgs e)
         {
-            PlayController.PlayNext();
+            this.Dispatcher.BeginInvoke(new Action(() =>
+                PlayController.PlayNext()
+               )); 
         }
 
         private void Border_MouseEnter(object sender, MouseEventArgs e)
@@ -154,21 +162,25 @@ namespace Player
                });
         }
 
-        private void btnLrcShow_MouseDown(object sender, MouseEventArgs e)
+        private void btnLrcShow_MouseDown(object sender, MouseButtonEventArgs e)
         {
            AppPropertys.SetLrcShow();
         }
 
         private void btnPicShow_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (AppPropertys.mainWindow.isPPTPlaying)
-            {
-                AppPropertys.mainWindow.StopPlayPPT();
-            }
-            else
-            {
-                AppPropertys.mainWindow.PlayPPT(PlayController.Songs[PlayController.PlayIndex]);
-            }
+            this.Dispatcher.BeginInvoke(new Action(() => {
+                if (AppPropertys.mainWindow.isPPTPlaying)
+                {
+                    AppPropertys.mainWindow.StopPlayPPT();
+                }
+                else
+                {
+                    if (PlayController.CurrentSong == null) { return; }
+                    AppPropertys.mainWindow.PlayPPT(PlayController.CurrentSong);
+                }
+            }));
+            
         }
 
     }

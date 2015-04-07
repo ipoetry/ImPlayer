@@ -99,6 +99,7 @@ namespace Player
                 SpectrumAnalyzer.RegisterSoundPlayer(PlayController.bassEng);
             }
             Win32InfoRegister();
+            SpectrumAnalyzer.IsEnabled = false;
         }
 
         private void playListBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -130,7 +131,7 @@ namespace Player
         /// <param name="e"></param>
         private void Rectangle_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
         {
-            StartCount();
+            
         }
         /// <summary>
         /// 开始计数。
@@ -441,7 +442,7 @@ namespace Player
         {
             XmlDocument xmlDoc = new XmlDocument();
             XmlElement xe = xmlDoc.CreateElement("SongList");
-            xe.SetAttribute("name", "2008");
+            xe.SetAttribute("copyright", "wrox1226@live.com");
             xmlDoc.AppendChild(xe);
             if (!File.Exists(XmlListPath)) {  xmlDoc.Save(XmlListPath); }
             xmlDoc.Load(XmlListPath);
@@ -733,12 +734,20 @@ namespace Player
             }
             AppPropertys.setFreeNotifyIcon();
 
-
+            //一般配置
             AppPropertys.appSetting.LrcFont = LrcController.DefaultFont;
             AppPropertys.appSetting.SkinIndex = LrcController.SkinIndex;
             AppPropertys.appSetting.Volume = PlayController.bassEng.Volume;
             AppPropertys.appSetting.Save();
-            Console.WriteLine("保存配置……成功");
+           
+            //下载模块的配置
+            this.Dispatcher.BeginInvoke(new Action(() =>
+            {
+                //if (ImPlayer.DownloadMoudle.Common.downloadPage != null && ImPlayer.DownloadMoudle.Common.downloadPage.IsLoaded)
+                //   ImPlayer.DownloadMoudle.Common.downloadPage.xd
+                ((MyDownloader.Extension.PersistedList.PersistedListExtension)MyApp.Instance.GetExtensionByType(typeof(MyDownloader.Extension.PersistedList.PersistedListExtension))).PersistList(null);
+            }));
+            Console.WriteLine("保存用户配置成功……");
         }
 
         #region  歌曲操作
@@ -852,8 +861,9 @@ namespace Player
             if (msg == 0x004A)
             {
                 COPYDATASTRUCT copydata = (COPYDATASTRUCT)Marshal.PtrToStructure(lParam, typeof(COPYDATASTRUCT));
-                string dicom_file = copydata.lpData;               
-                if (dicom_file != null)
+                string dicom_file = copydata.lpData;
+                FileInfo fi = new FileInfo(dicom_file);
+                if (fi.Extension != "pldb"&&dicom_file != null)
                 {
                     AddFileAndPlay(dicom_file);
                 }
@@ -916,8 +926,12 @@ namespace Player
 
         private void btn_Play(object sender, RoutedEventArgs e)
         {
-          //  PlayController.PlayMusic(playListBox.SelectedIndex);
             playListBox_MouseDoubleClick(null,null);
+        }
+
+        private void Rectangle_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            StartCount();
         }
     }
         

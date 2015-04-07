@@ -13,6 +13,27 @@
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>发布\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>false</MapFileExtensions>
+    <TargetCulture>zh</TargetCulture>
+    <ProductName>Cup Player</ProductName>
+    <PublisherName>Wrox1226%40live.com</PublisherName>
+    <TrustUrlParameters>true</TrustUrlParameters>
+    <ApplicationRevision>12</ApplicationRevision>
+    <ApplicationVersion>1.0.0329.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <CreateDesktopShortcut>true</CreateDesktopShortcut>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -39,6 +60,24 @@
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>Player.Program</StartupObject>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>E2274A968902CF1A48DD8D002AC1CE439778CDAD</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>Player_TemporaryKey.pfx</ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>false</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>false</SignManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <TargetZone>LocalIntranet</TargetZone>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Bass.Net, Version=2.4.10.3, Culture=neutral, PublicKeyToken=b7566c273e6ef480, processorArchitecture=MSIL">
@@ -175,7 +214,7 @@
     </Compile>
     <Compile Include="HotKey\HookEventArgs.cs" />
     <Compile Include="HotKey\HotKey.cs" />
-    <Compile Include="HotKey\HotKeys.cs.cs" />
+    <Compile Include="HotKey\HotKeys.cs" />
     <Compile Include="HotKey\HotKeySettingControl.cs" />
     <Compile Include="HotKey\KeyboardHook.cs" />
     <Compile Include="HotKey\Win32.cs" />
@@ -208,6 +247,8 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="app.manifest" />
+    <None Include="Player_TemporaryKey.pfx" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -230,6 +271,14 @@
       <Project>{5a3fe620-1ef7-42cd-b6ba-e8c9375d4996}</Project>
       <Name>ImPlayer.Lyrics</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MyDownloader.Core\MyDownloader.Core.csproj">
+      <Project>{e763345e-6696-4c53-8764-47e4abd67def}</Project>
+      <Name>MyDownloader.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MyDownloader.Extension\MyDownloader.Extension.csproj">
+      <Project>{fea18b6c-491f-401a-a06b-ae47888ff288}</Project>
+      <Name>MyDownloader.Extension</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SingerImgDl\ImPlayer.ArtistPic.csproj">
       <Project>{5a9c400e-ece7-4eec-abbd-084bc23d5f77}</Project>
       <Name>ImPlayer.ArtistPic</Name>
@@ -240,7 +289,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Symbian_Anna v1.1.dll">
+    <Content Include="Symbian_Anna.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Resource Include="Setting\dn.png" />
@@ -335,7 +384,23 @@
     <Resource Include="Images\img_button_playcontrolbar_play_pressed.png" />
     <Resource Include="Images\DoubanFM_NoCover.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.5">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.5 %28x86 和 x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

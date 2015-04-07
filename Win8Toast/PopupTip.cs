@@ -117,16 +117,26 @@ namespace Win8Toast
         /// <summary>  
         /// 检测网络状态  
         /// </summary>  
-        static bool IsConnected { get { int I = 0; return InternetGetConnectedState(out I, 0); } }
+        public static bool IsConnected { get { int I = 0; return InternetGetConnectedState(out I, 0); } }
 
         #endregion
-
+        static bool isWin8OrHeigh = SystemHepler.IsWin8OrHeigher();
         public async static Task<bool> CheckNetWork()
         {
             bool curentNetState = IsConnected;
-            if (!curentNetState) { ShowPopUp("网络已断开，请检查"); return IsConnected; }
-            curentNetState = await PingDesignatedIP();
-            if (!curentNetState){ShowPopUp("网络已断开，请检查");}
+            if (!curentNetState) {
+                if (isWin8OrHeigh)
+                    ToastTip.ShowToast();
+                else
+                    ShowPopUp("网络已断开，请检查");
+                return IsConnected; }
+            curentNetState = await PingBaidu();
+            if (!curentNetState){
+                if (isWin8OrHeigh)
+                    ToastTip.ShowToast();
+                else
+                    ShowPopUp("网络已断开，请检查");
+            }
             return curentNetState;
         }
 
@@ -182,6 +192,20 @@ namespace Win8Toast
             PingReply reply = await ping.SendPingAsync(IPAddress.Parse("74.125.71.104"), timeout, buffer, poptions);
 
             return reply.Status == IPStatus.Success?true:false;
+
+        }
+
+        public static async Task<bool> PingBaidu()
+        {
+            Ping ping = new Ping();
+            PingOptions poptions = new PingOptions();
+            poptions.DontFragment = true;
+            string data = string.Empty;
+            byte[] buffer = Encoding.ASCII.GetBytes(data);
+
+            PingReply reply = await ping.SendPingAsync(IPAddress.Parse("220.181.6.18"), 1000, buffer, poptions);
+
+            return reply.Status == IPStatus.Success ? true : false;
 
         }
 

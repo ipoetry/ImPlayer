@@ -13,12 +13,12 @@ namespace Player.FileTypeAssocion
         /// <summary>
         /// 目标类型文件的扩展名
         /// </summary>
-        public string ExtendName; //".xcf"
+        public string ExtendName; 
 
         /// <summary>
         /// 目标文件类型说明
         /// </summary>
-        public string Description; //"XCodeFactory项目文件"
+        public string Description;
 
         /// <summary>
         /// 目标类型文件关联的图标

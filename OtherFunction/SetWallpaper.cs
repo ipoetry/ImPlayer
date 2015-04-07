@@ -6,7 +6,7 @@ using System.Text;
 
 namespace OtherFunction
 {
-    class SetWallpaper
+    public class SetWallpaper
     {
         #region
         [DllImport("user32.dll", CharSet = CharSet.Auto)]

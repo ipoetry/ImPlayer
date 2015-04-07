@@ -84,7 +84,7 @@ namespace ImPlayer.DownloadMoudle
         private async void searchBtn_Click(object sender, RoutedEventArgs e)
         {
             searchStr = SearchText.Text;
-            if (searchStr == ""|| await Win8Toast.PopupTip.CheckNetWork()) return;
+            if (searchStr == ""|| !await Win8Toast.PopupTip.CheckNetWork()) return;
             Tip.Visibility = Visibility.Collapsed;
             this.dd.ItemsSource = null;
             searchBtn.IsEnabled = false;
@@ -125,12 +125,7 @@ namespace ImPlayer.DownloadMoudle
 
         private void Label_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            MessageBoxResult mbr = MessageBox.Show("确定退出吗？", "提示", MessageBoxButton.YesNo, MessageBoxImage.Information);
-            if (mbr.ToString() == "Yes")
-            {
-                Save();
-                Application.Current.Shutdown();
-            }
+            this.Close();
         }
 
         private void Save()
@@ -140,7 +135,7 @@ namespace ImPlayer.DownloadMoudle
                 if (Common.downloadPage != null && Common.downloadPage.IsLoaded)
                     Common.downloadPage.xD.PauseAll();
                 ((PersistedListExtension)MyApp.Instance.GetExtensionByType(typeof(PersistedListExtension))).PersistList(null);
-                Console.WriteLine("我已经执行完成……");
+                Console.WriteLine("下载模块相关配置本地化……");
             }));
         }
 

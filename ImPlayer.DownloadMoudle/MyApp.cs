@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace ImPlayer.DownloadMoudle
 {
-    class MyApp : IApp
+    public class MyApp : IApp
     {
 
         #region IApp 成员

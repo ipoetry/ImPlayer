@@ -167,7 +167,7 @@
                                     <ColumnDefinition Width="8*"/>
                                 </Grid.ColumnDefinitions>
                                 <!--放置两个长方形来检测，并判断是否需要反转-->
-                                <Rectangle Grid.Column="0" Fill="Transparent" ToolTip="停留数秒切换页面 ^_^" MouseEnter="Rectangle_MouseEnter" MouseLeave="Rectangle_MouseLeave"></Rectangle>
+                                <Rectangle Grid.Column="0" Fill="Transparent" ToolTip="停留数秒切换页面 ^_^" MouseEnter="Rectangle_MouseEnter" MouseLeftButtonDown="Rectangle_MouseLeftButtonDown"   MouseLeave="Rectangle_MouseLeave"></Rectangle>
                                 <Rectangle Grid.Column="2" Fill="Transparent" ToolTip="停留数秒切换页面 ^_^"></Rectangle>
                                 <Grid Name="mainGrid" Grid.Column="1" Visibility="Visible" Grid.ColumnSpan="3" Opacity="1" RenderTransformOrigin="0.5,0.5">
                                     <Grid.LayoutTransform>

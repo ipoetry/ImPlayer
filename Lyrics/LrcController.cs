@@ -166,7 +166,7 @@ namespace Lyrics
             for (int i = 0; i < strArray.Length; i++)
             {
                 string str = strArray[i];
-                if (string.IsNullOrEmpty(str))
+                if (string.IsNullOrEmpty(str.Trim()))
                 {
                     str = "*";
                 }
@@ -180,6 +180,7 @@ namespace Lyrics
                 int num10 = (int)Math.Round((double)((defaultFont.Size * (lineSpacing - cellAscent)) / ((float)emHeight)));
                 GraphicsPath path = new GraphicsPath();
                 path.AddString(str, defaultFont.FontFamily, (int)defaultFont.Style, (defaultFont.Size * 96f) / 72f, origin, StringFormat.GenericDefault);
+                Console.WriteLine( str + path.GetBounds());
                 System.Drawing.Brush brush = new System.Drawing.Drawing2D.LinearGradientBrush(path.GetBounds(), bgUPColor, bgDownColor, LinearGradientMode.Vertical);
                 if (i < (strArray.Length - 1))
                 {
@@ -248,8 +249,8 @@ namespace Lyrics
             List<Bitmap> list = new List<Bitmap>();
             for (int i = 0; i < strArray.Length; i++)
             {
-                string str = strArray[i];
-                if (string.IsNullOrEmpty(str))
+                string str = strArray[i].Trim();
+                if (string.IsNullOrEmpty(str)||str=="\n"||str=="\r"||str=="\n\r")
                 {
                     str = "*";
                 }
@@ -309,8 +310,8 @@ namespace Lyrics
             int item = 0;
             for (int i = 0; i < strArray.Length; i++)
             {
-                string str = strArray[i];
-                if (string.IsNullOrEmpty(str))
+                string str = strArray[i].Trim();
+                if (string.IsNullOrEmpty(str) || str == "\n" || str == "\r" || str == "\n\r")
                 {
                     str = "*";
                 }
@@ -372,7 +373,7 @@ namespace Lyrics
             }
         }
 
-        public static void SearchLrc(Song song)
+        public async static void SearchLrc(Song song)
         {
             bool isExist = false;
             lyric.Clear();
@@ -399,16 +400,12 @@ namespace Lyrics
                 }
                 if (!isExist)
                 {
-                    DownLrc.CompletedNoticeEventHandler += new DownLrc.DownCompleteNotice(DownLrcCompleted);
-                    DownLrc.BeginDownloadLrc(song);
+                    string lrcPath = await DownLrc.DownloadLrcAsync(song);
+                    if (string.IsNullOrEmpty(lrcPath)) { lrcPath = await DownLrc.DownloadLrcAsyncFromQian(song); }
+                    if (!string.IsNullOrEmpty(lrcPath)&&lrcWindow != null && lrcWindow.IsLoaded) {  lyric = new Lrc(lrcPath); }
                 }
             }
-            catch(Exception ex) { Debug.Write(ex.Message); }
-        }
-
-        private static void DownLrcCompleted(bool isSuccess,string lrcPath)
-        {
-            if (isSuccess && lrcWindow != null && lrcWindow.IsLoaded) { lyric = new Lrc(lrcPath); }
+            catch(Exception ex) { Debug.Write(ex.ToString()); }
         }
 
         public static void SetButtonChanged(object sender, int index)

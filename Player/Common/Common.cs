@@ -11,7 +11,7 @@ namespace Player.Common
     class Common
     {
         #region
-        private static string _supportFormat=".mp3.wma.wav.ape.flac.acc.mp4.ogg";
+        private static string _supportFormat=".mp3.wma.wav.ape.flac.acc.mp4.ogg.m4a";
         public static string SupportFormat { get { return _supportFormat; } }
         #endregion
 

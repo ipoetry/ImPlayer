@@ -23,26 +23,14 @@ namespace Lyrics
         private const string lrcSerach_Qian = "http://ttlrcct2.qianqian.com/dll/lyricsvr.dll?sh?Artist={0}&Title={1}&Flags=0";
         private const string lrcDownload_Qian = "http://ttlrcct2.qianqian.com/dll/lyricsvr.dll?dl?Id={0}&Code={1}";
         #endregion
-        #region 检查网络状态
 
-        //检测网络状态  
-        [DllImport("wininet.dll")]
-        extern static bool InternetGetConnectedState(out int connectionDescription, int reservedValue);
-        /// <summary>  
-        /// 检测网络状态  
-        /// </summary>  
-        static bool isConnected{get{int I = 0;return InternetGetConnectedState(out I, 0);}}
-
-        #endregion  
-        public static string LrcContent { get; set; }
-        public delegate void DownCompleteNotice(bool isSuccess,string lrcPath);
-        public static event DownCompleteNotice CompletedNoticeEventHandler; 
+        public static string LrcContent { get; set; } 
    
-        private async static Task<Uri> GetLrcUrlByFileName(string FileName,string artist="")
+        private async static Task<Uri> GetLrcUrlByFileName(string FileName,string Artist="")
         {
             try
             {
-                string url = string.Format(lrcFilter, GetGb2312(artist), GetGb2312(FileName)); //utf-8
+                string url = string.Format(lrcFilter, GetGb2312(Artist), GetGb2312(FileName)); //utf-8
                 HttpClient client = new HttpClient(new PCHttpClienHanlder());
                 HttpResponseMessage content = await client.GetAsync(url);//DownLossless
                 byte[] bs = await content.Content.ReadAsByteArrayAsync();
@@ -58,79 +46,74 @@ namespace Lyrics
             }
             catch
             {
-                throw;
+                return null;
             }
         }
 
         private async static Task<Uri> GetLrcUrl(string Title, string Artist)
         {
-            HttpClient client = new HttpClient(new PCHttpClienHanlder());
-            HttpResponseMessage content = await client.GetAsync(string.Format(lrcSerach_Qian, GetUnicode(Artist), GetUnicode(Title)));
-          //  byte[] bs = await content.Content.ReadAsByteArrayAsync();
-            string result = await content.Content.ReadAsStringAsync();
-           // result = Encoding.UTF8.GetString(bs);
-            if (string.IsNullOrEmpty(result)) { Console.WriteLine("error:(百度)搜索歌词时 返回为null"); return null; }
-            XmlDocument docuemnt = new XmlDocument();
-            docuemnt.LoadXml(result);
-            XmlNode xn=  docuemnt.SelectSingleNode(".//lrc");
-            if (xn==null) { Console.WriteLine("没有搜索到歌词：百度服务器"); return null; }
-            int Id = int.Parse(xn.Attributes["id"].Value);
-            string url = string.Format(lrcDownload_Qian,Id , GenerateCode(Artist,Title,Id));
-            Console.WriteLine(url);
-            return new Uri(url);
-        }
-        public async static void BeginDownloadLrc(Song song,int isFirst=0)
-        {
-            if (!isConnected) { Console.WriteLine("网络未连接，无法下载歌词"); CompletedNoticeEventHandler(false, null); return; };
-            WebClient wc = new WebClient();
-            string[] info = GetTitleAndArtistByFilename(song);
-            Uri dlUrl=null;
-            if (isFirst == 1) { dlUrl = await GetLrcUrlByFileName(info[0], info.Length > 1 ? info[1] : "");}
-            dlUrl = info.Length > 1 ? await GetLrcUrl(info[0], info[1]) : await GetLrcUrlByFileName(info[0]);
-            if (dlUrl == null || !isConnected) { CompletedNoticeEventHandler(false, null); return; };
             try
             {
-                Console.WriteLine("已找到资源 正在下载……");
-                song.Company = dlUrl.ToString();
-                wc.DownloadDataCompleted += new DownloadDataCompletedEventHandler(DownCompletePush);
-                wc.Credentials = CredentialCache.DefaultCredentials;
-                wc.DownloadDataAsync(dlUrl, song);
+                HttpClient client = new HttpClient(new PCHttpClienHanlder());
+                HttpResponseMessage content = await client.GetAsync(string.Format(lrcSerach_Qian, GetUnicode(Artist), GetUnicode(Title)));
+                string result = await content.Content.ReadAsStringAsync();
+                if (string.IsNullOrEmpty(result)) { Console.WriteLine("error:在千千搜索歌词时 返回为null"); return null; }
+                XmlDocument docuemnt = new XmlDocument();
+                docuemnt.LoadXml(result);
+                XmlNode xn = docuemnt.SelectSingleNode(".//lrc");
+                if (xn == null) { Console.WriteLine("没有搜索到歌词：千千服务器"); return null; }
+                int Id = int.Parse(xn.Attributes["id"].Value);
+                string url = string.Format(lrcDownload_Qian, Id, GenerateCode(Artist, Title, Id));
+                return new Uri(url);
             }
-            catch (Exception)
-            {
-                CompletedNoticeEventHandler(false,null);
-            }
+            catch { throw; }
         }
- 
-        private static void DownCompletePush(object sender,DownloadDataCompletedEventArgs e)
-        {
-            try
-            {
-                Song song = (Song)e.UserState;
-                Byte[] pageData = e.Result;
-                Encoding enc;
-                if (song.Company.Contains("http://lrc.aspxp.net/"))
-                {
-                    enc = Encoding.GetEncoding("GB2312");
-                }
-                else
-                {
-                    enc = Encoding.UTF8;
-                }
-                LrcContent = enc.GetString(pageData);
 
-                if (LrcContent.Contains("errmsg") && LrcContent.Contains("errcode"))
-                {
-                    BeginDownloadLrc(song, 1); return;
-                }
-                string lrcSavePath=song.FileUrl.Remove(song.FileUrl.LastIndexOf(".")) + ".lrc";
-                StreamWriter sw = new StreamWriter(lrcSavePath, false, Encoding.UTF8);
-                sw.Write(LrcContent);
-                sw.Flush();
-                sw.Close();
-                CompletedNoticeEventHandler(true,lrcSavePath);
+        public async static Task<string> DownloadLrcAsync(Song song)
+        {
+
+            string[] info = {song.Title,song.Artist};
+            if (string.IsNullOrEmpty(song.Title))
+            {
+                info = GetTitleAndArtistByFilename(song);
             }
-            catch { CompletedNoticeEventHandler(false,null); }
+            Uri dlUrl = await GetLrcUrlByFileName(info[0], info.Length > 1 ? info[1] : "");
+            if (dlUrl == null) { return null; }
+            Console.WriteLine(dlUrl.ToString());
+            HttpClient client = new HttpClient(new PCHttpClienHanlder());
+            HttpResponseMessage message = await client.GetAsync(dlUrl);
+            byte[] pageData = await message.Content.ReadAsByteArrayAsync();
+            LrcContent=Encoding.GetEncoding("GB2312").GetString(pageData);
+           // byte[] bytes = await client.GetByteArrayAsync(dlUrl);
+            if (string.IsNullOrEmpty(LrcContent)) { return null; }
+            string lrcSavePath = song.FileUrl.Remove(song.FileUrl.LastIndexOf(".")) + ".lrc";
+            using (StreamWriter sw = new StreamWriter(lrcSavePath, false, Encoding.UTF8))
+            {
+                sw.Write(LrcContent);
+            }
+            return lrcSavePath;
+        }
+
+        public async static Task<string> DownloadLrcAsyncFromQian(Song song)
+        {
+            string[] info = { song.Title, song.Artist };
+            if (string.IsNullOrEmpty(song.Title))
+            {
+                info = GetTitleAndArtistByFilename(song);
+            }
+            Uri dlUrl = await GetLrcUrl(info[0], info.Length > 1 ? info[1] : "");
+            Console.WriteLine(dlUrl.ToString());
+            HttpClient client = new HttpClient(new PCHttpClienHanlder());
+            HttpResponseMessage message = await client.GetAsync(dlUrl);
+            byte[] pageData = await message.Content.ReadAsByteArrayAsync();
+            LrcContent = Encoding.UTF8.GetString(pageData);
+            if (string.IsNullOrEmpty(LrcContent)||LrcContent.Contains("errcode")) { return null; }
+            string lrcSavePath = song.FileUrl.Remove(song.FileUrl.LastIndexOf(".")) + ".lrc";
+            using (StreamWriter sw = new StreamWriter(lrcSavePath, false, Encoding.UTF8))
+            {
+                sw.Write(LrcContent);
+            }
+            return lrcSavePath;
         }
 
         class PCHttpClienHanlder : HttpClientHandler

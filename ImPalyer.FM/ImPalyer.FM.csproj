@@ -81,9 +81,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ConnectionBase.cs" />
     <Compile Include="Core\Channel.cs" />
-    <Compile Include="Core\Search.cs" />
     <Compile Include="Core\Song.cs" />
     <Page Include="Styles\Brush.xaml">
       <Generator>MSBuild:Compile</Generator>

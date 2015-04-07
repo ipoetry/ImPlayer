@@ -31,29 +31,41 @@ namespace Player
 
         private void btnPre_Click(object sender, RoutedEventArgs e)
         {
-            PlayController.PlayPrevent();
+            this.Dispatcher.BeginInvoke(new Action(() => {
+                PlayController.PlayPrevent();
+            }));     
         }
 
         private void btnPlay_Click(object sender, RoutedEventArgs e)
         {
-            if (PlayController.bassEng.IsPlaying)
+
+
+            this.Dispatcher.BeginInvoke(new Action(() =>
             {
-                PlayController.Pause();
-                btnPlay.Style = (Style)this.FindResource("play");
-            }
-            else
-            {
-                if (PlayController.bassEng.CanPlay)
-                    PlayController.Play();
+                if (PlayController.bassEng.IsPlaying)
+                {
+                    PlayController.Pause();
+                    btnPlay.Style = (Style)this.FindResource("play");
+                }
                 else
-                    PlayController.PlayMusic();
+                {
+                    if (PlayController.bassEng.CanPlay)
+                        PlayController.Play();
+                    else
+                        PlayController.PlayMusic();
                     btnPlay.Style = (Style)this.FindResource("pause");
-            }
+                }
+            }));
+            
         }
 
         private void btnNext_Click(object sender, RoutedEventArgs e)
         {
-            PlayController.PlayNext();
+            this.Dispatcher.BeginInvoke(new Action(() =>
+            {
+                PlayController.PlayNext();
+            }));
+            
         }
 
         private void btnExit_Click(object sender, RoutedEventArgs e)
@@ -87,10 +99,14 @@ namespace Player
         SettingPage setingPage = null;
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            if (setingPage == null || !setingPage.IsLoaded)
-                setingPage = new SettingPage(AppPropertys.HotKeys);
-            setingPage.SettingReloadHandler += new SettingReloadDelegate(AppPropertys.mainWindow.SaveConfig);
-            setingPage.Show();
+            this.Dispatcher.BeginInvoke(new Action(() =>
+            {
+                if (setingPage == null || !setingPage.IsLoaded)
+                    setingPage = new SettingPage(AppPropertys.HotKeys);
+                setingPage.SettingReloadHandler += new SettingReloadDelegate(AppPropertys.mainWindow.SaveConfig);
+                setingPage.Show();
+            }));
+           
         }
 
         

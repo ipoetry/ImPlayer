@@ -237,8 +237,8 @@ namespace Player
             if(index<1||index>8){return;}
             MenuItem  mi= (MenuItem)this.FindName("m"+index);
             mi.IsChecked = true;
+            OldSelect = mi;
             lbSet.Content = "预设（"+mi.Header+"）";
-
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)

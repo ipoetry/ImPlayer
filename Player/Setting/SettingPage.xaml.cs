@@ -26,9 +26,6 @@ namespace Player.Setting
     public delegate void SettingReloadDelegate(HotKeys HotKeys);
     public partial class SettingPage : Window
     {
-        /// <summary>
-        /// 热键设置，关闭窗口前为默认设置，关闭窗口后更新为新设置
-        /// </summary>
         internal HotKeys HotKeys { get; private set; }
         public event SettingReloadDelegate SettingReloadHandler;
         private ObservableCollection<DataItem> items = new ObservableCollection<DataItem>();
@@ -190,19 +187,28 @@ namespace Player.Setting
 
          private void isAutoStart_Checked(object sender, RoutedEventArgs e)
          {
-             string path = System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName;
-             RegistryKey rKey = Registry.LocalMachine;
-             RegistryKey rKey2 = rKey.CreateSubKey(@"Software\Microsoft\Windows\CurrentVersion\Run");
-             if ((bool)isAutoStart.IsChecked)  
+             if (!Win8Toast.SystemHepler.IsWin8OrHeigher())
              {
-                 rKey2.SetValue("Cup Player", path);
+                 string path = System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName;
+                 RegistryKey rKey = Registry.LocalMachine;
+                 RegistryKey rKey2 = rKey.CreateSubKey(@"Software\Microsoft\Windows\CurrentVersion\Run");
+                 if ((bool)isAutoStart.IsChecked)
+                 {
+                     rKey2.SetValue("Cup Player", path);
+                 }
+                 else
+                 {
+                     rKey2.DeleteValue("Cup Player", false);
+                 }
+                 rKey2.Close();
+                 rKey.Close();
              }
-             else   
-             {
-                 rKey2.DeleteValue("Cup Player", false);
+             else {
+                 if (!File.Exists(Win8Toast.ToastTip.shortcutPath))
+                     Win8Toast.ToastTip.TryCreateShortcut();
+                     File.Copy(Win8Toast.ToastTip.shortcutPath,Win8Toast.SystemHepler.autoStart+"Cup Player.lnk");
+
              }
-             rKey2.Close();
-             rKey.Close();
          }
     }
 }

@@ -8,7 +8,7 @@ using System.Xml;
 
 namespace Lyrics
 {
-    class KuWoHelper
+    public class KuWoHelper
     {
         public async static Task<string> GetLyricUrl(string key)
         {
@@ -20,8 +20,7 @@ namespace Lyrics
             XmlDocument document = new XmlDocument();
             document.LoadXml(result);
             string code = document.SelectSingleNode("//lyric").InnerText;
-            return "" + code;
-
+            return "http://newlyric.kuwo.cn/newlyric.lrc?" + code;
         }
 
         public async static Task<string> GetLestionUrl(string key)

@@ -126,9 +126,9 @@ namespace BassCore
 			Un4seen.Bass.BassNet.Registration("wrox1226@live.com", "2X3237261752922");
 			//判断当前系统是32位系统还是64位系统，并加载对应版本的bass.dll
 			string targetPath;
-			if (Un4seen.Bass.Utils.Is64Bit)
-				targetPath = Path.Combine(Path.GetDirectoryName(typeof(BassEngine).Assembly.GetModules()[0].FullyQualifiedName), "x64");
-			else
+            if (Un4seen.Bass.Utils.Is64Bit)
+                targetPath = Path.Combine(Path.GetDirectoryName(typeof(BassEngine).Assembly.GetModules()[0].FullyQualifiedName), "x64");
+            else
 				targetPath = Path.Combine(Path.GetDirectoryName(typeof(BassEngine).Assembly.GetModules()[0].FullyQualifiedName), "x86");
 
 			// now load all libs manually
@@ -431,6 +431,7 @@ namespace BassCore
                     handle = Un4seen.Bass.AddOn.Aac.BassAac.BASS_AAC_StreamCreateFile(filename, 0, 0, Un4seen.Bass.BASSFlag.BASS_DEFAULT);
                     break;
                 case ".m4a":
+                   // handle = Un4seen.Bass.AddOn.Aac.BassAac.BASS_AAC_StreamCreateFile(filename, 0, 0, Un4seen.Bass.BASSFlag.BASS_DEFAULT);
                     handle = Un4seen.Bass.AddOn.Aac.BassAac.BASS_MP4_StreamCreateFile(filename, 0, 0, Un4seen.Bass.BASSFlag.BASS_DEFAULT);
                     break;
                 case ".wma":
@@ -513,8 +514,8 @@ namespace BassCore
 			onlineFileWorker.IsBackground = true;
 			onlineFileWorker.Start();
 		}
-
-		/// <summary>
+        #region
+        /// <summary>
 		/// 设置代理服务器
 		/// </summary>
 		/// <param name="host">主机</param>
@@ -612,8 +613,10 @@ namespace BassCore
 		}
 		#endregion
 
-		#region Event Handleres
-		/// <summary>
+        #endregion
+
+        #region Event Handleres
+        /// <summary>
 		/// 更新播放进度
 		/// </summary>
 		private void positionTimer_Tick(object sender, EventArgs e)
