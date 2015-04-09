@@ -65,17 +65,26 @@ namespace Player
             if (sName == "")
             {
                 string[] info = song.FileName.Split('-');
-                if (info.Length <= 1) { if (isPPTPlaying) { StopPlayPPT(); } Console.WriteLine("无法识别到歌手，取消下载图片"); return; }
-                sName = info[1]; //只做简单判断
+                if (info.Length <= 1) 
+                { 
+                    if (isPPTPlaying)
+                    {
+                        StopPlayPPT();
+                    } 
+                    Console.WriteLine("无法识别，取消下载图片"); 
+                    return;
+                }
+                sName = info[0];
             }
             isPPTPlaying = true;
             SingerPic.CompletedNoticeEventHandler += new SingerPic.CompletedNotice(StartPlay);
-            SingerPic.BeginDownload(sName);
+            SingerPic.BeginDownload(CommonProperty.SingerPicPath,sName);
         }
         //改动
         private void StartPlay(MyEventAgr e)
         {
-            imageList = EnumerateImageFiles(AppPropertys.appPath + "\\Portray\\" + e.SName + "\\");
+
+            imageList = EnumerateImageFiles(CommonProperty.SingerPicPath + e.SName + "\\");
             if (imageList.Count <= 0) { if (isPPTPlaying) StopPlayPPT(); return; }
             //   borderOpacity = BorderImage.Opacity;
             BorderImage.Opacity = 0;
@@ -100,7 +109,7 @@ namespace Player
             nowPPTImage.Visibility = System.Windows.Visibility.Collapsed;
             nowPPTImage.Opacity = 0;
             successful = true;
-            AppPropertys.mainWindow.BorderImage.ImageSource =PictureHelp.GetBitmapImage("back01.jpg");
+            AppPropertys.mainWindow.BorderImage.ImageSource = PictureHelp.GetBitmapImage("Img_Background.jpg");
             return successful;
         }
 

@@ -55,11 +55,6 @@ namespace Player
             }
         }
 
-        private void btnPlayStyle()
-        {
-            btnPlay.Style =  (Style)this.FindResource(btnPlay.Tag.ToString());
-        }
-
         public void btnPre_Click(object sender, RoutedEventArgs e)
         {
             this.Dispatcher.BeginInvoke(new Action(() =>
@@ -124,18 +119,6 @@ namespace Player
                 double pos = (Canvas.GetLeft(thumb2) + e.HorizontalChange) / ChanelLength.Width * (PlayController.bassEng.ChannelLength.TotalSeconds <= 0 ? 300 : PlayController.bassEng.ChannelLength.TotalSeconds);
                 PlayController.bassEng.ChannelPosition = TimeSpan.FromSeconds(pos);
                 Canvas.SetLeft(thumb2, Canvas.GetLeft(thumb2) + e.HorizontalChange);
-            }
-        }
-
-        private void btnF_Click(object sender, RoutedEventArgs e)
-        {
-            if (AppPropertys.mainWindow.isPPTPlaying)
-            { 
-                AppPropertys.mainWindow.StopPlayPPT();
-            }
-            else
-            {
-                AppPropertys.mainWindow.PlayPPT(PlayController.Songs[PlayController.PlayIndex]);
             }
         }
 

@@ -101,6 +101,20 @@
         <local:CurrentState x:Key="CurrentState" />
         <local:IsEnded x:Key="IsEnded"/>
 
+        <Style x:Key="windowOpacity" TargetType="{x:Type Window}">
+            <Style.Triggers>
+                <EventTrigger RoutedEvent="Window.Loaded">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                            From="0.0" To="1.0" Duration="0:0:1"
+                                            />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </Style.Triggers>
+        </Style>
+
     </UserControl.Resources>
     <Grid>
         <ListView x:Name="dlIngList" ItemsSource="{Binding DownloadingList}" PreviewMouseRightButtonDown="dlIngList_PreviewMouseRightButtonDown" SelectionChanged="dlIngList_SelectionChanged" ScrollViewer.HorizontalScrollBarVisibility="Disabled" >

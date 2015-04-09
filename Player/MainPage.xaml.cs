@@ -57,8 +57,7 @@ namespace Player
         public static extern bool FlashWindow(IntPtr hWnd, bool bInvert);
 
         BackgroundWorker worker = null;
-        string XmlListPath = AppDomain.CurrentDomain.BaseDirectory + "PlayList.pldb";
-        private PBar notifyForm = new PBar(); 
+        string XmlListPath = AppDomain.CurrentDomain.BaseDirectory + "PlayList.pldb"; 
         private System.Timers.Timer timerClock = new System.Timers.Timer(1000);
         private int tick = 3;
 
@@ -398,12 +397,12 @@ namespace Player
                 foreach (string t in FullName)
                 {
                     FileInfo fi = new FileInfo(t);
-                    if (Common.Common.SupportFormat.Contains(fi.Extension.ToLower()))
+                    if (CommonProperty.SupportFormat.Contains(fi.Extension.ToLower()))
                     {
                         Song song=PlayController.Songs.FirstOrDefault(s=>s.FileUrl==fi.FullName);
                         if (song==null)
                         {
-                            song = new Song(fi.FullName, Common.Common.getTitleFromPath(fi.FullName));
+                            song = new Song(fi.FullName, CommonProperty.getTitleFromPath(fi.FullName));
                             ReadInfoFromFile(song);
                             root.AppendChild(CreateElement(xmlDoc, song));
                             PlayController.Songs.Add(song);
@@ -472,7 +471,7 @@ namespace Player
                 XmlNode root = xmlDoc.SelectSingleNode("SongList");
                 foreach (string file in files)
                 {
-                    Song s = new Song(file, Common.Common.getTitleFromPath(file));
+                    Song s = new Song(file, CommonProperty.getTitleFromPath(file));
                     ReadInfoFromFile(s);
                     root.AppendChild(CreateElement(xmlDoc, s));
                     PlayController.Songs.Add(s);
@@ -614,12 +613,11 @@ namespace Player
         /// <param name="Album"></param>
         private void SavePicToDisk(System.Drawing.Image Pic, string PicType, string Album)
         {
-            string dir = Common.Common.GetRunDir() + @"Album\";
-            if (!Directory.Exists(dir))
+            if (!Directory.Exists(CommonProperty.AlbumPicPath))
             {
-                Directory.CreateDirectory(dir);
+                Directory.CreateDirectory(CommonProperty.AlbumPicPath);
             }
-            Pic.Save(dir + Album + ".png", System.Drawing.Imaging.ImageFormat.Png);
+            Pic.Save(CommonProperty.AlbumPicPath + Album + ".png", System.Drawing.Imaging.ImageFormat.Png);
         }
         #endregion
 
@@ -660,17 +658,17 @@ namespace Player
             int count = 0;
             foreach (FileInfo file in files)
             {
-                if (Common.Common.SupportFormat.Contains(file.Extension.ToLower()))
+                if (CommonProperty.SupportFormat.Contains(file.Extension.ToLower()))
                 {
                     string fInfo = file.FullName;
-                    Song s = new Song(fInfo, Common.Common.getTitleFromPath(fInfo));
+                    Song s = new Song(fInfo, CommonProperty.getTitleFromPath(fInfo));
                     ReadInfoFromFile(s);
                     root.AppendChild(CreateElement(xmlDoc, s));
                     playListBox.Dispatcher.Invoke(new Action(() => PlayController.Songs.Add(s)));
 
                     count++;
                 }
-                worker.ReportProgress(count * 100 / files.Count(), Common.Common.getTitleFromPath(file.FullName));
+                worker.ReportProgress(count * 100 / files.Count(), CommonProperty.getTitleFromPath(file.FullName));
                 System.Threading.Thread.Sleep(10);
             }
             xmlDoc.Save(XmlListPath);
@@ -879,7 +877,7 @@ namespace Player
             {
                 XmlDocument xmlDoc = InitXml();
                 XmlNode root = xmlDoc.SelectSingleNode("SongList");
-                song = new Song(path, Common.Common.getTitleFromPath(path));
+                song = new Song(path, CommonProperty.getTitleFromPath(path));
                 ReadInfoFromFile(song);
                 root.AppendChild(CreateElement(xmlDoc, song));
                 PlayController.Songs.Add(song);

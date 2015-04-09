@@ -56,7 +56,7 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>2628.ico</ApplicationIcon>
+    <ApplicationIcon>logo.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>Player.Program</StartupObject>
@@ -136,10 +136,9 @@
     </Compile>
     <Compile Include="BASS\BassEngine.cs" />
     <Compile Include="BASS\DeviceInfo.cs" />
-    <Compile Include="Common\Common.cs" />
+    <Compile Include="Common\CommonProperty.cs" />
     <Compile Include="Common\DataConvert.cs" />
     <Compile Include="Common\ISConvert.cs" />
-    <Compile Include="Common\ISConvert2.cs" />
     <Compile Include="Common\PictureHelp.cs" />
     <Compile Include="Common\TimeSpanToSeconds.cs" />
     <Compile Include="Controls\LrcControl.xaml.cs">
@@ -147,7 +146,7 @@
     </Compile>
     <Compile Include="Core\AppPropertys.cs" />
     <Compile Include="Core\PlayController.cs" />
-    <Page Include="DiyContextMenu.xaml">
+    <Page Include="MyContextMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -163,11 +162,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="PBar.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="PlayOperation.xaml">
+    <Page Include="Controls\PlayOperation.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -206,8 +201,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\ImagePlay.cs" />
-    <Compile Include="DiyContextMenu.xaml.cs">
-      <DependentUpon>DiyContextMenu.xaml</DependentUpon>
+    <Compile Include="MyContextMenu.xaml.cs">
+      <DependentUpon>MyContextMenu.xaml</DependentUpon>
     </Compile>
     <Compile Include="EQ\EqualizerSet.xaml.cs">
       <SubType>Code</SubType>
@@ -221,13 +216,12 @@
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MouseHook.cs" />
+    <Compile Include="Common\MouseHook.cs" />
     <Compile Include="Notify\BalloonSongInfo.xaml.cs">
       <DependentUpon>BalloonSongInfo.xaml</DependentUpon>
     </Compile>
-    <Compile Include="PBar.xaml.cs" />
     <Compile Include="PlayList\SongList.cs" />
-    <Compile Include="PlayOperation.xaml.cs">
+    <Compile Include="Controls\PlayOperation.xaml.cs">
       <DependentUpon>PlayOperation.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -246,6 +240,7 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="app.manifest" />
     <None Include="Player_TemporaryKey.pfx" />
@@ -289,7 +284,21 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Symbian_Anna.dll">
+    <Resource Include="Images\btn_playback_next_normal.png" />
+    <Resource Include="Images\btn_playback_next_pressed.png" />
+    <Resource Include="Images\btn_playback_pasue_pressed.png" />
+    <Resource Include="Images\btn_playback_pause_normal.png" />
+    <Resource Include="Images\btn_playback_pause_pressed.png" />
+    <Resource Include="Images\btn_playback_play_normal.png" />
+    <Resource Include="Images\btn_playback_play_pressed.png" />
+    <Resource Include="Images\btn_playback_pre_normal.png" />
+    <Resource Include="Images\btn_playback_pre_pressed.png" />
+    <Resource Include="Images\menu_exit_normal.png" />
+    <Resource Include="Images\menu_exit_pressed.png" />
+    <Resource Include="Images\menu_setup_normal.png" />
+    <Resource Include="Images\menu_setup_pressed.png" />
+    <Resource Include="logo.ico" />
+    <Content Include="Resouce\Symbian_Anna.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Resource Include="Setting\dn.png" />
@@ -303,77 +312,58 @@
     <Resource Include="Images\logo.ico" />
     <Resource Include="Images\Play.png" />
     <Resource Include="Images\delete.png" />
-    <Resource Include="forPC\quku_music_list_play_normal.png" />
-    <Resource Include="forPC\quku_music_list_play_pressed.png" />
-    <Resource Include="forPC\modecircle_normal.png" />
-    <Resource Include="forPC\modecircle_pressed.png" />
-    <Resource Include="forPC\modeorder_normal.png" />
-    <Resource Include="forPC\modeorder_pressed.png" />
-    <Resource Include="forPC\moderandom_normal.png" />
-    <Resource Include="forPC\moderandom_pressed.png" />
-    <Resource Include="forPC\modesingle_normal.png" />
-    <Resource Include="forPC\modesingle_pressed.png" />
-    <Resource Include="forDiyCM\menu_exit_normal.png" />
-    <Resource Include="forDiyCM\menu_exit_pressed.png" />
-    <Resource Include="forDiyCM\menu_setup_normal.png" />
-    <Resource Include="forDiyCM\menu_setup_pressed.png" />
-    <Resource Include="Imgs\mvreturn1_normal.png" />
-    <Resource Include="Imgs\mvreturn1_pressed.png" />
-    <Resource Include="Imgs\mvreturn_normal.png" />
-    <Resource Include="Imgs\mvreturn_pressed.png" />
-    <Resource Include="Imgs\mv_muted_normal.png" />
-    <Resource Include="Imgs\mv_muted_pressed.png" />
-    <Resource Include="Imgs\mv_mute_normal.png" />
-    <Resource Include="Imgs\mv_mute_pressed.png" />
-    <Resource Include="Imgs\mv_pause_normal.png" />
-    <Resource Include="Imgs\mv_pause_pressed.png" />
-    <Resource Include="Imgs\mv_play_download.png" />
-    <Resource Include="Imgs\mv_play_normal.png" />
-    <Resource Include="Imgs\mv_play_pressed.png" />
-    <Resource Include="Imgs\mx_icon.png" />
-    <Resource Include="Imgs\next_normal.png" />
-    <Resource Include="Imgs\next_pressed.png" />
-    <Resource Include="Imgs\nowplaycurlist_normal.png" />
-    <Resource Include="Imgs\nowplaycurlist_normal_meizu.png" />
-    <Resource Include="Imgs\nowplaycurlist_pressed.png" />
-    <Resource Include="Imgs\nowplaydown_disabled.png" />
-    <Resource Include="Imgs\nowplaydown_normal.png" />
-    <Resource Include="Imgs\nowplaydown_pressed.png" />
-    <Resource Include="Imgs\nowplaymuted_normal.png" />
-    <Resource Include="Imgs\nowplaymuted_pressed.png" />
-    <Resource Include="Imgs\nowplaymute_normal.png" />
-    <Resource Include="Imgs\nowplaymute_pressed.png" />
-    <Resource Include="Imgs\nowplaynext_normal.png" />
-    <Resource Include="Imgs\nowplaynext_normalmeizu.png" />
-    <Resource Include="Imgs\nowplaynext_pressed.png" />
-    <Resource Include="Imgs\nowplaypause_normal.png" />
-    <Resource Include="Imgs\nowplaypause_pressed.png" />
-    <Resource Include="Imgs\nowplayplay_normal.png" />
-    <Resource Include="Imgs\nowplayplay_pressed.png" />
-    <Resource Include="Imgs\nowplaypre_normal.png" />
-    <Resource Include="Imgs\nowplaypre_normal_meizu.png" />
-    <Resource Include="Imgs\nowplaypre_pressed.png" />
-    <Resource Include="Imgs\nowplayreturn_normal.png" />
-    <Resource Include="Imgs\nowplayreturn_pressed.png" />
-    <Resource Include="Imgs\pause_normal.png" />
-    <Resource Include="Imgs\pause_pressed.png" />
-    <Resource Include="Imgs\play_normal.png" />
-    <Resource Include="forDiyCM\nowplaymuted_normal.png" />
-    <Resource Include="forDiyCM\nowplaymuted_pressed.png" />
-    <Resource Include="forDiyCM\nowplaymute_normal.png" />
-    <Resource Include="forDiyCM\nowplaymute_pressed.png" />
-    <Resource Include="forDiyCM\btn_playback_next_normal.png" />
-    <Resource Include="forDiyCM\btn_playback_next_pressed.png" />
-    <Resource Include="forDiyCM\btn_playback_pasue_pressed.png" />
-    <Resource Include="forDiyCM\btn_playback_pause_normal.png" />
-    <Resource Include="forDiyCM\btn_playback_pause_pressed.png" />
-    <Resource Include="forDiyCM\btn_playback_play_normal.png" />
-    <Resource Include="forDiyCM\btn_playback_play_pressed.png" />
-    <Resource Include="forDiyCM\btn_playback_pre_normal.png" />
-    <Resource Include="forDiyCM\btn_playback_pre_pressed.png" />
-    <Resource Include="back0.jpg" />
-    <Resource Include="2628.ico" />
-    <Resource Include="back01.jpg" />
+    <Resource Include="Images\quku_music_list_play_normal.png" />
+    <Resource Include="Images\quku_music_list_play_pressed.png" />
+    <Resource Include="Images\modecircle_normal.png" />
+    <Resource Include="Images\modecircle_pressed.png" />
+    <Resource Include="Images\modeorder_normal.png" />
+    <Resource Include="Images\modeorder_pressed.png" />
+    <Resource Include="Images\moderandom_normal.png" />
+    <Resource Include="Images\moderandom_pressed.png" />
+    <Resource Include="Images\modesingle_normal.png" />
+    <Resource Include="Images\modesingle_pressed.png" />
+    <Resource Include="Images\mvreturn1_normal.png" />
+    <Resource Include="Images\mvreturn1_pressed.png" />
+    <Resource Include="Images\mvreturn_normal.png" />
+    <Resource Include="Images\mvreturn_pressed.png" />
+    <Resource Include="Images\mv_muted_normal.png" />
+    <Resource Include="Images\mv_muted_pressed.png" />
+    <Resource Include="Images\mv_mute_normal.png" />
+    <Resource Include="Images\mv_mute_pressed.png" />
+    <Resource Include="Images\mv_pause_normal.png" />
+    <Resource Include="Images\mv_pause_pressed.png" />
+    <Resource Include="Images\mv_play_download.png" />
+    <Resource Include="Images\mv_play_normal.png" />
+    <Resource Include="Images\mv_play_pressed.png" />
+    <Resource Include="Images\mx_icon.png" />
+    <Resource Include="Images\next_normal.png" />
+    <Resource Include="Images\next_pressed.png" />
+    <Resource Include="Images\nowplaycurlist_normal.png" />
+    <Resource Include="Images\nowplaycurlist_normal_meizu.png" />
+    <Resource Include="Images\nowplaycurlist_pressed.png" />
+    <Resource Include="Images\nowplaydown_disabled.png" />
+    <Resource Include="Images\nowplaydown_normal.png" />
+    <Resource Include="Images\nowplaydown_pressed.png" />
+    <Resource Include="Images\nowplaymuted_normal.png" />
+    <Resource Include="Images\nowplaymuted_pressed.png" />
+    <Resource Include="Images\nowplaymute_normal.png" />
+    <Resource Include="Images\nowplaymute_pressed.png" />
+    <Resource Include="Images\nowplaynext_normal.png" />
+    <Resource Include="Images\nowplaynext_normalmeizu.png" />
+    <Resource Include="Images\nowplaynext_pressed.png" />
+    <Resource Include="Images\nowplaypause_normal.png" />
+    <Resource Include="Images\nowplaypause_pressed.png" />
+    <Resource Include="Images\nowplayplay_normal.png" />
+    <Resource Include="Images\nowplayplay_pressed.png" />
+    <Resource Include="Images\nowplaypre_normal.png" />
+    <Resource Include="Images\nowplaypre_normal_meizu.png" />
+    <Resource Include="Images\nowplaypre_pressed.png" />
+    <Resource Include="Images\nowplayreturn_normal.png" />
+    <Resource Include="Images\nowplayreturn_pressed.png" />
+    <Resource Include="Images\pause_normal.png" />
+    <Resource Include="Images\pause_pressed.png" />
+    <Resource Include="Images\play_normal.png" />
+    <Resource Include="Img_Background.jpg" />
     <Content Include="BASS\x64\bass.dll" />
     <Content Include="BASS\x86\bass.dll" />
     <Resource Include="Images\file.png" />
@@ -401,6 +391,7 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

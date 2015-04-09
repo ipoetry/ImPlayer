@@ -83,6 +83,7 @@
     <Compile Include="DownloadPage.xaml.cs">
       <DependentUpon>DownloadPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="MouseHook.cs" />
     <Compile Include="MyApp.cs" />
     <Compile Include="MyProcessBar.xaml.cs">
       <DependentUpon>MyProcessBar.xaml</DependentUpon>

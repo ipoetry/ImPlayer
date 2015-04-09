@@ -6,9 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Un4seen.Bass.AddOn.Tags;
 
-namespace Player.Common
+namespace Player
 {
-    class Common
+    class CommonProperty
     {
         #region
         private static string _supportFormat=".mp3.wma.wav.ape.flac.acc.mp4.ogg.m4a";
@@ -36,9 +36,8 @@ namespace Player.Common
             return path.Substring(index);
         }
 
-        public static string GetRunDir()
-        {
-            return AppDomain.CurrentDomain.BaseDirectory;
-        }
+        public static string RunDir { get { return AppDomain.CurrentDomain.BaseDirectory; } }
+        public static string AlbumPicPath { get { return AppDomain.CurrentDomain.BaseDirectory+@"Data\Album\"; } }
+        public static string SingerPicPath { get { return AppDomain.CurrentDomain.BaseDirectory + @"Data\Portray\"; } }
     }
 }

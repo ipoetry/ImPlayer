@@ -20,10 +20,36 @@ namespace Player.Common
             { 
                 if (path == "" || !File.Exists(path))
                 {
-                    path = AppPropertys.appPath + @"Album\NoCover.png";
+                    path = CommonProperty.AlbumPicPath + "NoCover.png";
                 } 
             }
 
+            return path;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            return null;
+        }
+
+        #endregion
+    }
+
+    [ValueConversion(typeof(String), typeof(String))]
+    public class ISConvert2 : IValueConverter
+    {
+        #region IValueConverter 成员
+
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            string path = value.ToString();
+            if (!path.StartsWith("http:"))
+            {
+                if (path == "" || !File.Exists(path))
+                {
+                    path = "/Player;component/Images/NoCover.png";
+                }
+            }
             return path;
         }
 

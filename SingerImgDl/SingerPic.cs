@@ -62,7 +62,10 @@ namespace ArtistPic
             }
 
         }
-
+        /// <summary>
+        /// 暂停使用
+        /// </summary>
+        /// <param name="sName"></param>
         public async static void BeginDownloads(string sName)
         {
             int count = 1;
@@ -116,9 +119,9 @@ namespace ArtistPic
         /// 开始异步下载
         /// </summary>
         /// <param name="ArtistName"></param>
-        public async static void BeginDownload(string ArtistName)
+        public async static void BeginDownload(string Savepath, string ArtistName)
         {
-            string dir = AppDomain.CurrentDomain.BaseDirectory + "\\Portray\\" + ArtistName + "\\";
+            string dir = Savepath + ArtistName + "\\";
             if (System.IO.Directory.Exists(dir))
             {
                 CompletedNoticeEventHandler(new MyEventAgr { SName = ArtistName, WC = null }); 

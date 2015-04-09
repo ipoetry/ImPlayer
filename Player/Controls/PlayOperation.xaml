@@ -51,7 +51,7 @@
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type Button}">
                             <Border>
-                                <Image Name="img" Source="/Player;component/Imgs/nowplayplay_normal.png"/>
+                                <Image Name="img" Source="/Player;component/Images/nowplayplay_normal.png"/>
                             </Border>
                             <ControlTemplate.Triggers>
                                 <!--<Trigger Property="IsEnabled" Value="False">
@@ -59,7 +59,7 @@
                                     </Setter>
                                 </Trigger>-->
                                 <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter TargetName="img" Property="Source" Value="/Player;component/Imgs/nowplayplay_pressed.png">
+                                    <Setter TargetName="img" Property="Source" Value="/Player;component/Images/nowplayplay_pressed.png">
                                     </Setter>
                                 </Trigger>
                             </ControlTemplate.Triggers>
@@ -73,7 +73,7 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
                         <Border>
-                            <Image Name="img" Source="/Player;component/Imgs/nowplaypause_normal.png"/>
+                            <Image Name="img" Source="/Player;component/Images/nowplaypause_normal.png"/>
                         </Border>
                         <ControlTemplate.Triggers>
                             <!--<Trigger Property="IsEnabled" Value="False">
@@ -81,7 +81,7 @@
                                     </Setter>
                                 </Trigger>-->
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="img" Property="Source" Value="/Player;component/Imgs/nowplaypause_pressed.png">
+                                <Setter TargetName="img" Property="Source" Value="/Player;component/Images/nowplaypause_pressed.png">
                                 </Setter>
                             </Trigger>
                         </ControlTemplate.Triggers>
@@ -96,7 +96,7 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
                         <Border>
-                            <Image Name="img" Source="/Player;component/Imgs/mv_muted_normal.png"/>
+                            <Image Name="img" Source="/Player;component/Images/mv_muted_normal.png"/>
                         </Border>
                         <ControlTemplate.Triggers>
                             <!--<Trigger Property="IsEnabled" Value="False">
@@ -104,7 +104,7 @@
                                     </Setter>
                                 </Trigger>-->
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="img" Property="Source" Value="/Player;component/Imgs/mv_muted_pressed.png">
+                                <Setter TargetName="img" Property="Source" Value="/Player;component/Images/mv_muted_pressed.png">
                                 </Setter>
                             </Trigger>
                         </ControlTemplate.Triggers>
@@ -117,7 +117,7 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
                         <Border>
-                            <Image Name="img" Source="/Player;component/Imgs/mv_mute_normal.png"/>
+                            <Image Name="img" Source="/Player;component/Images/mv_mute_normal.png"/>
                         </Border>
                         <ControlTemplate.Triggers>
                             <!--<Trigger Property="IsEnabled" Value="False">
@@ -125,7 +125,7 @@
                                     </Setter>
                                 </Trigger>-->
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="img" Property="Source" Value="/Player;component/Imgs/mv_mute_pressed.png">
+                                <Setter TargetName="img" Property="Source" Value="/Player;component/Images/mv_mute_pressed.png">
                                 </Setter>
                             </Trigger>
                         </ControlTemplate.Triggers>
@@ -159,10 +159,10 @@
         <Style x:Key="single" TargetType="{x:Type Image}">
             <Style.Triggers>
                 <Trigger Property="IsEnabled" Value="True">
-                    <Setter  Property="Source" Value="/Player;component/forPC/modesingle_normal.png"></Setter>
+                    <Setter  Property="Source" Value="/Player;component/Images/modesingle_normal.png"></Setter>
                 </Trigger>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter  Property="Source" Value="/Player;component/forPC/modesingle_pressed.png"></Setter>
+                    <Setter  Property="Source" Value="/Player;component/Images/modesingle_pressed.png"></Setter>
                 </Trigger>
             </Style.Triggers>
         </Style>
@@ -170,10 +170,10 @@
         <Style x:Key="random" TargetType="{x:Type Image}">
             <Style.Triggers>
                 <Trigger Property="IsEnabled" Value="True">
-                    <Setter  Property="Source" Value="/Player;component/forPC/moderandom_normal.png"></Setter>
+                    <Setter  Property="Source" Value="/Player;component/Images/moderandom_normal.png"></Setter>
                 </Trigger>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter  Property="Source" Value="/Player;component/forPC/moderandom_pressed.png"></Setter>
+                    <Setter  Property="Source" Value="/Player;component/Images/moderandom_pressed.png"></Setter>
                 </Trigger>
             </Style.Triggers>
         </Style>
@@ -181,10 +181,10 @@
         <Style x:Key="circle" TargetType="{x:Type Image}">
             <Style.Triggers>
                 <Trigger Property="IsEnabled" Value="True">
-                    <Setter  Property="Source" Value="/Player;component/forPC/modecircle_normal.png"></Setter>
+                    <Setter  Property="Source" Value="/Player;component/Images/modecircle_normal.png"></Setter>
                 </Trigger>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter  Property="Source" Value="/Player;component/forPC/modecircle_pressed.png"></Setter>
+                    <Setter  Property="Source" Value="/Player;component/Images/modecircle_pressed.png"></Setter>
                 </Trigger>
             </Style.Triggers>
         </Style>
@@ -237,7 +237,7 @@
                     <Button.Template>
                         <ControlTemplate TargetType="{x:Type Button}">
                             <Border>
-                                <Image Name="img" Source="/Player;component/Imgs/nowplaypre_normal.png"/>
+                                <Image Name="img" Source="/Player;component/Images/nowplaypre_normal.png"/>
                             </Border>
                             <ControlTemplate.Triggers>
                                 <!--<Trigger Property="IsEnabled" Value="False">
@@ -245,7 +245,7 @@
                                     </Setter>
                                 </Trigger>-->
                                 <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter TargetName="img" Property="Source" Value="/Player;component/Imgs/nowplaypre_pressed.png">
+                                    <Setter TargetName="img" Property="Source" Value="/Player;component/Images/nowplaypre_pressed.png">
                                     </Setter>
                                 </Trigger>
                             </ControlTemplate.Triggers>
@@ -256,15 +256,15 @@
                     <!--<Button.Template>
                         <ControlTemplate TargetType="{x:Type Button}">
                             <Border>
-                                <Image Name="img" Source="/Player;component/Imgs/nowplaypause_normal.png"/>
+                                <Image Name="img" Source="/Player;component/Images/nowplaypause_normal.png"/>
                             </Border>
                             <ControlTemplate.Triggers>
                                 <Trigger Property="IsEnabled" Value="False">
-                                    <Setter TargetName="img" Property="Source" Value="/Player;component/Imgs/nowplaypause_normal.png">
+                                    <Setter TargetName="img" Property="Source" Value="/Player;component/Images/nowplaypause_normal.png">
                                     </Setter>
                                 </Trigger>
                                 <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter TargetName="img" Property="Source" Value="/Player;component/Imgs/nowplaypause_pressed.png">
+                                    <Setter TargetName="img" Property="Source" Value="/Player;component/Images/nowplaypause_pressed.png">
                                     </Setter>
                                 </Trigger>
                             </ControlTemplate.Triggers>
@@ -275,11 +275,11 @@
                     <Button.Template>
                         <ControlTemplate TargetType="{x:Type Button}">
                             <Border>
-                                <Image Name="img" Source="/Player;component/Imgs/nowplaynext_normal.png"/>
+                                <Image Name="img" Source="/Player;component/Images/nowplaynext_normal.png"/>
                             </Border>
                             <ControlTemplate.Triggers>
                                 <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter TargetName="img" Property="Source" Value="/Player;component/Imgs/nowplaynext_pressed.png">
+                                    <Setter TargetName="img" Property="Source" Value="/Player;component/Images/nowplaynext_pressed.png">
                                     </Setter>
                                 </Trigger>
                             </ControlTemplate.Triggers>
@@ -295,11 +295,11 @@
                     <Button.Template>
                         <ControlTemplate TargetType="{x:Type Button}">
                             <Border>
-                                <Image Name="img" Source="/Player;component/forPC/quku_music_list_play_normal.png"/>
+                                <Image Name="img" Source="/Player;component/Images/quku_music_list_play_normal.png"/>
                             </Border>
                             <ControlTemplate.Triggers>
                                 <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter TargetName="img" Property="Source" Value="/Player;component/forPC/quku_music_list_play_pressed.png">
+                                    <Setter TargetName="img" Property="Source" Value="/Player;component/Images/quku_music_list_play_pressed.png">
                                     </Setter>
                                 </Trigger>
                             </ControlTemplate.Triggers>

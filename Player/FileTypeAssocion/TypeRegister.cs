@@ -116,7 +116,7 @@ namespace Player.FileTypeAssocion
         public static void Regsiter(List<string> fileTypes)
         {
             string exePath = System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName;
-            string ResoulePath = AppDomain.CurrentDomain.BaseDirectory + "\\Symbian_Anna.dll";
+            string ResoulePath = AppDomain.CurrentDomain.BaseDirectory + "Resouce\\Symbian_Anna.dll";
 
             FileTypeRegInfo fti = null;
             FileTip ft = null;

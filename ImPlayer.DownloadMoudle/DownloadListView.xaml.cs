@@ -59,7 +59,7 @@ namespace ImPlayer.DownloadMoudle
         }
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         public static extern bool GetCursorPos(out POINT pt);
-    //    MouseHook mouse = new MouseHook();
+        MouseHook mouse = new MouseHook();
 
         #endregion
 
@@ -87,8 +87,8 @@ namespace ImPlayer.DownloadMoudle
             dlIngList.Items.Clear();
             dlIngList.ItemsSource = DownloadingList;
 
-          //  mouse.OnMouseActivity += new System.Windows.Forms.MouseEventHandler(mouse_OnMouseActivity);
-           // mouse.Start();
+            mouse.OnMouseActivity += new System.Windows.Forms.MouseEventHandler(mouse_OnMouseActivity);
+            mouse.Start();
         }
 
         void mouse_OnMouseActivity(object sender, System.Windows.Forms.MouseEventArgs e)

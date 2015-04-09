@@ -47,7 +47,7 @@ namespace Player
         {
             notifyIcon.Text = lrcInitText;
             notifyIcon.Visible = true;
-            notifyIcon.Icon = Properties.Resources._2628;
+            notifyIcon.Icon = Properties.Resources.logo;
             notifyIcon.MouseClick += notifyIcon_MouseClick;
             notifyIcon.MouseDoubleClick+=notifyIcon_MouseDoubleClick;
             LoadHotKey();
@@ -77,7 +77,7 @@ namespace Player
             switch (state)
             {
                 case 0:
-                    notifyIcon.Icon = Properties.Resources._2628;
+                    notifyIcon.Icon = Properties.Resources.logo;
                     break;
                 case 1:
                    // notifyIcon.Icon = Properties.Resources.pause;

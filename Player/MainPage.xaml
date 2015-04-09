@@ -96,7 +96,7 @@
                 <DropShadowEffect Color="#FF0E0D0D" BlurRadius="10" Opacity="0.95" ShadowDepth="1"/>
             </Border.Effect>
             <Border.Background>
-                <ImageBrush x:Name="BorderImage" Opacity="1" Stretch="UniformToFill" ImageSource="back01.jpg">
+                <ImageBrush x:Name="BorderImage" Opacity="1" Stretch="UniformToFill" ImageSource="Img_Background.jpg">
                 </ImageBrush>
             </Border.Background>
             <Grid>

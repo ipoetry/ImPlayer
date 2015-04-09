@@ -82,7 +82,7 @@ namespace Player.Setting
             //}
             string dir = AppDomain.CurrentDomain.BaseDirectory;
             fileTypes.AddRange(Items.Where(item => item.IsEnabled).Select(ss => ss.Name.Substring(ss.Name.IndexOf('(')+1).Trim(')')));
-            TypeRegsiter.Regsiter(dir + "\\Player.exe",dir + "\\Symbian_Anna.dll", fileTypes);
+            TypeRegsiter.Regsiter(dir + "\\Player.exe", dir + "Resouce\\Symbian_Anna.dll", fileTypes);
           //  TypeRegsiter.Regsiter(fileTypes);  //TODO
             FileRegisterSave();
             #endregion
