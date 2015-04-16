@@ -32,6 +32,7 @@ namespace ImPlayer.DownloadMoudle
         {
             InitializeComponent();
             Bitrate = dsr.Bitrate;
+            if (Bitrate == null) { return; }
             Bitrate.RemoveAll(b => b.file_bitrate == 0);
             Bitrate.Sort();
             if (Bitrate.Count > 4)
@@ -176,9 +177,10 @@ namespace ImPlayer.DownloadMoudle
             Downloader download = DownloadManager.Instance.Add(
                       new ResourceLocation { URL = fileLink, Password = SongInfo.album_title },
                       null,
-                      MainWindow.DownloadFolder+"\\" + SongInfo.author + "-" + SongInfo.title + "." + file_Ext,
+                      MainWindow.DownloadFolder+ SongInfo.author + "-" + SongInfo.title + "." + file_Ext,
                       2,
                       false);
+            Console.WriteLine(MainWindow.DownloadFolder  + SongInfo.author + "-" + SongInfo.title + "." + file_Ext);
             Common.downloadPage.Show();
             this.Close();
         }

@@ -48,28 +48,32 @@ namespace Player.FileTypeAssocion
         /// </summary>        
         public static void RegisterFileType(FileTypeRegInfo regInfo)
         {
-            if (FileTypeRegister.FileTypeRegistered(regInfo.ExtendName))
+            try
             {
-                UpdateFileTypeRegInfo(regInfo);
+                if (FileTypeRegister.FileTypeRegistered(regInfo.ExtendName))
+                {
+                    UpdateFileTypeRegInfo(regInfo);
+                }
+                string relationName = regInfo.ExtendName.Substring(1, regInfo.ExtendName.Length - 1).ToUpper() + "_FileType";
+
+                RegistryKey fileTypeKey = Registry.ClassesRoot.CreateSubKey(regInfo.ExtendName);
+                fileTypeKey.SetValue("", relationName);
+                fileTypeKey.Close();
+
+                RegistryKey relationKey = Registry.ClassesRoot.CreateSubKey(relationName);
+                relationKey.SetValue("", regInfo.Description);
+
+                RegistryKey iconKey = relationKey.CreateSubKey("DefaultIcon");
+                iconKey.SetValue("", regInfo.IcoPath);
+
+                RegistryKey shellKey = relationKey.CreateSubKey("Shell");
+                RegistryKey openKey = shellKey.CreateSubKey("Open");
+                RegistryKey commandKey = openKey.CreateSubKey("Command");
+                commandKey.SetValue("", "\"" + regInfo.ExePath + "\"%1\" %*");
+
+                relationKey.Close();
             }
-            string relationName = regInfo.ExtendName.Substring(1, regInfo.ExtendName.Length - 1).ToUpper() + "_FileType";
-
-            RegistryKey fileTypeKey = Registry.ClassesRoot.CreateSubKey(regInfo.ExtendName);
-            fileTypeKey.SetValue("", relationName);
-            fileTypeKey.Close();
-
-            RegistryKey relationKey = Registry.ClassesRoot.CreateSubKey(relationName);
-            relationKey.SetValue("", regInfo.Description);
-
-            RegistryKey iconKey = relationKey.CreateSubKey("DefaultIcon");
-            iconKey.SetValue("", regInfo.IcoPath);
-
-            RegistryKey shellKey = relationKey.CreateSubKey("Shell");
-            RegistryKey openKey = shellKey.CreateSubKey("Open");
-            RegistryKey commandKey = openKey.CreateSubKey("Command");
-            commandKey.SetValue("", "\"" + regInfo.ExePath + "\"%1\" %*");
-
-            relationKey.Close();
+            catch (Exception ex) { Console.WriteLine("Filetype Register:"+ex.ToString()); }
         }
 
         /// <summary>
@@ -133,14 +137,19 @@ namespace Player.FileTypeAssocion
         /// </summary>        
         public static bool FileTypeRegistered(string extendName)
         {
-            RegistryKey _RegKey = Registry.ClassesRoot.OpenSubKey("", true);
-            RegistryKey softwareKey = Registry.ClassesRoot.OpenSubKey(extendName);
-            if (softwareKey != null)
+            try
             {
-                _RegKey.DeleteSubKeyTree(extendName, true);
-                return false;
+                RegistryKey _RegKey = Registry.ClassesRoot.OpenSubKey("", true);
+                RegistryKey softwareKey = Registry.ClassesRoot.OpenSubKey(extendName);
+                if (softwareKey != null)
+                {
+                    _RegKey.DeleteSubKeyTree(extendName, true);
+                    return false;
+                }
+                return true;
             }
-            return false;
+            catch {return false; }
+            
         }
         #endregion
     }   

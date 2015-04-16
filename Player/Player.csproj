@@ -86,6 +86,12 @@
     <Reference Include="Hardcodet.Wpf.TaskbarNotification">
       <HintPath>bin\Debug\Hardcodet.Wpf.TaskbarNotification.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.WindowsAPICodePack">
+      <HintPath>F:\visual studio 2013\Projects\WpfApplication1\WpfApplication1\bin\Microsoft.WindowsAPICodePack.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAPICodePack.Shell">
+      <HintPath>F:\visual studio 2013\Projects\WpfApplication1\WpfApplication1\bin\Microsoft.WindowsAPICodePack.Shell.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationFramework.Classic" />
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -101,6 +107,9 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="taglib-sharp">
+      <HintPath>C:\Users\Wrox\Desktop\taglib-sharp.dll</HintPath>
+    </Reference>
     <Reference Include="UIAutomationProvider" />
     <Reference Include="UIAutomationTypes" />
     <Reference Include="WindowsBase" />
@@ -115,6 +124,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controls\FileOpenDialog.cs" />
     <Compile Include="FileTypeAssocion\FileTypeHelper.cs" />
     <Compile Include="FileTypeAssocion\TypeRegister.cs" />
     <Compile Include="Program.cs">
@@ -284,6 +294,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\Button Play.ico" />
+    <None Include="Resources\Button Last.ico" />
+    <None Include="Resources\Button Pause.ico" />
+    <None Include="Resources\Button First.ico" />
     <Resource Include="Images\btn_playback_next_normal.png" />
     <Resource Include="Images\btn_playback_next_pressed.png" />
     <Resource Include="Images\btn_playback_pasue_pressed.png" />
@@ -298,20 +312,17 @@
     <Resource Include="Images\menu_setup_normal.png" />
     <Resource Include="Images\menu_setup_pressed.png" />
     <Resource Include="logo.ico" />
+    <Resource Include="Images\Button Play.ico" />
+    <Resource Include="Images\Button Info.ico" />
+    <Resource Include="Images\Button Add.ico" />
+    <Resource Include="Images\Button Delete.ico" />
     <Content Include="Resouce\Symbian_Anna.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Resource Include="Setting\dn.png" />
     <Resource Include="EQ\equalizer.png" />
-    <Resource Include="Images\search.png" />
-    <Resource Include="Images\delete_on.png" />
-    <Resource Include="Images\list_on.png" />
-    <Resource Include="Images\pause.ico" />
-    <Resource Include="Images\play.ico" />
     <Resource Include="Images\NoCover.png" />
     <Resource Include="Images\logo.ico" />
-    <Resource Include="Images\Play.png" />
-    <Resource Include="Images\delete.png" />
     <Resource Include="Images\quku_music_list_play_normal.png" />
     <Resource Include="Images\quku_music_list_play_pressed.png" />
     <Resource Include="Images\modecircle_normal.png" />
@@ -322,10 +333,6 @@
     <Resource Include="Images\moderandom_pressed.png" />
     <Resource Include="Images\modesingle_normal.png" />
     <Resource Include="Images\modesingle_pressed.png" />
-    <Resource Include="Images\mvreturn1_normal.png" />
-    <Resource Include="Images\mvreturn1_pressed.png" />
-    <Resource Include="Images\mvreturn_normal.png" />
-    <Resource Include="Images\mvreturn_pressed.png" />
     <Resource Include="Images\mv_muted_normal.png" />
     <Resource Include="Images\mv_muted_pressed.png" />
     <Resource Include="Images\mv_mute_normal.png" />
@@ -335,7 +342,6 @@
     <Resource Include="Images\mv_play_download.png" />
     <Resource Include="Images\mv_play_normal.png" />
     <Resource Include="Images\mv_play_pressed.png" />
-    <Resource Include="Images\mx_icon.png" />
     <Resource Include="Images\next_normal.png" />
     <Resource Include="Images\next_pressed.png" />
     <Resource Include="Images\nowplaycurlist_normal.png" />
@@ -366,12 +372,6 @@
     <Resource Include="Img_Background.jpg" />
     <Content Include="BASS\x64\bass.dll" />
     <Content Include="BASS\x86\bass.dll" />
-    <Resource Include="Images\file.png" />
-    <Resource Include="Images\addSong.png" />
-    <Resource Include="Images\btnPre.png" />
-    <Resource Include="Images\btnPlay.png" />
-    <Resource Include="Images\btnNext.png" />
-    <Resource Include="Images\img_button_playcontrolbar_play_pressed.png" />
     <Resource Include="Images\DoubanFM_NoCover.png" />
   </ItemGroup>
   <ItemGroup>

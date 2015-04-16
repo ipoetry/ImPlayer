@@ -104,6 +104,7 @@ namespace Player
                 if (setingPage == null || !setingPage.IsLoaded)
                     setingPage = new SettingPage(AppPropertys.HotKeys);
                 setingPage.SettingReloadHandler += new SettingReloadDelegate(AppPropertys.mainWindow.SaveConfig);
+                setingPage.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
                 setingPage.Show();
             }));
            

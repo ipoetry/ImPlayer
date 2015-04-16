@@ -276,9 +276,12 @@
                         <Grid.Effect>
                             <DropShadowEffect BlurRadius="8" ShadowDepth="0" Color="#FF5C8185" Opacity="0.25" Direction="225"/>
                         </Grid.Effect>
-                        
                         <GroupBox Header="软件简介" Margin="10" >
-                            <GroupBox.Content>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="3*" />
+                                    <RowDefinition Height="1*" />
+                                </Grid.RowDefinitions>
                                 <TextBlock xml:space="preserve" TextWrapping="Wrap" Padding="5,15">
     一个集播放、音效、歌词等多种功能于一身的专业音频播放软件。<LineBreak/>
     采用Bass.NET开源音频引擎，支持DirectSound、AddIn插件扩展技
@@ -286,9 +289,10 @@
     支持MP3/mp3PRO、AAC/AAC+、M4A/MP4、WMA、APE、OGG、WAVE、
 FLAC、AIFF、等音频格式，支持10波段均衡器并且支持在线歌词搜索。<LineBreak/>
     免责：本软件所有网络API均是个人学习所得，且仅供学习研究使用，本人不承担一切法律责任。<LineBreak/>
-    当前版本：1.0.2015315                              
+    
                                 </TextBlock>
-                            </GroupBox.Content>
+                                <TextBlock Text="Current Version" Name="currentVersion" Grid.Row="1"  Width="180" Height="30" Margin="40,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                            </Grid>
                         </GroupBox>
                     </Grid>
                 </TabItem>
@@ -302,7 +306,7 @@ FLAC、AIFF、等音频格式，支持10波段均衡器并且支持在线歌词�
                         </Grid.Effect>
                         <Grid.RowDefinitions>
                             <RowDefinition/>
-                            <RowDefinition/>
+                            
                             <RowDefinition/>
                         </Grid.RowDefinitions>
                         <GroupBox Header="常规" Margin="5">
@@ -320,10 +324,25 @@ FLAC、AIFF、等音频格式，支持10波段均衡器并且支持在线歌词�
                                 <CheckBox HorizontalAlignment="Center" VerticalAlignment="Center" Content="开机自启动" Name="isAutoStart" Checked="isAutoStart_Checked"></CheckBox>
                             </Grid>
                         </GroupBox>
-                        <GroupBox Header="歌词" Grid.Row="1" Margin="5">
-                            
+                        
+                        <GroupBox Header="下载" Grid.Row="1" Margin="5">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="存储位置：" VerticalAlignment="Center" Margin="20,0"/>
+                                <TextBox Name="defaultFolder"  Grid.Column="1" HorizontalAlignment="Left" Height="23" HorizontalContentAlignment="Left" Margin="-20,0" VerticalAlignment="Center" TextWrapping="Wrap" Text="TextBox" Width="120"/>
+                                <Button Content="更改" Grid.Column="2" HorizontalAlignment="Left" Margin="-10,0" VerticalAlignment="Center" Width="75" Click="Button_Click_1"/>
+
+                            </Grid> 
                         </GroupBox>
-                        <GroupBox Header="下载" Grid.Row="2" Margin="5"></GroupBox>
                     </Grid>
                 </TabItem>
                 <TabItem Name="xx" Header="快捷键" Margin="0,5" Style="{DynamicResource listTabItemStyle}" BorderBrush="{x:Null}" Foreground="#FF0E3C7A" Height="32.598">

@@ -120,7 +120,8 @@ namespace Player.Setting
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-
+            defaultFolder.Text = AppPropertys.appSetting.DownloadFolder;
+            currentVersion.Text = "当前版本："+GetCurrentVersion();
         }
 
         public static string GetCurrentVersion()
@@ -203,11 +204,21 @@ namespace Player.Setting
                  rKey2.Close();
                  rKey.Close();
              }
-             else {
+             else 
+             {
                  if (!File.Exists(Win8Toast.ToastTip.shortcutPath))
                      Win8Toast.ToastTip.TryCreateShortcut();
                      File.Copy(Win8Toast.ToastTip.shortcutPath,Win8Toast.SystemHepler.autoStart+"Cup Player.lnk");
+             }
+         }
 
+         private void Button_Click_1(object sender, RoutedEventArgs e)
+         {
+             string path  =  FileOpenDialog.ShowDialog();
+             if (path != string.Empty)
+             {
+                 AppPropertys.appSetting.DownloadFolder = path+"\\";
+                 defaultFolder.Text = AppPropertys.appSetting.DownloadFolder;
              }
          }
     }

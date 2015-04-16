@@ -138,7 +138,7 @@ namespace Player
             xlp.Artist = xe.GetAttribute("artist");
             xlp.Title = xe.GetAttribute("title");
             xlp.Duration = TimeSpan.FromSeconds(Convert.ToDouble(xe.GetAttribute("duration")));
-            xlp.PicUrl =CommonProperty.AlbumPicPath+ xe.GetAttribute("pic")+".png";
+            xlp.PicUrl =CommonProperty.AlbumPicPath+ xe.GetAttribute("pic")+".jp";
             xlp.Size = xe.GetAttribute("size");
             return xlp;
         }

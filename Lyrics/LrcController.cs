@@ -398,7 +398,7 @@ namespace Lyrics
                         }
                     }
                 }
-                if (!isExist)
+                if (!isExist&&await Win8Toast.PopupTip.CheckNetWork())
                 {
                     string lrcPath = await DownLrc.DownloadLrcAsync(song);
                     if (string.IsNullOrEmpty(lrcPath)) { lrcPath = await DownLrc.DownloadLrcAsyncFromQian(song); }

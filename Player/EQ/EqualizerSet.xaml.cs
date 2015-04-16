@@ -98,6 +98,10 @@ namespace Player
         private void CheckBox_Checked(object sender, RoutedEventArgs e)
         {
             AppPropertys.appSetting.UseEq = (bool)UseEqSwitch.IsChecked;
+            if (!AppPropertys.appSetting.UseEq)
+            {
+                SetValues(_fxEQ);
+            }
         }
 
         private void Label_Initialized(object sender, EventArgs e)
@@ -249,6 +253,21 @@ namespace Player
                 InitEqValues(AppPropertys.appSetting.EqPreset);
                 InitSelected(AppPropertys.appSetting.EqPreset);
             }
+        }
+
+        private void UseEqSwitch_Click(object sender, RoutedEventArgs e)
+        {
+            AppPropertys.appSetting.UseEq = (bool)UseEqSwitch.IsChecked;
+            if (!AppPropertys.appSetting.UseEq)
+            {
+                SetValues(_fxEQ);
+            }
+            else
+            {
+                InitEqValues(AppPropertys.appSetting.EqPreset);
+                InitSelected(AppPropertys.appSetting.EqPreset);
+            }
+            
         }
     }
 }

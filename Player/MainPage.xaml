@@ -132,7 +132,7 @@
                         </Grid.ColumnDefinitions>
                         <Image Source="Images/logo.ico" Width="32" Height="32" Opacity="1" Cursor="Hand" Grid.Column="0" MouseLeftButtonDown="Change_MouseLeftButtonDown"></Image>
                         <TextBlock Text="Cup Player" Foreground="White" TextAlignment="Center" VerticalAlignment="Center"
-                           HorizontalAlignment="Center" FontSize="24"  Grid.Column="1" Name="CurrentShow"></TextBlock>
+                           HorizontalAlignment="Center" FontSize="24"  Grid.Column="1" Name="CurrentShow" ToolTip="单击切换页面" MouseLeftButtonDown="CurrentShow_MouseLeftButtonDown" ></TextBlock>
                         <Label Name="btnMini"  Grid.Column="2" Style="{StaticResource MiniStyle}" Content="━" FontSize="15" Width="27" HorizontalAlignment="Center" HorizontalContentAlignment="Center" Height="30" MouseDown="btnMini_MouseDown" ></Label>
                         <Label Name="btnClose" Grid.Column="3" Style="{StaticResource CloseStyle}" Content="✖" FontSize="15" HorizontalAlignment="Center" Width="27" HorizontalContentAlignment="Center" Height="30" MouseDown="btnClose_MouseDown" ></Label>
                     </Grid>
@@ -166,9 +166,11 @@
                                     <ColumnDefinition Width="519*"/>
                                     <ColumnDefinition Width="8*"/>
                                 </Grid.ColumnDefinitions>
-                                <!--放置两个长方形来检测，并判断是否需要反转-->
-                                <Rectangle Grid.Column="0" Fill="Transparent" ToolTip="停留数秒切换页面 ^_^" MouseEnter="Rectangle_MouseEnter" MouseLeftButtonDown="Rectangle_MouseLeftButtonDown"   MouseLeave="Rectangle_MouseLeave"></Rectangle>
-                                <Rectangle Grid.Column="2" Fill="Transparent" ToolTip="停留数秒切换页面 ^_^"></Rectangle>
+
+                                <Rectangle Grid.Column="0" Fill="Transparent" ToolTip="单击切换页面" MouseEnter="Rectangle_MouseEnter" MouseLeftButtonDown="Rectangle_MouseLeftButtonDown"   MouseLeave="Rectangle_MouseLeave"></Rectangle>
+                                <Rectangle Grid.Column="2" Fill="Transparent" ToolTip="单击切换页面">
+
+                                </Rectangle>
                                 <Grid Name="mainGrid" Grid.Column="1" Visibility="Visible" Grid.ColumnSpan="3" Opacity="1" RenderTransformOrigin="0.5,0.5">
                                     <Grid.LayoutTransform>
                                         <TransformGroup>
@@ -217,22 +219,22 @@
                                                     <ContextMenu>
                                                         <MenuItem Header="播放" Click="btn_Play">
                                                             <MenuItem.Icon>
-                                                                <Image Width="16" Height="16"  Source="./Images/btnNext.png"/>
+                                                                <Image Width="16" Height="16"  Source="./Images/Button Play.ico"/>
                                                             </MenuItem.Icon>
                                                         </MenuItem>
                                                         <MenuItem Header="打开文件位置" Click="btn_OpenPath">
                                                             <MenuItem.Icon>
-                                                                <Image Width="16" Height="16" Source="./Images/file.png"/>
+                                                                <Image Width="16" Height="16" Source="./Images/Button Info.ico"/>
                                                             </MenuItem.Icon>
                                                         </MenuItem>
-                                                        <MenuItem Header="百度此歌曲" >
+                                                        <!--<MenuItem Header="百度此歌曲" >
                                                             <MenuItem.Icon>
                                                                 <Image Width="16" Height="16" Source="./Images/search.png"></Image>
                                                             </MenuItem.Icon>
-                                                        </MenuItem>
+                                                        </MenuItem>-->
                                                         <MenuItem Header="添加">
                                                             <MenuItem.Icon>
-                                                                <Image Width="16" Height="16" Source="./Images/addSong.png"/>
+                                                                <Image Width="16" Height="16" Source="./Images/Button Add.ico"/>
                                                             </MenuItem.Icon>
                                                             <MenuItem Header="添加文件" Name="fileOpen" Click="fileAdd_Click">
                                                             </MenuItem>
@@ -243,7 +245,7 @@
                                                         </MenuItem>
                                                         <MenuItem Header="删除">
                                                             <MenuItem.Icon>
-                                                                <Image Width="16" Height="16" Source="./Images/delete.png"/>
+                                                                <Image Width="16" Height="16" Source="./Images/Button Delete.ico"/>
                                                             </MenuItem.Icon>
                                                             <MenuItem Header="从列表删除"  Click="delFromList_Click">
                                                             </MenuItem>

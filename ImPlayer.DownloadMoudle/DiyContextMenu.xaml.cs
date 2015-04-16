@@ -34,15 +34,26 @@ namespace ImPlayer.DownloadMoudle
 
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private void Window_LostFocus(object sender, RoutedEventArgs e)
         {
 
         }
+
+        private void btnStart_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Undo.");
+        }
+
+        private void btnPause_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Undo.");
+        }
+
+        private void btnDelete_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Undo.");
+        }
+
 
     }
 }

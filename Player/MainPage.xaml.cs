@@ -12,7 +12,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
-using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
@@ -26,6 +25,8 @@ using ImPlayer.FM.Models;
 using ImPalyer.FM.Views;
 using Player.HotKey;
 using ImPlayer.DownloadMoudle;
+using Microsoft.WindowsAPICodePack.Dialogs;
+using System.Windows.Interop;
 
 namespace Player
 {
@@ -59,7 +60,7 @@ namespace Player
         BackgroundWorker worker = null;
         string XmlListPath = AppDomain.CurrentDomain.BaseDirectory + "PlayList.pldb"; 
         private System.Timers.Timer timerClock = new System.Timers.Timer(1000);
-        private int tick = 3;
+       // private int tick = 0;
 
         public MainPage(string arge)
         {
@@ -99,6 +100,7 @@ namespace Player
             }
             Win32InfoRegister();
             SpectrumAnalyzer.IsEnabled = false;
+            InitTaskBar();
         }
 
         private void playListBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -144,25 +146,18 @@ namespace Player
 
         void timerClock_Elapsed(object sender, ElapsedEventArgs e)
         {
-            this.Dispatcher.Invoke(new Action(
+            this.Dispatcher.BeginInvoke(new Action(
                 () =>
                 {
-                    if (tick > 0)
+                    FlipUIElement(mainGrid);
+                    FlipUIElement(playlistGrid);
+                    if (timerClock != null)
                     {
-                        tick--;
-                        if (tick == 0)
-                        {
-                            FlipUIElement(mainGrid);
-                            FlipUIElement(playlistGrid);
-                            tick = 3;
-                            if (timerClock != null)
-                            {
-                                timerClock.Enabled = false;
-                                timerClock.Stop();
-                                timerClock.Elapsed -= timerClock_Elapsed;
-                            }
-                        }
+                        timerClock.Enabled = false;
+                        timerClock.Stop();
+                        timerClock.Elapsed -= timerClock_Elapsed;
                     }
+
                 }));
         }
 
@@ -464,7 +459,24 @@ namespace Player
 
         private void fileAdd_Click(object sender, EventArgs e)
         {
-            string[] files = File_Open("所有文件|*.*|MP3|*.MP3|WAV|*.WAV|WMA|*.WMA|APE|*.APE|FLAC|*.FLAC|ACC|*.ACC|M4a|*.M4a|OGG|*.OGG", true);
+            List<CommonFileDialogFilter> cfdf = new List<CommonFileDialogFilter>();
+            cfdf.Add(new CommonFileDialogFilter("所有文件", "*.*"));
+            cfdf.Add(new CommonFileDialogFilter("MP3", ".MP3"));
+            cfdf.Add(new CommonFileDialogFilter("WAV", ".WAV"));
+            cfdf.Add(new CommonFileDialogFilter("WMA", ".WMA"));
+            cfdf.Add(new CommonFileDialogFilter("APE", ".APE"));
+            cfdf.Add(new CommonFileDialogFilter("FLAC", ".FLAC"));
+            cfdf.Add(new CommonFileDialogFilter("AAC", ".AAC"));
+            cfdf.Add(new CommonFileDialogFilter("M4a", ".M4A"));
+            cfdf.Add(new CommonFileDialogFilter("MP4", ".MP4"));
+            cfdf.Add(new CommonFileDialogFilter("OGG", ".OGG"));
+            List<string> files = FileOpenDialog.ShowDialog("Cup Player", false, cfdf);
+            //if (result != null)
+            //{
+            //    LoadSongList(result[0]);
+            //}
+
+            //string[] files = File_Open("所有文件|*.*|MP3|*.MP3|WAV|*.WAV|WMA|*.WMA|APE|*.APE|FLAC|*.FLAC|ACC|*.ACC|M4a|*.M4a|OGG|*.OGG", true);
             if (files != null)
             {
                 XmlDocument xmlDoc = InitXml();
@@ -482,24 +494,24 @@ namespace Player
 
         private void folderAdd_Click(object sender, EventArgs e)
         {
-            FolderBrowserDialog fbd = new FolderBrowserDialog();
-            fbd.Description = "选择文件夹";
-            if (fbd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            List<string> result = FileOpenDialog.ShowDialog("Cup Player");
+            if (result!=null)
             {
-                Folder_Open(fbd.SelectedPath);
+                Folder_Open(result[0],FileOpenDialog.isContainSubfolder);
             }
         }
 
         private void playlistAdd_Click(object sender, EventArgs e)
         {
-            OpenFileDialog OFD = new OpenFileDialog();
-            OFD.Multiselect = true;
-            OFD.Filter = "播放列表文件|*.pldb";
-            if (OFD.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+
+            List<CommonFileDialogFilter> cfdf = new List<CommonFileDialogFilter>();
+            cfdf.Add(new CommonFileDialogFilter("播放列表文件","*.pldb"));
+            List<string>  result =  FileOpenDialog.ShowDialog("Cup Player",false,cfdf);
+            if (result !=null)
             {
-                LoadSongList(OFD.FileName);
+                LoadSongList(result[0]);
             }
-            OFD.Dispose();
+
         }
 
         private void delFromList_Click(object sender, EventArgs e)
@@ -522,7 +534,7 @@ namespace Player
             int temp = playListBox.SelectedIndex;
             if (temp != -1)
             {
-                if (System.Windows.Forms.MessageBox.Show("确定从磁盘移除此文件吗？", "警告", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == System.Windows.Forms.DialogResult.OK)
+                if (MessageBox.Show("确定从磁盘移除此文件吗？", "警告", MessageBoxButton.YesNo,MessageBoxImage.Warning) == MessageBoxResult.Yes)
                 {
                     File.Delete(PlayController.Songs[temp].FileUrl); //必须在RemoveAt前
                     PlayController.Songs.RemoveAt(temp);
@@ -530,28 +542,22 @@ namespace Player
             }
         }
 
-        private string[] File_Open(string filter, bool multiselect)
-        {
-            string[] files = null;
-            OpenFileDialog OFD = new OpenFileDialog();
-            OFD.Multiselect = multiselect;
-            OFD.Filter = filter;
-            OFD.Title = "Cup Player";
-            if (OFD.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
-                files = OFD.FileNames;
-            }
-            OFD.Dispose();
-            return files;
-        }
 
-        private void Folder_Open(string path) 
+        private void Folder_Open(string path, bool IsContainSubfolder) 
         {
-          //  DirectoryInfo dir = new DirectoryInfo(path);
-            //FileInfo[] files = dir.GetFiles("*.mp3", SearchOption.AllDirectories);
-            //FileInfo[] files = dir.GetFiles();
-            EnumAllFiles(path);
-            FileInfo[] files = AllFiles.ToArray();
+            FileInfo[] files=null;
+
+            if (IsContainSubfolder)
+            {
+                EnumAllFiles(path);
+                files = AllFiles.ToArray();
+            }
+            else
+            {
+                DirectoryInfo Dir = new DirectoryInfo(path);
+                files = Dir.GetFiles();
+            }
+            
             if (files != null)
             {
                 worker.RunWorkerAsync(files);
@@ -601,7 +607,11 @@ namespace Player
                 sInfo.Duration = TimeSpan.FromSeconds(tagInfo.duration);
                 if (tagInfo.PictureGetImage(0) != null)
                 {
-                    SavePicToDisk(tagInfo.PictureGetImage(0), tagInfo.PictureGetType(0), sInfo.PicUrl);
+                    SavePicToLocal(tagInfo.PictureGetImage(0), tagInfo.PictureGetType(0), sInfo.PicUrl);
+                }
+                else
+                {
+                    SavePicToLocal(sInfo.FileUrl, sInfo.PicUrl);
                 }
             }
             catch (Exception ex) { Debug.Write(ex.Message); }
@@ -610,15 +620,36 @@ namespace Player
         /// Album为空，用名字
         /// </summary>
         /// <param name="Pic"></param>
-        /// <param name="Album"></param>
-        private void SavePicToDisk(System.Drawing.Image Pic, string PicType, string Album)
+        /// <param name="AlbumName"></param>
+        private void SavePicToLocal(System.Drawing.Image Pic, string PicType, string AlbumName)
         {
             if (!Directory.Exists(CommonProperty.AlbumPicPath))
             {
                 Directory.CreateDirectory(CommonProperty.AlbumPicPath);
             }
-            Pic.Save(CommonProperty.AlbumPicPath + Album + ".png", System.Drawing.Imaging.ImageFormat.Png);
+            Pic.Save(CommonProperty.AlbumPicPath + AlbumName + ".jp", System.Drawing.Imaging.ImageFormat.Png);
         }
+
+        private void SavePicToLocal(string path,string AlbumName)
+        {
+            try
+            {
+                TagLib.File file = TagLib.File.Create(path);
+                if (file.Tag.Pictures.Length > 0)
+                {
+                    var bin = file.Tag.Pictures[0].Data.Data;
+                    using (MemoryStream ms = new MemoryStream(bin))
+                    {
+                        System.Drawing.Image Pic = System.Drawing.Image.FromStream(ms).GetThumbnailImage
+                        (300, 300, null, IntPtr.Zero);
+                        Pic.Save(CommonProperty.AlbumPicPath + AlbumName + ".jp", System.Drawing.Imaging.ImageFormat.Png);
+                    }
+                }
+            }
+            catch { Console.WriteLine("reading Pic error"); }
+
+        } 
+
         #endregion
 
         #region  异步加载
@@ -678,7 +709,7 @@ namespace Player
 
         void mouse_OnMouseActivity(object sender, System.Windows.Forms.MouseEventArgs e)
         {
-            if (e.Button != MouseButtons.None)
+            if (e.Button != System.Windows.Forms.MouseButtons.None)
             {
 
                 if (AppPropertys.DiyCM != null)
@@ -739,13 +770,15 @@ namespace Player
             AppPropertys.appSetting.Save();
            
             //下载模块的配置
-            this.Dispatcher.BeginInvoke(new Action(() =>
+            this.Dispatcher.Invoke(new Action(() =>
             {
-                //if (ImPlayer.DownloadMoudle.Common.downloadPage != null && ImPlayer.DownloadMoudle.Common.downloadPage.IsLoaded)
-                //   ImPlayer.DownloadMoudle.Common.downloadPage.xd
-                ((MyDownloader.Extension.PersistedList.PersistedListExtension)MyApp.Instance.GetExtensionByType(typeof(MyDownloader.Extension.PersistedList.PersistedListExtension))).PersistList(null);
+                if (ImPlayer.DownloadMoudle.DownloadPage.isDownloading)
+                {
+                    Console.WriteLine("暂停下载任务…");
+                    ImPlayer.DownloadMoudle.DownloadPage.PauseAll();
+                }       
             }));
-            Console.WriteLine("保存用户配置成功……");
+            Console.WriteLine("保存用户配置…");
         }
 
         #region  歌曲操作
@@ -931,6 +964,51 @@ namespace Player
         {
             StartCount();
         }
+
+        private void CurrentShow_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            StartCount();
+        }
+
+        #region 任务栏增强
+
+        Microsoft.WindowsAPICodePack.Taskbar.ThumbnailToolBarButton buttonPlayPause = null;
+        public void InitTaskBar()
+        {
+            Microsoft.WindowsAPICodePack.Taskbar.ThumbnailToolBarButton buttonPrevious = new Microsoft.WindowsAPICodePack.Taskbar.ThumbnailToolBarButton(Properties.Resources.Button_First, "上一首");  
+           // Microsoft.WindowsAPICodePack.Taskbar.TabbedThumbnail newPreview = new Microsoft.WindowsAPICodePack.Taskbar.TabbedThumbnail(this, img, new Vector(10,10));
+           buttonPrevious.Click+=buttonPrevious_Click;
+           buttonPlayPause=new Microsoft.WindowsAPICodePack.Taskbar.ThumbnailToolBarButton(Properties.Resources.Button_Play,"播放");
+           buttonPlayPause.Click +=buttonPlayPause_Click;
+           Microsoft.WindowsAPICodePack.Taskbar.ThumbnailToolBarButton buttonNext = new Microsoft.WindowsAPICodePack.Taskbar.ThumbnailToolBarButton(Properties.Resources.Button_Last, "下一首");
+           buttonNext.Click+=buttonNext_Click;
+
+           Microsoft.WindowsAPICodePack.Taskbar.TaskbarManager.Instance.ThumbnailToolBars.AddButtons((new WindowInteropHelper(Application.Current.MainWindow)).Handle, buttonPrevious, buttonPlayPause, buttonNext);
+        }
+
+
+        private void buttonPrevious_Click(object sender,  Microsoft.WindowsAPICodePack.Taskbar.ThumbnailButtonClickedEventArgs e)
+        {
+            playControl1.btnPre_Click(null,null);
+        }
+        private void buttonPlayPause_Click(object sender, Microsoft.WindowsAPICodePack.Taskbar.ThumbnailButtonClickedEventArgs e)
+        {
+            if (PlayController.bassEng.IsPlaying)
+            {
+                buttonPlayPause.Icon = Properties.Resources.Button_Pause;
+            }
+            else
+            {
+                buttonPlayPause.Icon = Properties.Resources.Button_Play;
+            }
+            playControl1.btnPlay_Click(null, null);
+        }
+        private void buttonNext_Click(object sender, Microsoft.WindowsAPICodePack.Taskbar.ThumbnailButtonClickedEventArgs e)
+        {
+            playControl1.btnNext_Click(null,null);
+        }
+        #endregion
+  
     }
         
 }
