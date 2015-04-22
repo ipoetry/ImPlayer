@@ -130,7 +130,7 @@
                             <ColumnDefinition Width="4*"></ColumnDefinition>
                             <ColumnDefinition Width="4*"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
-                        <Image Source="Images/logo.ico" Width="32" Height="32" Opacity="1" Cursor="Hand" Grid.Column="0" MouseLeftButtonDown="Change_MouseLeftButtonDown"></Image>
+                        <Image Source="Images/logo.ico" Width="32" Height="32" Opacity="1" Cursor="Hand" Grid.Column="0" MouseLeftButtonDown="Change_MouseLeftButtonDown" ToolTip="FM切换"></Image>
                         <TextBlock Text="Cup Player" Foreground="White" TextAlignment="Center" VerticalAlignment="Center"
                            HorizontalAlignment="Center" FontSize="24"  Grid.Column="1" Name="CurrentShow" ToolTip="单击切换页面" MouseLeftButtonDown="CurrentShow_MouseLeftButtonDown" ></TextBlock>
                         <Label Name="btnMini"  Grid.Column="2" Style="{StaticResource MiniStyle}" Content="━" FontSize="15" Width="27" HorizontalAlignment="Center" HorizontalContentAlignment="Center" Height="30" MouseDown="btnMini_MouseDown" ></Label>

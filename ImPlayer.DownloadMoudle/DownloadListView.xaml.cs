@@ -465,22 +465,26 @@ namespace ImPlayer.DownloadMoudle
 
         private async void bgBtn_Click(object sender, RoutedEventArgs e)
         {
-            DownLoadFileInfo dl = dlIngList.SelectedItem as DownLoadFileInfo;
-            if (dl == null|| !await Win8Toast.PopupTip.CheckNetWork()) { return; }
-            System.Windows.Controls.Button btn = sender as System.Windows.Controls.Button;
-            string content = btn.Content.ToString();
-            if (content == "开始" || content == "继续")
+            try
             {
-                StartSelections();
+                DownLoadFileInfo dl = dlIngList.SelectedItem as DownLoadFileInfo;
+                if (dl == null || !await Win8Toast.PopupTip.CheckNetWork()) { return; }
+                System.Windows.Controls.Button btn = sender as System.Windows.Controls.Button;
+                string content = btn.Content.ToString();
+                if (content == "开始" || content == "继续")
+                {
+                    StartSelections();
+                }
+                else if (content == "播放")
+                {
+                    System.Diagnostics.Process.Start(MainWindow.DownloadFolder + dl.FileName);
+                }
+                else
+                {
+                    Pause();
+                }
             }
-            else if (content == "播放")
-            {
-                System.Diagnostics.Process.Start(MainWindow.DownloadFolder + dl.FileName);
-            }
-            else
-            {
-                Pause();
-            }
+            catch (Exception ex) { Console.WriteLine(ex.ToString()); }
         }
 
         private void dlBtn_Click(object sender, RoutedEventArgs e)

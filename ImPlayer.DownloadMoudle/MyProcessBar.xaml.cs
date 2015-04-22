@@ -36,7 +36,8 @@ namespace ImPlayer.DownloadMoudle
             MyProcessBar g = d as MyProcessBar;
             if (g != null)
             {
-                g.grid.Width = ((double)e.NewValue / 100d) * g.ActualWidth;
+                g.grid.Width = ((double)e.NewValue / 100d) * 180;
+                Console.WriteLine("g.ActualWidth:"+g.ActualWidth);
                 g.Process.Content = "%" + ((double)e.NewValue).ToString("F1");
             }
             Console.WriteLine("ValueChanged new value is {0}", e.NewValue);
