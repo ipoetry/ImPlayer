@@ -72,9 +72,6 @@
     <Compile Include="ControlsStylesProgressBar.xaml.cs">
       <DependentUpon>ControlsStylesProgressBar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="DiyContextMenu.xaml.cs">
-      <DependentUpon>DiyContextMenu.xaml</DependentUpon>
-    </Compile>
     <Compile Include="DownLoadFileInfo.cs" />
     <Compile Include="DownloadListView.xaml.cs">
       <DependentUpon>DownloadListView.xaml</DependentUpon>
@@ -82,7 +79,7 @@
     <Compile Include="DownloadPage.xaml.cs">
       <DependentUpon>DownloadPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MouseHook.cs" />
+    <Compile Include="ListviewService.cs" />
     <Compile Include="MyApp.cs" />
     <Compile Include="MyProcessBar.xaml.cs">
       <DependentUpon>MyProcessBar.xaml</DependentUpon>
@@ -95,10 +92,6 @@
     <Page Include="ControlsStylesProgressBar.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="DiyContextMenu.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="DownloadListView.xaml">
       <SubType>Designer</SubType>
@@ -123,10 +116,6 @@
     <Page Include="QualitySelect.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="SerachTextBox.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="Style\SerachTextBox.xaml">
       <Generator>MSBuild:Compile</Generator>

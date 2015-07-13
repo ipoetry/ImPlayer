@@ -122,9 +122,12 @@ namespace ImPalyer.FM.Views
         {
             if (this.AllChannel != null||! await Win8Toast.PopupTip.CheckNetWork()) 
                 return false;
-
             var channelList = await this.ChannelBLL.GetChannelListAsync();
-            if (channelList == null) { Console.WriteLine("获取频道列表出错"); return false; }
+            if (channelList == null)
+            { 
+                Console.WriteLine("获取频道列表出错"); 
+                return false;
+            }
             this.AllChannel = channelList;
             this.InvokeOnUIDispatcher(new Action(() =>
             {
@@ -138,7 +141,6 @@ namespace ImPalyer.FM.Views
             }));
             return true;   
         }
-
 
         /// <summary>
         /// 清除频道
@@ -181,7 +183,6 @@ namespace ImPalyer.FM.Views
             Application.Current.Dispatcher.BeginInvoke(callback, args);
         }
 
-
         /// <summary>
 		/// 更换公共频道
 		/// </summary>
@@ -189,7 +190,6 @@ namespace ImPalyer.FM.Views
 		{
 			if (PublicChannels.SelectedItem != null)
                 CurrentChannel = (ImPlayer.FM.Models.Channel)PublicChannels.SelectedItem;
-                //LoadSong();
               LoadSongAsync();
                
 		}

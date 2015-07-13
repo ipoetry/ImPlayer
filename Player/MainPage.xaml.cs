@@ -60,7 +60,6 @@ namespace Player
         BackgroundWorker worker = null;
         string XmlListPath = AppDomain.CurrentDomain.BaseDirectory + "PlayList.pldb"; 
         private System.Timers.Timer timerClock = new System.Timers.Timer(1000);
-       // private int tick = 0;
 
         public MainPage(string arge)
         {
@@ -471,12 +470,6 @@ namespace Player
             cfdf.Add(new CommonFileDialogFilter("MP4", ".MP4"));
             cfdf.Add(new CommonFileDialogFilter("OGG", ".OGG"));
             List<string> files = FileOpenDialog.ShowDialog("Cup Player", false, cfdf);
-            //if (result != null)
-            //{
-            //    LoadSongList(result[0]);
-            //}
-
-            //string[] files = File_Open("所有文件|*.*|MP3|*.MP3|WAV|*.WAV|WMA|*.WMA|APE|*.APE|FLAC|*.FLAC|ACC|*.ACC|M4a|*.M4a|OGG|*.OGG", true);
             if (files != null)
             {
                 XmlDocument xmlDoc = InitXml();
@@ -730,23 +723,36 @@ namespace Player
 
         private async void Change_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if (PlayController.isFM) { FMSongLb.ClearChannels(); LoadSongList(""); PlayController.isFM = false; return; }
+            if (PlayController.isFM) 
+            { 
+                FMSongLb.ClearChannels();
+                LoadSongList("");
+                PlayController.isFM = false;
+                return; 
+            }
             PlayController.isFM = await FMSongLb.LoadChannels();
-            FMSongLb.StartPlayEventHandler += new ImPalyer.FM.Views.MyChannelList.StartPlayDel(FMLoad);
+            FMSongLb.StartPlayEventHandler += new ImPalyer.FM.Views.MyChannelList.StartPlayDel(InitFm);
         }
 
-        private void FMLoad()
+        private void InitFm()
+        {
+            Task task = new Task(LoadFm);
+            task.Start();
+           
+        }
+
+        public void LoadFm()
         {
             List<FMSong> FMlist = MyChannelList.TempSongList;
             if (FMlist == null) { return; }
-            Song song=null;
+            Song song = null;
             SongsClear();
-            foreach(FMSong fs in FMlist)
+            foreach (FMSong fs in FMlist)
             {
-               song=new Song{Artist=fs.Artist,Album=fs.AlbumTitle, Title=fs.Title, FileUrl=fs.Url.ToString(),Duration=TimeSpan.FromSeconds(fs.Length),PicUrl=fs.Picture.ToString()};
-               watcher_update(song);   
+                song = new Song { Artist = fs.Artist, Album = fs.AlbumTitle, Title = fs.Title, FileUrl = fs.Url.ToString(), Duration = TimeSpan.FromSeconds(fs.Length), PicUrl = fs.Picture.ToString() };
+                watcher_update(song);
             }
-            playControl1.btnPlay_Click(null,null);
+            playControl1.btnPlay_Click(null, null);
         }
 
         private void Grid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -755,30 +761,37 @@ namespace Player
         }
 
         private void Window_Closed(object sender, EventArgs e)
-        {
-            PlayController.bassEng.Stop();
-            if (AppPropertys.HotKeys != null)
-            {
-                AppPropertys.HotKeys.UnRegister();
-            }
-            AppPropertys.setFreeNotifyIcon();
+        {              
+            new TaskFactory().StartNew(new Action(() => {
+                PlayController.bassEng.Stop();
+                if (AppPropertys.HotKeys != null)
+                {
+                    AppPropertys.HotKeys.UnRegister();
+                }
+                AppPropertys.setFreeNotifyIcon();
 
-            //一般配置
-            AppPropertys.appSetting.LrcFont = LrcController.DefaultFont;
-            AppPropertys.appSetting.SkinIndex = LrcController.SkinIndex;
-            AppPropertys.appSetting.Volume = PlayController.bassEng.Volume;
-            AppPropertys.appSetting.Save();
-           
-            //下载模块的配置
-            this.Dispatcher.Invoke(new Action(() =>
+                //一般配置
+                AppPropertys.appSetting.LrcFont = LrcController.DefaultFont;
+                AppPropertys.appSetting.SkinIndex = LrcController.SkinIndex;
+                AppPropertys.appSetting.Volume = PlayController.bassEng.Volume;
+                AppPropertys.appSetting.Save();
+
+                //下载模块的配置
+                SaveDownloadConfig();
+            }));
+            Console.WriteLine("保存用户配置…");
+        }
+
+        public void SaveDownloadConfig()
+        {
+            this.Dispatcher.BeginInvoke(new Action(() =>
             {
-                if (ImPlayer.DownloadMoudle.DownloadPage.isDownloading)
+                if (ImPlayer.DownloadMoudle.DownloadPage.isDownloadAfterClose)
                 {
                     Console.WriteLine("暂停下载任务…");
                     ImPlayer.DownloadMoudle.DownloadPage.PauseAll();
-                }       
+                }
             }));
-            Console.WriteLine("保存用户配置…");
         }
 
         #region  歌曲操作

@@ -199,6 +199,46 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+
+        <Style x:Key="btnPlayStyle" TargetType="{x:Type RadioButton}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type RadioButton}">
+                        <StackPanel Orientation="Horizontal" >
+                            <Button x:Name="sssdc" Style="{Binding Style, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type RadioButton}}}"/>
+                        </StackPanel>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="sssdc" Property="Style" Value="{ StaticResource pause}"/>
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="False">
+                                <Setter TargetName="sssdc" Property="Style" Value="{ StaticResource play}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="btnMuteStyle" TargetType="{x:Type RadioButton}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type RadioButton}">
+                        <StackPanel Orientation="Horizontal" >
+                            <Button x:Name="sssdc1" Style="{Binding Style, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type RadioButton}}}"/>
+                        </StackPanel>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="sssdc1" Property="Style" Value="{ StaticResource Mute}"/>
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="False">
+                                <Setter TargetName="sssdc1" Property="Style" Value="{ StaticResource notMute}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </UserControl.Resources>
     
     <Grid MouseEnter="Border_MouseEnter" MouseLeave="Border_MouseLeave">
@@ -240,10 +280,6 @@
                                 <Image Name="img" Source="/Player;component/Images/nowplaypre_normal.png"/>
                             </Border>
                             <ControlTemplate.Triggers>
-                                <!--<Trigger Property="IsEnabled" Value="False">
-                                    <Setter TargetName="img" Property="Source" Value="/Player;component/Images/zoomOutGrey.png">
-                                    </Setter>
-                                </Trigger>-->
                                 <Trigger Property="IsMouseOver" Value="True">
                                     <Setter TargetName="img" Property="Source" Value="/Player;component/Images/nowplaypre_pressed.png">
                                     </Setter>
@@ -252,25 +288,8 @@
                         </ControlTemplate>
                     </Button.Template>
                 </Button>
-                <Button  Grid.Column="4" Width="48" Height="48"   Name="btnPlay" Click="btnPlay_Click" Cursor="Hand" ToolTip="播放">
-                    <!--<Button.Template>
-                        <ControlTemplate TargetType="{x:Type Button}">
-                            <Border>
-                                <Image Name="img" Source="/Player;component/Images/nowplaypause_normal.png"/>
-                            </Border>
-                            <ControlTemplate.Triggers>
-                                <Trigger Property="IsEnabled" Value="False">
-                                    <Setter TargetName="img" Property="Source" Value="/Player;component/Images/nowplaypause_normal.png">
-                                    </Setter>
-                                </Trigger>
-                                <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter TargetName="img" Property="Source" Value="/Player;component/Images/nowplaypause_pressed.png">
-                                    </Setter>
-                                </Trigger>
-                            </ControlTemplate.Triggers>
-                        </ControlTemplate>
-                    </Button.Template>-->
-                </Button>
+                <!--如果Rb在同一容器内，必须要添加组名，才不会互相影响-->
+                <RadioButton GroupName="PlayControl" Width="48" Grid.Column="4" Height="48" Name="btnPlay" Cursor="Hand" Style="{DynamicResource btnPlayStyle}" VerticalAlignment="Center" Click="btnPlay_Click" />
                 <Button  Grid.Column="5" Width="36" Height="36" Name="btnNext" Click="btnNext_Click" Cursor="Hand" ToolTip="下一曲">
                     <Button.Template>
                         <ControlTemplate TargetType="{x:Type Button}">
@@ -286,27 +305,10 @@
                         </ControlTemplate>
                     </Button.Template>
                 </Button>
-                <Button  Grid.Column="6" Width="24" Height="24" Name="btnMute" Click="btnMute_Click"  Cursor="Hand" ToolTip="静音">
-                </Button>
+                <RadioButton GroupName="VolumControl" Width="24" Height="24" x:Name="btnMute" Grid.Column="6" Cursor="Hand"   Style="{StaticResource btnMuteStyle}" VerticalAlignment="Center" Click="btnMute_Click" />
                 <Slider Name="soundSlider"  Style="{StaticResource Slider_CustomStyle}" Maximum="1" Minimum="0"  Grid.Column="6"  Cursor="Hand" Width="110" Height="8"  HorizontalAlignment="Left" Margin="53,16,0,16" Grid.ColumnSpan="2" />
                 <Image x:Name="btnPlayMode" Grid.Column="2" Style="{StaticResource single}" Width="30" Height="30" Tag="1"  Stretch="Fill" Cursor="Hand"  MouseLeftButtonDown="btnPlayMode_MouseLeftButtonDown" ToolTip="循环播放"/>
 
-                <!--<Button  Grid.Column="2" Width="32" Height="32" Name="btnF" Click="btnF_Click" Cursor="Hand">
-                    <Button.Template>
-                        <ControlTemplate TargetType="{x:Type Button}">
-                            <Border>
-                                <Image Name="img" Source="/Player;component/Images/quku_music_list_play_normal.png"/>
-                            </Border>
-                            <ControlTemplate.Triggers>
-                                <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter TargetName="img" Property="Source" Value="/Player;component/Images/quku_music_list_play_pressed.png">
-                                    </Setter>
-                                </Trigger>
-                            </ControlTemplate.Triggers>
-                        </ControlTemplate>
-                    </Button.Template>
-                </Button>-->
-                
                 <Label Grid.Column="0" Cursor="Hand" Margin="15,5,0,0"  Content="词" FontSize="26" FontFamily="华文彩云" Style="{StaticResource lrcCon}" MouseDown="btnLrcShow_MouseDown" ToolTip="歌词"></Label>
                 <Label Grid.Column="1" Cursor="Hand" Margin="15,5,0,0"  Content="图" FontSize="26" FontFamily="华文彩云" Style="{StaticResource lrcCon}" MouseDown="btnPicShow_MouseDown" ToolTip="写真"></Label> 
             </Grid>

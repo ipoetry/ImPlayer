@@ -43,26 +43,6 @@ namespace ImPlayer.DownloadMoudle
             set { downloadingList = value; }
         }
 
-
-        #region  右键菜单
-        [StructLayout(LayoutKind.Sequential)]
-        public struct POINT
-        {
-            public int X;
-            public int Y;
-
-            public POINT(int x, int y)
-            {
-                this.X = x;
-                this.Y = y;
-            }
-        }
-        [DllImport("user32.dll", CharSet = CharSet.Auto)]
-        public static extern bool GetCursorPos(out POINT pt);
-        MouseHook mouse = new MouseHook();
-
-        #endregion
-
         [DllImport("user32.dll")]
         public static extern bool FlashWindow(IntPtr hWnd, bool bInvert);
 
@@ -86,25 +66,9 @@ namespace ImPlayer.DownloadMoudle
             DownloadManager.Instance.DownloadEnded += new EventHandler<DownloaderEventArgs>(Instance_EndDownloads);
             dlIngList.Items.Clear();
             dlIngList.ItemsSource = DownloadingList;
-
-            mouse.OnMouseActivity += new System.Windows.Forms.MouseEventHandler(mouse_OnMouseActivity);
-            mouse.Start();
         }
 
-        void mouse_OnMouseActivity(object sender, System.Windows.Forms.MouseEventArgs e)
-        {
-            if (e.Button != System.Windows.Forms.MouseButtons.None)
-            {
-                if (DownloadListView.DiyCM != null && (DateTime.Now - DownloadListView.DiyCM.CreateTime).TotalMilliseconds > 500)
-                {
-                    if (!(DownloadListView.DiyCM.Left < e.X && e.X < DownloadListView.DiyCM.Left + DownloadListView.DiyCM.Width && DownloadListView.DiyCM.Top < e.Y && e.Y < DownloadListView.DiyCM.Top + DownloadListView.DiyCM.Height))
-                    {
-                        DownloadListView.DiyCM.Close();
-                        DownloadListView.DiyCM = null;
-                    }
-                }
-            }
-        }
+        
         void Instance_EndAddBatchDownloads(object sender, EventArgs e)
         {
             //this.BeginInvoke((MethodInvoker)lvwDownloads.EndUpdate);
@@ -498,45 +462,35 @@ namespace ImPlayer.DownloadMoudle
             }
             else
             {
-                MessageBox.Show("删除中……");
+                try
+                {
+                    System.IO.File.Delete(dl.FileLink);
+                }
+                catch (System.IO.IOException ex)
+                { 
+                    Console.WriteLine(ex);
+                }
             }
         }
 
-        public static DiyContextMenu DiyCM;
-        bool IsRightButton = false;
         private void dlIngList_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
-            IsRightButton = !IsRightButton;
-            if (dlIngList.SelectedItem == null) { return; }
-            DownloadListView.POINT pit = new POINT();
-            DownloadListView.GetCursorPos(out pit);
-            if (DiyCM == null)
+            object item = GetElementFromPoint((ItemsControl)sender, e.GetPosition((ItemsControl)sender));
+            if (item != null)
             {
-                DiyCM = new DiyContextMenu(DateTime.Now);
-                DiyCM.WindowStartupLocation = WindowStartupLocation.Manual;
-                DiyCM.Left = pit.X + 5;
-                DiyCM.Top = pit.Y + 20;
-                DiyCM.Show();
+                object obj = this.TryFindResource("MyCM");
+                if (obj != null)
+                {
+                    ContextMenu cm = (ContextMenu)obj;
+                    dlIngList.ContextMenu = cm;
+                }
             }
             else
-            { DiyCM.Close(); DiyCM = null; }
+            {
+                dlIngList.ContextMenu = null;
+            }
         }
 
-        private void dlIngList_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (dlIngList.SelectedItem == null || !IsRightButton) { return; }
-            DownloadListView.POINT pit = new POINT();
-            DownloadListView.GetCursorPos(out pit);
-            if (DiyCM == null)
-            {
-                DiyCM = new DiyContextMenu(DateTime.Now);
-                DiyCM.WindowStartupLocation = WindowStartupLocation.Manual;
-                DiyCM.Left = pit.X + 5;
-                DiyCM.Top = pit.Y + 20;
-                DiyCM.Show();
-            }
-            IsRightButton = !IsRightButton;
-        }
 
         public void StartAll()
         {
@@ -548,6 +502,27 @@ namespace ImPlayer.DownloadMoudle
         {
             DownloadManager.Instance.RemoveAll();
             UpdateList();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="itemsControl"></param>
+        /// <param name="point"></param>
+        /// <returns></returns>
+        private object GetElementFromPoint(ItemsControl itemsControl, Point point)
+        {
+            UIElement element = itemsControl.InputHitTest(point) as UIElement;
+            while (element != null)
+            {
+                if (element == itemsControl)
+                    return null;
+                object item = itemsControl.ItemContainerGenerator.ItemFromContainer(element);
+                if (!item.Equals(DependencyProperty.UnsetValue))
+                    return item;
+                element = (UIElement)VisualTreeHelper.GetParent(element);
+            }
+            return null;
         }
     }
 }

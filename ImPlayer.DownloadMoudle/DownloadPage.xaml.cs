@@ -21,7 +21,7 @@ namespace ImPlayer.DownloadMoudle
     public partial class DownloadPage : Window
     {
         private DispatcherTimer dispatcherTimer = null;
-        public static bool isDownloading = false;
+        public static bool isDownloadAfterClose = false;
         public DownloadPage()
         {
             InitializeComponent();
@@ -70,14 +70,17 @@ namespace ImPlayer.DownloadMoudle
 
         private void Window_Closed(object sender, EventArgs e)
         {
-            if (MessageBoxResult.Yes == MessageBox.Show("关闭窗体后继续下载？", "提示", MessageBoxButton.YesNo))
+            if (MyDownloader.Core.DownloadManager.Instance.TotalDownloadRate > 0)
             {
-                isDownloading = true;
-            }
-            else
-            {
-                PauseAll();
-                isDownloading = false;
+                if (MessageBoxResult.Yes == MessageBox.Show("关闭窗体后继续下载？", "提示", MessageBoxButton.YesNo))
+                {
+                    isDownloadAfterClose = true;
+                }
+                else
+                {
+                    PauseAll();
+                    isDownloadAfterClose = false;
+                }
             }
         }
     }

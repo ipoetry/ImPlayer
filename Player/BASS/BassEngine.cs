@@ -367,45 +367,55 @@ namespace BassCore
             _fxEQ[9] = Bass.BASS_ChannelSetFX(_Stream, BASSFXType.BASS_FX_DX8_PARAMEQ, 0);
             eq.fBandwidth = 18f;
 
-            eq.fCenter = 31f;
-            eq.fGain = (float)Player.PlayController.EQS.silder0.Value/ 10f;
-            Bass.BASS_FXSetParameters(_fxEQ[0], eq);
+            float[] fCenters = {31f,62f,125f,250f,500f,1000f,2000f,4000f,8000f,16000f };
+
+            for (int i = 0; i < 10; i++)
+            {
+                eq.fCenter = fCenters[i];
+                eq.fGain = 0;
+                Bass.BASS_FXSetParameters(_fxEQ[i], eq);
+            }
+            #region  老的方法
+            //eq.fCenter = 31f;
+            //eq.fGain = (float)Player.PlayController.EQS.silder0.Value/ 10f;
+            //Bass.BASS_FXSetParameters(_fxEQ[0], eq);
             
-            eq.fCenter = 62f;
-            eq.fGain = (float)Player.PlayController.EQS.silder1.Value / 10f;
-            Bass.BASS_FXSetParameters(_fxEQ[1], eq);
+            //eq.fCenter = 62f;
+            //eq.fGain = (float)Player.PlayController.EQS.silder1.Value / 10f;
+            //Bass.BASS_FXSetParameters(_fxEQ[1], eq);
 
-            eq.fCenter = 125f;
-            eq.fGain = (float)Player.PlayController.EQS.silder2.Value / 10f;
-            Bass.BASS_FXSetParameters(_fxEQ[2], eq);
+            //eq.fCenter = 125f;
+            //eq.fGain = (float)Player.PlayController.EQS.silder2.Value / 10f;
+            //Bass.BASS_FXSetParameters(_fxEQ[2], eq);
 
-            eq.fCenter = 250f;
-            eq.fGain = (float)Player.PlayController.EQS.silder3.Value / 10f;
-            Bass.BASS_FXSetParameters(_fxEQ[3], eq);
+            //eq.fCenter = 250f;
+            //eq.fGain = (float)Player.PlayController.EQS.silder3.Value / 10f;
+            //Bass.BASS_FXSetParameters(_fxEQ[3], eq);
 
-            eq.fCenter = 500f;
-            eq.fGain = (float)Player.PlayController.EQS.silder4.Value / 10f;
-            Bass.BASS_FXSetParameters(_fxEQ[4], eq);
+            //eq.fCenter = 500f;
+            //eq.fGain = (float)Player.PlayController.EQS.silder4.Value / 10f;
+            //Bass.BASS_FXSetParameters(_fxEQ[4], eq);
 
-            eq.fCenter = 1000f;
-            eq.fGain = (float)Player.PlayController.EQS.silder5.Value / 10f;
-            Bass.BASS_FXSetParameters(_fxEQ[5], eq);
+            //eq.fCenter = 1000f;
+            //eq.fGain = (float)Player.PlayController.EQS.silder5.Value / 10f;
+            //Bass.BASS_FXSetParameters(_fxEQ[5], eq);
 
-            eq.fCenter = 2000f;
-            eq.fGain = (float)Player.PlayController.EQS.silder6.Value / 10f;
-            Bass.BASS_FXSetParameters(_fxEQ[6], eq);
+            //eq.fCenter = 2000f;
+            //eq.fGain = (float)Player.PlayController.EQS.silder6.Value / 10f;
+            //Bass.BASS_FXSetParameters(_fxEQ[6], eq);
 
-            eq.fCenter = 4000f;
-            eq.fGain = (float)Player.PlayController.EQS.silder7.Value / 10f;
-            Bass.BASS_FXSetParameters(_fxEQ[7], eq);
+            //eq.fCenter = 4000f;
+            //eq.fGain = (float)Player.PlayController.EQS.silder7.Value / 10f;
+            //Bass.BASS_FXSetParameters(_fxEQ[7], eq);
 
-            eq.fCenter = 8000f;
-            eq.fGain = (float)Player.PlayController.EQS.silder8.Value / 10f;
-            Bass.BASS_FXSetParameters(_fxEQ[8], eq);
+            //eq.fCenter = 8000f;
+            //eq.fGain = (float)Player.PlayController.EQS.silder8.Value / 10f;
+            //Bass.BASS_FXSetParameters(_fxEQ[8], eq);
 
-            eq.fCenter = 16000f;
-            eq.fGain = (float)Player.PlayController.EQS.silder9.Value / 10f;
-            Bass.BASS_FXSetParameters(_fxEQ[9], eq);
+            //eq.fCenter = 16000f;
+            //eq.fGain = (float)Player.PlayController.EQS.silder9.Value / 10f;
+            //Bass.BASS_FXSetParameters(_fxEQ[9], eq);
+            #endregion
             return _Stream;
         }
         private int CreateLocalFileStream(string filename)
@@ -748,7 +758,6 @@ namespace BassCore
             int deviceNO = FindDevice(device, true);
             if (!Un4seen.Bass.Bass.BASS_Init(deviceNO, sampleFrequency, Un4seen.Bass.BASSInit.BASS_DEVICE_DEFAULT, handle))
             {
-
                 var error = Un4seen.Bass.Bass.BASS_ErrorGetCode();
                 int count = Un4seen.Bass.Bass.BASS_GetDeviceCount();
                 for (deviceNO = -1; deviceNO < count; ++deviceNO)
@@ -865,8 +874,10 @@ namespace BassCore
 			get { return currentChannelPosition; }
 			set
 			{
+                //Console.WriteLine("tag_1");
 				if (!inChannelSet)
 				{
+                    //Console.WriteLine("tag_2");
 					inChannelSet = true; // Avoid recursion
 					TimeSpan oldValue = currentChannelPosition;
 					TimeSpan position = value;
@@ -878,6 +889,7 @@ namespace BassCore
 					if (oldValue != currentChannelPosition)
 						NotifyPropertyChanged("ChannelPosition");
 					inChannelSet = false;
+                   // Console.WriteLine("tag_3");
 				}
 			}
 		}

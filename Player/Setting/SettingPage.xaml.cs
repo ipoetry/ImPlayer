@@ -214,12 +214,21 @@ namespace Player.Setting
 
          private void Button_Click_1(object sender, RoutedEventArgs e)
          {
-             string path  =  FileOpenDialog.ShowDialog();
-             if (path != string.Empty)
-             {
-                 AppPropertys.appSetting.DownloadFolder = path+"\\";
-                 defaultFolder.Text = AppPropertys.appSetting.DownloadFolder;
-             }
+             Task task = new Task(SetPath);
+             task.Start();
+         }
+
+         public void SetPath()
+         {
+             this.Dispatcher.BeginInvoke(new Action(() => {
+                 string path = FileOpenDialog.ShowDialog();
+                 if (path != string.Empty)
+                 {
+                     AppPropertys.appSetting.DownloadFolder = path + "\\";
+                     defaultFolder.Text = AppPropertys.appSetting.DownloadFolder;
+                 }
+             }));
+            
          }
     }
 }

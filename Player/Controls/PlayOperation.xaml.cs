@@ -27,8 +27,7 @@ namespace Player
         }
 
         private void btnPlayMode_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            
+        {         
             int mode = Convert.ToInt16(btnPlayMode.Tag);
             mode++;
             mode = mode > 3 ? 1 : mode;
@@ -57,35 +56,20 @@ namespace Player
 
         public void btnPre_Click(object sender, RoutedEventArgs e)
         {
-            this.Dispatcher.BeginInvoke(new Action(() =>
-                PlayController.PlayPrevent()
-               ));         
+            Task task = new Task(PlayController.PlayPrevent);
+            task.Start();
         }
 
         public void btnPlay_Click(object sender, RoutedEventArgs e)
-        {    
-            this.Dispatcher.BeginInvoke(new Action(()=>
-                {
-                    if (PlayController.bassEng.IsPlaying)
-                    {
-                        PlayController.Pause();
-                    }
-                    else
-                    {
-                        if(PlayController.bassEng.CanPlay)
-                        PlayController.Play();
-                        else
-                        PlayController.PlayMusic();
-                    }
-                }
-            ));
+        {
+            Task task = new Task(PlayController.BtnPlayOperation);
+            task.Start();           
         }
 
         public void btnNext_Click(object sender, RoutedEventArgs e)
         {
-            this.Dispatcher.BeginInvoke(new Action(() =>
-                PlayController.PlayNext()
-               )); 
+            Task task = new Task(PlayController.PlayNext);
+            task.Start();
         }
 
         private void Border_MouseEnter(object sender, MouseEventArgs e)
@@ -134,7 +118,8 @@ namespace Player
                 new Binding
                 {
                     Source = thumb2,
-                    Path = new PropertyPath(Canvas.LeftProperty)
+                    Path = new PropertyPath(Canvas.LeftProperty),
+                    // Mode=BindingMode.TwoWay
                 });
             BindingOperations.SetBinding(soundSlider, Slider.ValueProperty,
                new Binding
@@ -143,6 +128,20 @@ namespace Player
                    Path = new PropertyPath("Volume"),
                    Mode=BindingMode.TwoWay
                });
+            BindingOperations.SetBinding(btnPlay, RadioButton.IsCheckedProperty,
+               new Binding
+               {
+                   Source = PlayController.bassEng,
+                   Path = new PropertyPath("IsPlaying"),
+                   Mode = BindingMode.OneWay
+               });
+            BindingOperations.SetBinding(btnMute, RadioButton.IsCheckedProperty,
+              new Binding
+              {
+                  Source = PlayController.bassEng,
+                  Path = new PropertyPath("IsMuted"),
+                  Mode = BindingMode.OneWay
+              });
         }
 
         private void btnLrcShow_MouseDown(object sender, MouseButtonEventArgs e)
@@ -152,18 +151,23 @@ namespace Player
 
         private void btnPicShow_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            this.Dispatcher.BeginInvoke(new Action(() => {
-                if (AppPropertys.mainWindow.isPPTPlaying)
+            Task task = new Task(playPicAnom);
+            task.Start();
+        }
+        public void playPicAnom()
+        {
+            AppPropertys.mainWindow.Dispatcher.BeginInvoke(new Action(() =>
+            {
+                if (AppPropertys.mainWindow.isPPTPlaying||PlayController.CurrentSong == null)
                 {
                     AppPropertys.mainWindow.StopPlayPPT();
+                    return;
                 }
                 else
                 {
-                    if (PlayController.CurrentSong == null) { return; }
                     AppPropertys.mainWindow.PlayPPT(PlayController.CurrentSong);
                 }
-            }));
-            
+            }));   
         }
 
     }

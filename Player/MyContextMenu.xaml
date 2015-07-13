@@ -184,6 +184,46 @@
             </Setter>
         </Style>
 
+        <Style x:Key="btnPlayStyle" TargetType="{x:Type RadioButton}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type RadioButton}">
+                        <StackPanel Orientation="Horizontal" >
+                            <Button x:Name="sssdc" Style="{Binding Style, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type RadioButton}}}"/>
+                        </StackPanel>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="sssdc" Property="Style" Value="{ StaticResource pause}"/>
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="False">
+                                <Setter TargetName="sssdc" Property="Style" Value="{ StaticResource play}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="btnMuteStyle" TargetType="{x:Type RadioButton}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type RadioButton}">
+                        <StackPanel Orientation="Horizontal" >
+                            <Button x:Name="sssdc" Style="{Binding Style, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type RadioButton}}}"/>
+                        </StackPanel>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="sssdc" Property="Style" Value="{ StaticResource Mute}"/>
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="False">
+                                <Setter TargetName="sssdc" Property="Style" Value="{ StaticResource notMute}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
     </Window.Resources>
     <Grid Background="White" Opacity="1">
         <Grid.RowDefinitions>
@@ -217,7 +257,8 @@
                         </ControlTemplate>
                     </Button.Template>
                 </Button>
-                <Button  Grid.Column="1" Width="44" Height="45" Name="btnPlay" Click="btnPlay_Click" Cursor="Hand"></Button>
+                <!--<Button  Grid.Column="1" Width="44" Height="45" Name="btnPlay" Click="btnPlay_Click" Cursor="Hand"></Button>-->
+                <RadioButton Width="44" Grid.Column="1" Height="44" Name="btnPlay" Cursor="Hand" Style="{DynamicResource btnPlayStyle}" VerticalAlignment="Center" Click="btnPlay_Click" />
                 <Button  Grid.Column="2" Width="32" Name="btnNext" Click="btnNext_Click" Cursor="Hand">
                     <Button.Template>
                         <ControlTemplate TargetType="{x:Type Button}">
@@ -245,8 +286,8 @@
                     <ColumnDefinition Width="2.5*"/>
                     <ColumnDefinition Width="7.5*"/>
                 </Grid.ColumnDefinitions>
-                <Button  Grid.Column="0" Width="20" Name="btnMute" Click="btnMute_Click" Cursor="Hand">
-                </Button>
+
+                <RadioButton Width="20" Height="20" Cursor="Hand" Grid.Column="0"  x:Name="btnMute"  Style="{DynamicResource btnMuteStyle}" VerticalAlignment="Center" Click="btnMute_Click" />
                 <Slider Name="soundSlider"  Style="{StaticResource Slider_CustomStyle}" Maximum="1" Minimum="0" Grid.ColumnSpan="2" Grid.Column="1"  Cursor="Hand" Width="90" Height="6"  HorizontalAlignment="Left" Margin="0,1,0,0"/>
             </Grid>
         </StackPanel>

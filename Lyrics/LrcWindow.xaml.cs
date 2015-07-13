@@ -30,6 +30,7 @@ namespace Lyrics
         {
             InitializeComponent();
             LrcController.lrcWindow = this;
+            LrcController.lrcWindowStatue = true;
         }
         private void DrowLrcText(int index, double time)
         {

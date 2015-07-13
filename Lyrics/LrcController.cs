@@ -21,6 +21,7 @@ namespace Lyrics
         public static LrcToolBar lrcToolBar;
         public static string[] LrcTypes = new string[] { "*.Qrc", "*.Ksc", "*.Lrc" };
         public static LrcWindow lrcWindow;
+        public static bool lrcWindowStatue = false;
         private static Lrc lyric = new Lrc();
         private static System.Drawing.Color maskDownColor = System.Drawing.Color.DarkRed;
         private static System.Drawing.Color maskUPColor = System.Drawing.Color.DarkOrange;
@@ -380,7 +381,7 @@ namespace Lyrics
             string fileName = Common.getTitleFromPath(song.FileUrl);
             try
             {
-                if (lrcWindow != null&&lrcWindow.IsLoaded) { lrcWindow.Init(fileName);}
+                if (lrcWindowStatue) { lrcWindow.Init(fileName);}
                 foreach (string str in LrcTypes)
                 {
                     FileInfo[] files = new DirectoryInfo(song.FileUrl).Parent.GetFiles(str, SearchOption.TopDirectoryOnly);
@@ -402,10 +403,10 @@ namespace Lyrics
                 {
                     string lrcPath = await DownLrc.DownloadLrcAsync(song);
                     if (string.IsNullOrEmpty(lrcPath)) { lrcPath = await DownLrc.DownloadLrcAsyncFromQian(song); }
-                    if (!string.IsNullOrEmpty(lrcPath)&&lrcWindow != null && lrcWindow.IsLoaded) {  lyric = new Lrc(lrcPath); }
+                    if (!string.IsNullOrEmpty(lrcPath) && lrcWindowStatue) { lyric = new Lrc(lrcPath); }
                 }
             }
-            catch(Exception ex) { Debug.Write(ex.ToString()); }
+            catch(Exception ex) { Console.WriteLine(ex.ToString()); }
         }
 
         public static void SetButtonChanged(object sender, int index)

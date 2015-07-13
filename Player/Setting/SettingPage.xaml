@@ -5,7 +5,7 @@
         Style="{DynamicResource NoResize_window}" BorderThickness="1" 
         xmlns:local="clr-namespace:Player.HotKey" x:Name="ssd"
         BorderBrush="#FF87AFD4" MouseLeftButtonDown="Window_MouseLeftButtonDown" 
-        Loaded="Window_Loaded" xmlns:ext="clr-namespace:CheckListBox.Extension">
+        Loaded="Window_Loaded" xmlns:ext="clr-namespace:CheckListBox.Extension" WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <Style x:Key="CheckListBoxItemContainerStyle"
        TargetType="{x:Type ListBoxItem}">

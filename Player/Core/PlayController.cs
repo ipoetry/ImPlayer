@@ -40,8 +40,6 @@ namespace Player
           EQS = new EqualizerSet();
           bassEng = BassEngine.Instance;
           playControl = AppPropertys.mainWindow.playControl1;
-          playControl.btnPlay.Style =(Style)playControl.FindResource("play");
-          playControl.btnMute.Style = (Style)playControl.FindResource("notMute");
           sl = new SongList();
           bassEng.TrackEnded += bassPlayer_TrackEnded;
           DT.Interval = TimeSpan.FromMilliseconds(100);
@@ -213,67 +211,71 @@ namespace Player
 
       public static void ReSet()
       {
-          DT.Stop();
-          startPosition = 0;
-          duringTime = 0;
-          playControl.thumb2.Dispatcher.Invoke(new Action(()=>Canvas.SetLeft(playControl.thumb2, 0)));
-          LrcController.offsetTime = 0;
-          AppPropertys.FlushMemory();
-         
+       //   AppPropertys.mainWindow.Dispatcher.BeginInvoke(new Action(() => {
+              DT.Stop();
+              startPosition = 0;
+              duringTime = 0;
+              playControl.thumb2.Dispatcher.Invoke(new Action(() => Canvas.SetLeft(playControl.thumb2, 0)));
+              LrcController.offsetTime = 0;
+              AppPropertys.FlushMemory();
+        //  }));   
       }
 
       public static void setMute()
       {
           if (bassEng.IsMuted)
           {
-              playControl.btnMute.Style = (Style)playControl.FindResource("notMute");
-              playControl.btnMute.ToolTip = "打开声音";
               bassEng.IsMuted = false;
               bassEng.Volume = currentVolume;
           }
           else
           {
-              playControl.btnMute.Style = (Style)playControl.FindResource("Mute");
-              playControl.btnMute.ToolTip = "静音";
               bassEng.IsMuted = true;
               currentVolume = bassEng.Volume;
               bassEng.Volume = 0;
+
           }
       }
-
+      static Song tempSong;
       public static void PlayMusic(int index = -1)
       {
           if (index != -1) { PlayIndex = index; }
           if (songs.Count > PlayIndex && PlayIndex > -1)
           {
-              ReSet();
-              CurrentSong = songs[PlayIndex];
-              if (CurrentSong.FileUrl.StartsWith("http:"))
+              tempSong =songs[PlayIndex];
+              if (tempSong.FileUrl.StartsWith("http:"))
               {
-                  bassEng.OpenUrlAsync(CurrentSong.FileUrl);
+                  bassEng.OpenUrlAsync(tempSong.FileUrl);
               }
               else
               {
-                  if (!RemoveNotExitsFile(CurrentSong)) { return; }
-                  bassEng.OpenFile(CurrentSong.FileUrl);
-              }          
+                  if (!RemoveNotExitsFile(tempSong)) { return; }
+                  bassEng.OpenFile(tempSong.FileUrl);
+              }
+            
           }
-
       }
 
       private static void StartPlay(object sender,EventArgs e)
-      { 
-            Play();
-            LrcController.SearchLrc(CurrentSong);
-            AppPropertys.ChangeNotifyIcon(2);
+      {
+          AppPropertys.mainWindow.Dispatcher.Invoke(new Action(() => { 
+          CurrentSong = tempSong;
+          ReSet();
+          Play();
+          LrcController.SearchLrc(CurrentSong);
+          }));
       }
 
       private static bool RemoveNotExitsFile(Song rSong)
       {
           if (!File.Exists(rSong.FileUrl))
-          { 
+          {
+              
               sl.RemoveNode(new string[]{rSong.FileName});
+              AppPropertys.mainWindow.Dispatcher.Invoke(new Action(() => {
               Songs.Remove(rSong);
+              Win8Toast.PopupTip.ShowPopUp("文件不存在：" + rSong.FileUrl);
+              }));
               return false;
           }
           return true;
@@ -281,46 +283,44 @@ namespace Player
 
       public static void Play()
       {
-          bassEng.Play();
-          DT.Start();
-          playControl.btnPlay.Style = (Style)playControl.FindResource("pause");
-          AppPropertys.mainWindow.playListBox.ScrollIntoView(CurrentSong);
-          AppPropertys.mainWindow.playListBox.SelectedIndex = PlayIndex;
-          string notifyIconText = "正在播放：" + CurrentSong.ArtSong;
-          if (notifyIconText.Length >= 64) { notifyIconText.Substring(0,63); }
-          AppPropertys.notifyIcon.Text = notifyIconText;
-          playControl.btnPlay.ToolTip = "暂停";
-          LrcController.SetPause();
-          if (AppPropertys.mainWindow.isPPTPlaying)
-          {
-              AppPropertys.mainWindow.PlayPPT(CurrentSong);
-          }
+         
+          AppPropertys.mainWindow.Dispatcher.BeginInvoke(
+              new Action(() => {
+                  bassEng.Play();
+                  DT.Start();
+                  AppPropertys.mainWindow.playListBox.ScrollIntoView(CurrentSong);
+                  AppPropertys.mainWindow.playListBox.SelectedIndex = PlayIndex;
+                  string notifyIconText = "正在播放：" + CurrentSong.ArtSong;
+                  AppPropertys.notifyIcon.Text =notifyIconText.Length >= 64?notifyIconText.Substring(0,63):notifyIconText;
+                  if (AppPropertys.mainWindow.isPPTPlaying)
+                  {
+                      AppPropertys.mainWindow.PlayPPT(CurrentSong);
+                  }
+
+                  LrcController.SetPause();  
+
+                  ShowTip();
+                  
+              })
+              );
+                        
+      }
+
+      public static void ShowTip()
+      {
           try
           {
               Player.NotifyBall.BalloonSongInfo ss = new Player.NotifyBall.BalloonSongInfo();
               AppPropertys.mainWindow.NotifyTip.ShowCustomBalloon(ss, System.Windows.Controls.Primitives.PopupAnimation.Fade, 5000);
           }
           catch (Exception ex) { Console.WriteLine(ex.ToString()); }
-          
-      }
-
-      public static void Stop()
-      {
-          bassEng.Stop();
-          LrcController.SetPlay();
-          playControl.btnPlay.ToolTip = "播放";
-          AppPropertys.notifyIcon.Text = AppPropertys.logoText;
       }
 
       public static void Pause()
       {
           bassEng.Pause();
-          playControl.btnPlay.Dispatcher.Invoke(new Action(() => {
-              playControl.btnPlay.Style = (Style)playControl.FindResource("play");
-              playControl.btnPlay.ToolTip = "播放";
-          }));
           LrcController.SetPlay();
-          AppPropertys.ChangeNotifyIcon(1);
+         // AppPropertys.ChangeNotifyIcon(1);
       }
 
       public static void PlayPrevent()
@@ -349,6 +349,22 @@ namespace Player
           } 
           PlayMusic();
       }
+
+      public static void BtnPlayOperation()
+      {
+          if (bassEng.IsPlaying)
+          {
+              Pause();
+          }
+          else
+          {
+              if (bassEng.CanPlay)
+                  Play();
+              else
+                  PlayMusic();
+          }
+      }
+
 
       public static string formatTime(double seconds)
       {
