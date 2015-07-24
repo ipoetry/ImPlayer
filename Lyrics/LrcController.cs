@@ -10,6 +10,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Media;
+using ImPlayer.Toast;
 namespace Lyrics
 {
     public class LrcController
@@ -399,7 +400,7 @@ namespace Lyrics
                         }
                     }
                 }
-                if (!isExist&&await Win8Toast.PopupTip.CheckNetWork())
+                if (!isExist&&await PopupTip.CheckNetWork())
                 {
                     string lrcPath = await DownLrc.DownloadLrcAsync(song);
                     if (string.IsNullOrEmpty(lrcPath)) { lrcPath = await DownLrc.DownloadLrcAsyncFromQian(song); }

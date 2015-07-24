@@ -18,7 +18,7 @@ using System.Net.NetworkInformation;
 using System.Net;
 
 
-namespace Win8Toast
+namespace ImPlayer.Toast
 {
     public class PopupTip
     {

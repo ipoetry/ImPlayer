@@ -6,11 +6,11 @@ using System.Linq;
 using System.Text;
 using Microsoft.WindowsAPICodePack.Shell.PropertySystem;
 using MS.WindowsAPICodePack.Internal;
-using Win8Toast.ShellHelpers;
+using ImPlayer.Toast.ShellHelpers;
 using Windows.UI.Notifications;
 using Windows.Data.Xml.Dom;
 
-namespace Win8Toast
+namespace ImPlayer.Toast
 {
     public class ToastTip
     {

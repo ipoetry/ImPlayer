@@ -22,7 +22,7 @@ using Lyrics;
 using Un4seen.Bass.AddOn.Tags;
 using WPFSoundVisualizationLib;
 using ImPlayer.FM.Models;
-using ImPalyer.FM.Views;
+using ImPlayer.FM.Views;
 using Player.HotKey;
 using ImPlayer.DownloadMoudle;
 using Microsoft.WindowsAPICodePack.Dialogs;
@@ -731,7 +731,7 @@ namespace Player
                 return; 
             }
             PlayController.isFM = await FMSongLb.LoadChannels();
-            FMSongLb.StartPlayEventHandler += new ImPalyer.FM.Views.MyChannelList.StartPlayDel(InitFm);
+            FMSongLb.StartPlayEventHandler += new ImPlayer.FM.Views.MyChannelList.StartPlayDel(InitFm);
         }
 
         private void InitFm()

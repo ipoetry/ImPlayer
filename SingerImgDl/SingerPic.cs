@@ -9,6 +9,7 @@ using Newtonsoft.Json;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Runtime.InteropServices;
+using ImPlayer.Toast;
 
 namespace ArtistPic
 {
@@ -115,7 +116,7 @@ namespace ArtistPic
             }
         }
         
-       /// <summary>
+        /// <summary>
         /// 开始异步下载
         /// </summary>
         /// <param name="ArtistName"></param>
@@ -124,10 +125,17 @@ namespace ArtistPic
             string dir = Savepath + ArtistName + "\\";
             if (System.IO.Directory.Exists(dir))
             {
-                CompletedNoticeEventHandler(new MyEventAgr { SName = ArtistName, WC = null }); 
+                CompletedNoticeEventHandler(
+                    new MyEventAgr 
+                { SName = ArtistName, WC = null }
+                ); 
                 return; 
             }
-            if (! await Win8Toast.PopupTip.CheckNetWork()) { Console.WriteLine("error:网络未连接，无法下载歌手图片"); return; }
+            if (! await PopupTip.CheckNetWork()) 
+            { 
+                Console.WriteLine("error:网络未连接，无法下载歌手图片");
+                return;
+            }
             List<string> urlList = await GetPicsURL(ArtistName);
             foreach (string picUrl in urlList)
             {

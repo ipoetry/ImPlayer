@@ -8,7 +8,7 @@ using ImPlayer.FM;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace ImPalyer.FM.Core
+namespace ImPlayer.FM.Core
 {
     public class Channel
     {

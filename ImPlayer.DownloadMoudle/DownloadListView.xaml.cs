@@ -18,6 +18,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using MyDownloader.Core;
 using MyDownloader.Core.Common;
+using ImPlayer.Toast;
 
 namespace ImPlayer.DownloadMoudle
 {
@@ -432,7 +433,7 @@ namespace ImPlayer.DownloadMoudle
             try
             {
                 DownLoadFileInfo dl = dlIngList.SelectedItem as DownLoadFileInfo;
-                if (dl == null || !await Win8Toast.PopupTip.CheckNetWork()) { return; }
+                if (dl == null || !await PopupTip.CheckNetWork()) { return; }
                 System.Windows.Controls.Button btn = sender as System.Windows.Controls.Button;
                 string content = btn.Content.ToString();
                 if (content == "开始" || content == "继续")

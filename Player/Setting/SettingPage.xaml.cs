@@ -1,4 +1,5 @@
-﻿using Microsoft.Win32;
+﻿using ImPlayer.Toast;
+using Microsoft.Win32;
 using Player.FileTypeAssocion;
 using Player.HotKey;
 using System;
@@ -188,7 +189,7 @@ namespace Player.Setting
 
          private void isAutoStart_Checked(object sender, RoutedEventArgs e)
          {
-             if (!Win8Toast.SystemHepler.IsWin8OrHeigher())
+             if (!SystemHepler.IsWin8OrHeigher())
              {
                  string path = System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName;
                  RegistryKey rKey = Registry.LocalMachine;
@@ -206,9 +207,9 @@ namespace Player.Setting
              }
              else 
              {
-                 if (!File.Exists(Win8Toast.ToastTip.shortcutPath))
-                     Win8Toast.ToastTip.TryCreateShortcut();
-                     File.Copy(Win8Toast.ToastTip.shortcutPath,Win8Toast.SystemHepler.autoStart+"Cup Player.lnk");
+                 if (!File.Exists(ToastTip.shortcutPath))
+                     ToastTip.TryCreateShortcut();
+                     File.Copy(ToastTip.shortcutPath,SystemHepler.autoStart+"Cup Player.lnk");
              }
          }
 

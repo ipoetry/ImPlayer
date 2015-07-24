@@ -1,4 +1,5 @@
 ﻿using ImPlayer.DownloadMoudle.BaiduMusic;
+using ImPlayer.Toast;
 using MyDownloader.Extension.PersistedList;
 using System;
 using System.Collections.Generic;
@@ -77,14 +78,14 @@ namespace ImPlayer.DownloadMoudle
             //Button btn = (Button)sender;
             //SearchSongResultById dsr = await BaiduMusicOp.GetMusicUrl(btn.Tag.ToString());
             //System.Diagnostics.Process.Start(AppDomain.CurrentDomain.BaseDirectory+"//Player.exe",dsr.Bitrate[0].file_link);
-            Win8Toast.PopupTip.ShowPopUp("暂时不提供……");
+            PopupTip.ShowPopUp("暂时不提供……");
         }
 
         List<BdSong> Songs = null;
         private async void searchBtn_Click(object sender, RoutedEventArgs e)
         {
             searchStr = SearchText.Text;
-            if (searchStr == ""|| !await Win8Toast.PopupTip.CheckNetWork()) return;
+            if (searchStr == ""|| !await PopupTip.CheckNetWork()) return;
             Tip.Visibility = Visibility.Collapsed;
             this.dd.ItemsSource = null;
             searchBtn.IsEnabled = false;

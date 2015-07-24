@@ -4,7 +4,7 @@ using System.Text;
 using Microsoft.WindowsAPICodePack.Shell.PropertySystem;
 using MS.WindowsAPICodePack.Internal;
 
-namespace Win8Toast.ShellHelpers
+namespace ImPlayer.Toast.ShellHelpers
 {
     internal enum STGM : long
     {

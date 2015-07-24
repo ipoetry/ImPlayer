@@ -124,9 +124,9 @@
     <Resource Include="Images\logo.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Win8Toast\Win8Toast.csproj">
+    <ProjectReference Include="..\Win8Toast\ImPlayer.Toast.csproj">
       <Project>{85b3bdd3-18fb-4074-af05-ac5e988de6c7}</Project>
-      <Name>Win8Toast</Name>
+      <Name>ImPlayer.Toast</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

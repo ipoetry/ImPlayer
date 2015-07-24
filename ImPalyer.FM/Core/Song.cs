@@ -9,7 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.IO;
 
-namespace ImPalyer.FM.Core
+namespace ImPlayer.FM.Core
 {
     public class Song
     {

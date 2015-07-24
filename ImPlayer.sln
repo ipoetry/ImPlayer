@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
+VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Player", "Player\Player.csproj", "{BDFA1350-BE01-432B-9662-DD0698A395F9}"
 EndProject
@@ -9,13 +9,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImPlayer.Lyrics", "Lyrics\I
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImPlayer.ArtistPic", "SingerImgDl\ImPlayer.ArtistPic.csproj", "{5A9C400E-ECE7-4EEC-ABBD-084BC23D5F77}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Win8Toast", "Win8Toast\Win8Toast.csproj", "{85B3BDD3-18FB-4074-AF05-AC5E988DE6C7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImPlayer.Toast", "Win8Toast\ImPlayer.Toast.csproj", "{85B3BDD3-18FB-4074-AF05-AC5E988DE6C7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OtherFunction", "OtherFunction\OtherFunction.csproj", "{5B748C6E-BA47-4D24-B738-5EDC5559B8B2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImPlayer.Calender", "Calender\ImPlayer.Calender.csproj", "{C3586D60-40DB-4D4F-AFB2-00BB3D72D2D0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImPalyer.FM", "ImPalyer.FM\ImPalyer.FM.csproj", "{DBE68D29-0472-43ED-B516-988638ED9DE4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImPlayer.FM", "ImPalyer.FM\ImPlayer.FM.csproj", "{DBE68D29-0472-43ED-B516-988638ED9DE4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImPlayer.DownloadMoudle", "ImPlayer.DownloadMoudle\ImPlayer.DownloadMoudle.csproj", "{52E8B043-D63A-4C51-8149-61BA72730CF4}"
 EndProject

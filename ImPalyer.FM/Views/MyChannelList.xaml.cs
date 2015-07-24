@@ -12,12 +12,12 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using ImPalyer.FM.Core;
-using ImPalyer.FM;
+using ImPlayer.FM.Core;
+using ImPlayer.FM;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
-namespace ImPalyer.FM.Views
+namespace ImPlayer.FM.Views
 {
     
     /// <summary>
@@ -51,7 +51,7 @@ namespace ImPalyer.FM.Views
         /// <summary>
         /// 频道操作类
         /// </summary>
-        public ImPalyer.FM.Core.Channel ChannelBLL { get; private set; }
+        public ImPlayer.FM.Core.Channel ChannelBLL { get; private set; }
         /// <summary>
         /// 歌曲操作类
         /// </summary>
@@ -109,7 +109,7 @@ namespace ImPalyer.FM.Views
         /// </summary>
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            ChannelBLL = new ImPalyer.FM.Core.Channel();
+            ChannelBLL = new ImPlayer.FM.Core.Channel();
             PublicChannels.ItemsSource = PublicChannelList;
             TempSongList = new List<ImPlayer.FM.Models.FMSong>();
             this.SongBLL = new Core.Song();
@@ -120,7 +120,7 @@ namespace ImPalyer.FM.Views
         /// </summary>
         public async Task<bool> LoadChannels()
         {
-            if (this.AllChannel != null||! await Win8Toast.PopupTip.CheckNetWork()) 
+            if (this.AllChannel != null||! await ImPlayer.Toast.PopupTip.CheckNetWork()) 
                 return false;
             var channelList = await this.ChannelBLL.GetChannelListAsync();
             if (channelList == null)

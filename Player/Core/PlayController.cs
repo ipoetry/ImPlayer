@@ -274,7 +274,7 @@ namespace Player
               sl.RemoveNode(new string[]{rSong.FileName});
               AppPropertys.mainWindow.Dispatcher.Invoke(new Action(() => {
               Songs.Remove(rSong);
-              Win8Toast.PopupTip.ShowPopUp("文件不存在：" + rSong.FileUrl);
+              ImPlayer.Toast.PopupTip.ShowPopUp("文件不存在：" + rSong.FileUrl);
               }));
               return false;
           }

@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="ImPalyer.FM.Views.MyChannelList"
+﻿<UserControl x:Class="ImPlayer.FM.Views.MyChannelList"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -10,8 +10,8 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/ImPalyer.FM;component/Styles/Storyboard.xaml"/>
-                <ResourceDictionary Source="/ImPalyer.FM;component/Styles/Style.xaml"/>
+                <ResourceDictionary Source="/ImPlayer.FM;component/Styles/Storyboard.xaml"/>
+                <ResourceDictionary Source="/ImPlayer.FM;component/Styles/Style.xaml"/>
 
             </ResourceDictionary.MergedDictionaries>
             <Converter:TextBoxHintConverter x:Key="TextBoxHintConverter"/>

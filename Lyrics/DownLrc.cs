@@ -66,7 +66,7 @@ namespace Lyrics
                 string url = string.Format(lrcDownload_Qian, Id, GenerateCode(Artist, Title, Id));
                 return new Uri(url);
             }
-            catch { throw; }
+            catch (Exception ex) { Console.WriteLine(ex.ToString()); throw; }
         }
 
         public async static Task<string> DownloadLrcAsync(Song song)
@@ -120,7 +120,8 @@ namespace Lyrics
         {
             protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
             {
-                request.Headers.Add("User-Agent", "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.101 Safari/537.36");
+                //request.Headers.Add("User-Agent", "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.1599.101 Safari/537.36");
+                request.Headers.Add("User-Agent", "Mozilla/5.0 (Windows NT 6.3; WOW64; rv:39.0) Gecko/20100101 Firefox/39.0");
                 return base.SendAsync(request, cancellationToken);
             }
         }
@@ -204,7 +205,6 @@ namespace Lyrics
 
             int t5 = (int)Conv(t2 ^ t3);
             t5 = (int)Conv(t5 + (t1 | lrcId));
-            t5 = (int)Conv(t5 * (t1 | t3));
             t5 = (int)Conv(t5 * (t2 ^ lrcId));
 
             long t6 = (long)t5;
